@@ -1,61 +1,45 @@
 <template>
   <div class="table-footer px-3 pb-3">
     <span class="table-pagination">
-      <label class="mb-0">Page Size</label>
+      <label class="mb-0 hidden-xs">Page Size</label>
       <select class="pagination-size" :value="size" @change="setSize($event)">
-        <option
-          v-for="(item, index) in pigeSizeOptions"
-          :value="item"
-          :key="index"
-        >
+        <option v-for="(item, index) in pigeSizeOptions" :value="item" :key="index">
           {{ item }}
         </option>
       </select>
-      <p class="mx-auto mb-0">
-        Showing {{ defaultSize * (currentPage - 1) + 1 }} to
-        {{ defaultSize * (currentPage - 1) + numberOfElements }} of
-        {{ totalElements }} entries
+      <p class="mx-auto mb-0 hidden-xs">
+        Showing {{ defaultSize * (currentPage - 1) + 1 }} to {{ defaultSize * (currentPage - 1) + numberOfElements }} of {{ totalElements }} entries
       </p>
       <button
-        class="pagination-page first"
-        data-page="first"
-        @click="setPagination(0)"
-        :disabled="currentPage == 1"
+        class="pagination-page first" data-page="first"
+        @click="setPagination(0)" :disabled="currentPage == 1"
       >
         First
       </button>
       <button
-        class="pagination-page prev"
-        data-page="prev"
-        @click="setPagination(currentPage - 2)"
-        :disabled="currentPage == 1"
+        class="pagination-page prev" data-page="prev"
+        @click="setPagination(currentPage - 2)" :disabled="currentPage == 1"
       >
         Prev
       </button>
       <span class="pagination-pages">
         <button
-          class="pagination-page"
-          v-for="(item, index) in totalPages"
-          :key="index"
-          :class="{ active: currentPage == item }"
+          class="pagination-page" v-for="(item, index) in totalPages"
+          :key="index" :class="{ active: currentPage == item }"
           @click="setPagination(index)"
         >
           {{ item }}
         </button>
       </span>
       <button
-        class="pagination-page next"
-        data-page="next"
-        @click="setPagination(currentPage++)"
-        :disabled="currentPage == totalPages"
+        class="pagination-page next" data-page="next"
+        @click="setPagination(currentPage++)" :disabled="currentPage == totalPages"
       >
         Next
       </button>
       <button
-        class="pagination-page last"
-        data-page="last"
-        @click="setPagination(totalPages - 1)"
-        :disabled="currentPage == totalPages"
+        class="pagination-page last" data-page="last"
+        @click="setPagination(totalPages - 1)" :disabled="currentPage == totalPages"
       >
         Last
       </button>

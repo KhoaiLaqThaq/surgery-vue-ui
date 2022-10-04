@@ -39,4 +39,10 @@ export const colorChartPie = [
   { id: 8, color: "#e1c8ef" },
   { id: 9, color: "#f3c753" },
   { id: 10, color: "#a6e2b8" }
-]
+];
+
+export const sessionStatusList = [
+  { name: "Khám xong", value: "0"},
+  { name: "Tái khám", value: "1"},
+  { name: "Khám bình thường", value: "2"}
+];

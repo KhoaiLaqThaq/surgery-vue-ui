@@ -122,12 +122,12 @@
         </NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/news" class="side-menu" :class="{ active: routeNameActive == 'news' }" title="Quản lý tin tức"
-          v-if="checkSidebarAuthority([ROLES.ROLE_ADMIN, ROLES.ROLE_NEWS_VIEW])">
+        <NuxtLink to="/session" class="side-menu" :class="{ active: routeNameActive == 'session' }" title="Quản lý phiên khám"
+          v-if="checkSidebarAuthority([ROLES.ROLE_ADMIN])">
           <div class="side-menu__icon">
             <PostIcon />
           </div>
-          <span class="side-menu__title pl-1"> Quản lý tin tức</span>
+          <span class="side-menu__title pl-1"> Quản lý phiên khám</span>
         </NuxtLink>
       </li>
       <li class="nav-item has-submenu d-none" aria-label="has-submenu">
@@ -297,7 +297,7 @@ export default {
       }
     }
 
-    const toggleSidebar = () => document.getElementById('sidebar').classList.toggle('show-xs');
+    const toggleSidebar = () => document.getElementById('sidebar').classList.remove('show-xs');
 
     return {
       routeNameActive,

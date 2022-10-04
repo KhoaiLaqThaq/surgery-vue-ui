@@ -790,6 +790,9 @@ a {
 .radius-unset {
   border-radius: unset !important;
 }
+.radius-20 {
+  border-radius: 20px;
+}
 
 // form
 .form-label {
@@ -960,10 +963,6 @@ label {
   &.table-unhover tr th:hover {
     background-color: $primaryTheme !important;
   }
-}
-
-.radius-20 {
-  border-radius: 20px;
 }
 
 .table-container {
@@ -1345,6 +1344,14 @@ label {
 
   .show-xs {
     display: block !important;
+  }
+
+  .mb-xs-3 {
+    margin-bottom: 1rem !important;
+  }
+  .radius-xs-top-left-20 {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
   }
 }
 

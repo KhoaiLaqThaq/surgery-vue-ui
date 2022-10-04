@@ -7,7 +7,7 @@
             </div>
         </div>
         <div class="col-10 content">
-            <TheTopbar />
+            <TheTopbar @toggle-sidebar="toggleSidebar()" />
             <div class="row pb-4">
                 <NuxtPage />
             </div>
@@ -20,12 +20,14 @@
 import TheFooter from '~~/components/TheFooter.vue'
 import TheTopbar from '~~/components/TheTopbar.vue'
 import TheSidebar from '~~/components/TheSidebar.vue'
+import XIcon from '~~/assets/images/icons/XIcon.vue';
 
 export default {
     components: {
         TheTopbar,
         TheSidebar,
-        TheFooter
+        TheFooter,
+        XIcon
     },
     data() {
         return {
