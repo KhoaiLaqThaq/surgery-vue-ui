@@ -94,13 +94,11 @@ export default {
         });
         
         const tableHeaders = [
-            { text: "STT", value: "id" },
-            { text: "Mã bệnh nhân", value: "code" },
-            { text: "Tên bệnh nhân", value: "name" },
-            { text: "Ngày sinh", value: "dob"},
-            { text: "Giới tính", value: "gender" },
-            { text: "Phone", value: "phone" },
-            { text: "Chi tiết"}
+            { text: "STT", value: "id", classCss: "hidden-xs" },
+            { text: "Mã bệnh nhân", value: "code", classCss: "hidden-xs" },
+            { text: "Tên bệnh nhân", value: "name", classCss: "radius-xs-top-left-20" },
+            { text: "Thông tin liên hệ", value: "dob", classCss: "text-center"},
+            { text: "Bệnh án", classCss: "text-center"}
         ];
 
         const listenSearchForm = () => {

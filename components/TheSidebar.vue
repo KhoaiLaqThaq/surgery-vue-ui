@@ -63,55 +63,47 @@
           <span class="side-menu__title pl-1"> Quản lý chung</span>
         </a>
         <ul class="submenu collapse">
+          <!-- Vật tư -->
           <li>
-            <NuxtLink to="/common/department" class="side-menu" aria-label="department"
-              :class="{ active: routeNameActive == 'department' }" title="Quản lý đơn vị thành viên"
-              v-if="checkSidebarAuthority([ROLES.ROLE_ADMIN, ROLES.ROLE_DEPARTMENT_VIEW])">
-              <div class="side-menu__icon">
-                <IconUnit />
-              </div>
-              <span class="side-menu__title pl-1"> Đơn vị thành viên</span>
-            </NuxtLink>
-            <ul class="side-menu__sub-open"></ul>
-          </li>
-          <li>
-            <NuxtLink to="/common/topic" class="side-menu" aria-label="topic"
-              :class="{ active: routeNameActive == 'topic' }" title="Quản lý chủ đề"
+            <NuxtLink to="/common/material" class="side-menu" aria-label="material"
+              :class="{ active: routeNameActive == 'material' }" title="Quản lý vật tư"
               v-if="checkSidebarAuthority([ROLES.ROLE_ADMIN, ROLES.ROLE_TOPIC_VIEW])">
               <div class="side-menu__icon">
                 <IconTopic />
               </div>
-              <span class="side-menu__title pl-1"> Chuyên mục</span>
+              <span class="side-menu__title pl-1"> Vật tư</span>
             </NuxtLink>
           </li>
+          <!-- /Vật tư -->
+
+          <!-- Loại vật tư -->
           <li>
-            <NuxtLink
-              to="/common/newsType"
-              class="side-menu"
-              aria-label="newsType"
-              :class="{ active: routeNameActive == 'newsType' }"
-              title="Quản lý loại tin tức"
-              v-if="checkSidebarAuthority([ROLES.ROLE_ADMIN, ROLES.ROLE_NEWTYPE_VIEW])"
-            >
-              <div class="side-menu__icon"><IconDocumentation /></div>
-              <span class="side-menu__title pl-1"> Loại tin tức</span>
+            <NuxtLink to="/common/materialType" class="side-menu" aria-label="materialType"
+              :class="{ active: routeNameActive == 'materialType' }" title="Quản lý loại vật tư"
+              v-if="checkSidebarAuthority([ROLES.ROLE_ADMIN, ROLES.ROLE_TOPIC_VIEW])">
+              <div class="side-menu__icon">
+                <IconTopic />
+              </div>
+              <span class="side-menu__title pl-1"> Loại Vật tư</span>
             </NuxtLink>
           </li>
+          <!-- /Loại vật tư -->
+
+          <!-- Lô vật tư -->
           <li>
-            <NuxtLink
-              to="/common/comment"
-              class="side-menu"
-              aria-label="comment"
-              :class="{ active: routeNameActive == 'comment' }"
-              title="Quản lý bình luận"
-              v-if="checkSidebarAuthority([ROLES.ROLE_ADMIN, ROLES.ROLE_COMMENT_VIEW])"
-            >
-              <div class="side-menu__icon"><IconComment /></div>
-              <span class="side-menu__title">Quản lý bình luận</span>
+            <NuxtLink to="/common/materialBatch" class="side-menu" aria-label="materialBatch"
+              :class="{ active: routeNameActive == 'materialBatch' }" title="Quản lý lô vật tư"
+              v-if="checkSidebarAuthority([ROLES.ROLE_ADMIN, ROLES.ROLE_TOPIC_VIEW])">
+              <div class="side-menu__icon">
+                <IconTopic />
+              </div>
+              <span class="side-menu__title pl-1"> Lô Vật tư</span>
             </NuxtLink>
           </li>
+          <!-- /Lô vật tư -->
         </ul>
       </li>
+      <!-- Bệnh nhân -->
       <li>
         <NuxtLink to="/patient" class="side-menu" :class="{ active: routeNameActive == 'patient' }" title="Quản lý bệnh nhân"
           v-if="checkSidebarAuthority([ROLES.ROLE_ADMIN])">
@@ -121,6 +113,9 @@
           <span class="side-menu__title pl-1"> Quản lý bệnh nhân</span>
         </NuxtLink>
       </li>
+      <!-- /Bệnh nhân -->
+
+      <!-- Phiên khám -->
       <li>
         <NuxtLink to="/session" class="side-menu" :class="{ active: routeNameActive == 'session' }" title="Quản lý phiên khám"
           v-if="checkSidebarAuthority([ROLES.ROLE_ADMIN])">
@@ -130,6 +125,8 @@
           <span class="side-menu__title pl-1"> Quản lý phiên khám</span>
         </NuxtLink>
       </li>
+      <!-- /Phiên khám -->
+
       <li class="nav-item has-submenu d-none" aria-label="has-submenu">
         <a class="nav-link side-menu cursor-pointer" title="Mavin Analytics" @click="toggleSubmenu('analytics')" id="analytics"
           ref="analytics" v-if="checkSidebarAuthority([ROLES.ROLE_ADMIN, ROLES.ROLE_MNG_COMMON])">

@@ -67,8 +67,6 @@ export default {
 .table {
   tr {
     th {
-
-      // text-transform: uppercase;
       &:hover {
         background-color: rgb(241 245 249);
       }

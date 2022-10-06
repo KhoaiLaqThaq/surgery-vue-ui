@@ -1,22 +1,22 @@
 <template>
     <div class="table-container">
         <div class="tr">
-            <div class="th" v-for="(item, index) in headers" :key="index">
+            <div class="th" v-for="(item, index) in headers" :key="index" :class="item.classCss">
                 {{item.text}}
             </div>
             <div class="th pe-3" v-if="actionEdit || actionDelete">Hành động</div>
         </div>
 
         <div class="tr" v-for="(item, index) in items" :key="index">
-            <div class="td text-center">{{ index + 1 + page*size }}</div>
-            <div class="td">{{ item.code }}</div>
+            <div class="td text-center hidden-xs">{{ index + 1 + page*size }}</div>
+            <div class="td hidden-xs">{{ item.code }}</div>
             <div class="td">{{ item.name }}</div>
-            <div class="td">{{ displayLocalDate(item.dob) }}</div>
-            <div class="td">{{ displayGender(item.gender) }}</div>
-            <div class="td">{{ item.phone }}</div>
-            <div class="td text-primary cursor-pointer">
+            <div class="td text-center text-primary cursor-pointer">
+                <IconDocumentation /> <span class="hidden-xs">Chi tiết</span>
+            </div>
+            <div class="td text-center text-primary cursor-pointer">
                 <NuxtLink :to="'/session/patient/' + item.id" target="_blank">
-                    <PostIcon /> <span>Bệnh án</span>
+                    <PostIcon /> <span class="hidden-xs">Bệnh án</span>
                 </NuxtLink>
             </div>
 
@@ -42,6 +42,7 @@ import { useCurrentsRole } from "~~/services/common.js";
 import PostIcon from "~~/assets/images/icons/PostIcon.vue";
 import EditIcon from "~~/assets/images/icons/actions/EditIcon.vue";
 import DeleteIcon from "~~/assets/images/icons/actions/DeleteIcon.vue";
+import IconDocumentation from "~~/assets/images/icons/IconDocumentation.vue";
 import {ROLES} from "~~/constants/roles.js";
 import { displayLocalDate } from "~~/constants/format-date.js";
 import SessionService from "~~/services/model/session.service";
@@ -50,7 +51,8 @@ export default {
     components: {
         EditIcon,
         DeleteIcon,
-        PostIcon
+        PostIcon,
+        IconDocumentation
     },
     props: ["headers", "items", "actionEdit", "actionDelete", "page", "size", "routerPush"],
     setup(props, {emit}) {

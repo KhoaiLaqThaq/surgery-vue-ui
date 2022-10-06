@@ -38,7 +38,7 @@
                                     :show-bottom-button="true" :value-attr="displaySearchFromDate" :locale="locale"
                                     @value-changed="setDisplayFromDate"
                                 />
-                                <label>Từ ngày</label>
+                                <label>Từ ngày...</label>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-12">
@@ -48,7 +48,7 @@
                                     :show-bottom-button="true" :value-attr="displaySearchToDate" :locale="locale"
                                     @value-changed="setDisplayToDate"
                                 />
-                                <label>Đến ngày</label>
+                                <label>Đến ngày...</label>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-12">
@@ -64,7 +64,7 @@
                     </div>
                     <div class="row ms-auto">
                         <div class="col-12 text-right">
-                            <button type="submit" class="btn btn-secondary text-small">
+                            <button type="submit" class="btn btn-primary text-small">
                                 Tìm kiếm
                             </button>
                         </div>
