@@ -7,8 +7,11 @@
 
         <div class="tr" v-for="(item, index) in items" :key="index">
             <div class="td">{{index + 1 + page * size}}</div>
-
-
+            <div class="td">{{ item.code }}</div>
+            <div class="td">{{ item.name }}</div>
+            <div class="td">{{ displayTextTooLong(125, item.composition) }}</div>
+            <div class="td"><span class="d-flex">{{ item.price }} ₫</span></div>
+            <div class="td"><span class="d-flex">{{ item.sales }} ₫</span></div>
             <div class="td px-0 text-center" v-if="actionEdit || actionDelete">
                 <div class="d-flex me-0">
                     <div class="m-auto cursor-pointer" v-if="actionEdit">
@@ -27,15 +30,17 @@
 </template>
 <script>
 import {ref} from 'vue';
+
 import EditIcon from "~~/assets/images/icons/actions/EditIcon.vue";
 import DeleteIcon from "~~/assets/images/icons/actions/DeleteIcon.vue";
+import {displayTextTooLong} from "~~/services/common.js";
 
 export default {
     props: ["headers", "items", "actionEdit", "actionDelete", "routerPush", "page", "size"],
     components: { EditIcon, DeleteIcon },
     setup() {
         return {
-
+            displayTextTooLong
         }
     }
 }

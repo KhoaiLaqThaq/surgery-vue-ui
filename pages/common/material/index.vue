@@ -63,8 +63,8 @@ export default {
             { text: 'Mã vật tư', value: 'code', classCss: 'hidden-xs'},
             { text: 'Tên vật tư', value: 'name', classCss: 'radius-xs-top-left-20'},
             { text: 'Thành phần', value: 'composition'},
-            { text: 'Giá nhập', value: 'price'},
-            { text: 'Giá bán', value: 'sales'}
+            { text: 'Giá nhập', value: 'price', classCss: 'minW-100'},
+            { text: 'Giá bán', value: 'sales', classCss: 'minW-100'}
         ];
 
         function listenSearchForm() {
