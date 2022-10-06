@@ -6,3 +6,10 @@ export function useCurrentsRole(rolesCurrent, rolesAccepted) {
     return false;
   }
 }
+
+export function displayTextTooLong(length, fieldValue) {
+  if (fieldValue.length > length) {
+    return fieldValue.slice(0, length).concat("...");
+  }
+  return fieldValue;
+}
