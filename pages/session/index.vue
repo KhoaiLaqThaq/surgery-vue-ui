@@ -85,13 +85,7 @@
             />
 
             <Pagination
-                :page="page" :size="size"
-                :number="pageDto.number"
-                :numberOfElements="pageDto.numberOfElements"
-                :totalPages="pageDto.totalPages"
-                :totalElements="pageDto.totalElements"
-                :last="pageDto.last"
-                :first="pageDto.first"
+                :page="page" :size="size" :pagination="pageDto"
                 @change-page="page = $event" @change-size="size = $event"
             />
 

@@ -8,7 +8,12 @@
         </option>
       </select>
       <p class="mx-auto mb-0 hidden-xs">
-        Showing {{ defaultSize * (currentPage - 1) + 1 }} to {{ defaultSize * (currentPage - 1) + numberOfElements }} of {{ totalElements }} entries
+        Showing 
+        {{ defaultSize * (currentPage - 1) + 1 }} 
+        to 
+        {{ defaultSize * (currentPage - 1) + pagination.numberOfElements }} 
+        of 
+        {{ pagination.totalElements }} entries
       </p>
       <button
         class="pagination-page first" data-page="first"
@@ -24,7 +29,7 @@
       </button>
       <span class="pagination-pages">
         <button
-          class="pagination-page" v-for="(item, index) in totalPages"
+          class="pagination-page" v-for="(item, index) in pagination.totalPages"
           :key="index" :class="{ active: currentPage == item }"
           @click="setPagination(index)"
         >
@@ -33,13 +38,13 @@
       </span>
       <button
         class="pagination-page next" data-page="next"
-        @click="setPagination(currentPage++)" :disabled="currentPage == totalPages"
+        @click="setPagination(currentPage++)" :disabled="currentPage == pagination.totalPages"
       >
         Next
       </button>
       <button
         class="pagination-page last" data-page="last"
-        @click="setPagination(totalPages - 1)" :disabled="currentPage == totalPages"
+        @click="setPagination(pagination.totalPages - 1)" :disabled="currentPage == pagination.totalPages"
       >
         Last
       </button>
@@ -53,15 +58,15 @@ export default {
   props: [
     "page",
     "size",
-    "number",
-    "numberOfElements",
-    "totalPages",
-    "totalElements",
-    "first",
-    "last",
+    "pagination",
+    // "number",
+    // "numberOfElements",
+    // "totalPages",
+    // "totalElements",
+    // "first",
+    // "last",
   ],
   setup(props, { emit }) {
-    const page = ref(props.page);
     const defaultSize = ref(props.size ? props.size : "10");
     const currentPage = ref(props.page + 1);
 

@@ -4,7 +4,7 @@
             <!-- code -->
             <div class="col-lg-4 col-md-6 col-xs-12 mb-3">
                 <div class="form-floating">
-                    <Field type="text" class="form-control box mb-3" v-model="material.code" name="code" :rules="validateRequired"/>
+                    <Field type="text" class="form-control box border-none" v-model="material.code" name="code" :rules="validateRequired"/>
                     <ErrorMessage name="code" class="text-danger" />
                     <label for="">Mã vật tư <span class="text-danger">*</span></label>
                 </div>
@@ -14,7 +14,7 @@
             <!-- name -->
             <div class="col-lg-4 col-md-6 col-xs-12 mb-3">
                 <div class="form-floating">
-                    <Field type="text" class="form-control mb-3" v-model="material.name" name="name" :rules="validateRequired"/>
+                    <Field type="text" class="form-control box border-none" v-model="material.name" name="name" :rules="validateRequired"/>
                     <ErrorMessage name="name" class="text-danger"/>
                     <label for="">Tên vật tư <span class="text-danger">*</span></label>
                 </div>
@@ -27,21 +27,25 @@
                     <Field as="select" name="materialType" v-model="materialTypeId" class="form-select box" required="required" :value="materialTypeId" :rules="validateSelect">
                         <option v-for="(materialType, index) in materialTypeList" :key="index" :value="materialType.id">{{materialType.name}}</option>
                     </Field>
+                    <ErrorMessage name="materialType" class="text-danger" />
+                    <label for="">Loại vật tư <span class="text-danger">*</span></label>
                 </div>
             </div>
             <!-- /materialType -->
 
             <!-- composition -->
             <div class="col-12 mb-3">
-                <textarea class="form-control" id="composition" v-model="material.composition" rowspan="5"></textarea>
-                <label for="composition">Thành phần <span class="text-danger">*</span></label>
+                <div class="form-floating">
+                    <textarea class="form-control box border-none minH-100" id="composition" v-model="material.composition"></textarea>
+                    <label for="composition">Thành phần <span class="text-danger">*</span></label>
+                </div>
             </div>
             <!-- /composition -->
 
             <!-- suggest -->
             <div class="col-lg-4 col-md-6 col-xs-12 mb-3">
                 <div class="form-floating">
-                    <input type="text" class="form-control mb-3" v-model="material.suggest" id="suggest" />
+                    <input type="text" class="form-control box border-none mb-3" v-model="material.suggest" id="suggest" />
                     <label for="suggest">Tên gợi ý</label>
                 </div>
             </div>
@@ -50,7 +54,7 @@
             <!-- total -->
             <div class="col-lg-4 col-md-6 col-xs-12">
                 <div class="form-floating">
-                    <input type="text" class="form-control mb-3" :value="material.total" id="total" :disabled="true" />
+                    <input type="text" class="form-control box mb-3" :value="material.total" id="total" :disabled="true" />
                     <label for="total">Số lượng</label>
                 </div>
             </div>
@@ -59,7 +63,7 @@
             <!-- price -->
             <div class="col-lg-4 col-md-6 col-xs-12">
                 <div class="form-floating">
-                    <Field type="text" class="form-control mb-3" v-model="material.price" name="price" :rules="validateRequired" />
+                    <Field type="text" class="form-control box border-none mb-3" v-model="material.price" name="price" :rules="validateRequired" />
                     <ErrorMessage name="price" class="text-danger" />
                     <label for="price">Giá mua <span class="text-danger">*</span></label>
                 </div>
@@ -69,23 +73,31 @@
             <!-- sales -->
             <div class="col-lg-4 col-md-6 col-xs-12">
                 <div class="form-floating">
-                    <Field type="text" class="form-control mb-3" v-model="material.sales" name="sales" :rules="validateRequired" />
+                    <Field type="text" class="form-control box border-none mb-3" v-model="material.sales" name="sales" :rules="validateRequired" />
                     <ErrorMessage name="sales" class="text-danger" />
                     <label for="sales">Giá bán <span class="text-danger">*</span></label>
                 </div>
             </div>
             <!-- /sales -->
         </div>
+        <hr />
+        <div class="row pb-0">
+            <div class="col-12 text-right">
+                <BaseButton class="btn-primary box ms-auto" :btnType="'submit'" :name="'Lưu'" :textSize="'text-small'" />
+            </div>
+        </div>
     </Form>
 </template>
 <script>
-import { ref, reactive } from 'vue';
+import { ref, reactive, watch } from 'vue';
 import { Form, Field, ErrorMessage } from "vee-validate";
 
 import MaterialService from '~~/services/model/material.service';
 import MaterialTypeService from '~~/services/model/materialType.service';
+import BaseButton from '../common/BaseButton.vue';
 
 import { Message } from '~~/lang/message.js'
+import TitleHeader from '../common/TitleHeader.vue';
 
 export default {
     props: ["id", "material"],
@@ -93,6 +105,8 @@ export default {
         Form,
         Field,
         ErrorMessage,
+        BaseButton,
+        TitleHeader
     },
     setup(props) {
         const {$showToast} = useNuxtApp();
@@ -111,18 +125,23 @@ export default {
         const materialTypeList = ref([]);
         const materialTypeId = ref("");
 
+        watch(props, () => {
+            setMaterial();
+        });
+
         // ---------------------- START set state data --------------------
         function setMaterial() {
-            if (materialExist.value) {
-                material.code = materialExist.code;
-                material.name = materialExist.name;
-                material.composition = materialExist.composition;
-                material.suggest = materialExist.suggest;
-                material.total = materialExist.total;
-                material.unit = materialExist.unit;
-                material.price = materialExist.price;
-                material.sales = materialExist.sales;
-                materialTypeId.value = materialExist.materialType?.id;
+            let materialExisted = materialExist.value;
+            if (materialExisted) {
+                material.code = materialExisted.code;
+                material.name = materialExisted.name;
+                material.composition = materialExisted.composition;
+                material.suggest = materialExisted.suggest;
+                material.total = materialExisted.total;
+                material.unit = materialExisted.unit;
+                material.price = materialExisted.price;
+                material.sales = materialExisted.sales;
+                materialTypeId.value = materialExisted.materialType?.id;
             }
         }
 
@@ -143,7 +162,7 @@ export default {
 
         // ---------------------- CALL API --------------------------
         function getAllMaterialTypes() {
-            MaterialTypeService.getALl()
+            MaterialTypeService.getAll()
             .then((response) => {
                 let responseData = response.data;
                 if (responseData) materialTypeList.value = responseData;
@@ -160,6 +179,7 @@ export default {
 
             // TODO: format data
             let materialData = {
+                id: materialId.value,
                 code: material.code,
                 name: material.name,
                 composition: material.composition,
@@ -186,6 +206,7 @@ export default {
 
         return {
             material,
+            materialTypeId,
             materialTypeList,
 
             onSubmit,
@@ -196,7 +217,6 @@ export default {
         }
     },
     created() {
-        this.setMaterial();
         this.getAllMaterialTypes();
     }
 }

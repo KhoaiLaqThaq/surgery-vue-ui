@@ -1,6 +1,6 @@
 <template>
     <div class="mt-3">
-        <MaterialForm :id="materialId" />
+        <MaterialForm :id="materialId" :material="material" />
     </div>
 </template>
 <script>
@@ -33,7 +33,6 @@ export default {
             }
         }
         
-
         return {
             materialId,
             material,

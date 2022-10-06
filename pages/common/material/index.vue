@@ -5,12 +5,10 @@
             <AddButton :textSize="'text-small'" :title="btnTitle" :routerPush="routerPush" class="ms-auto" />
         </div>
         <SearchComponent :multiRange="true" @updateKeyword="listenerRangePriceChange($event)" class="mb-3" />
-        
         <TableMaterialComponent :headers="tableHeaders" :items="pageDto.content" :actionEdit="true" :actionDelete="true" :routerPush="routerPush" :page="page" :size="size" />
-
-        <Pagination 
-            :page="page" :size="size" :number="pageDto.number" :numberOfElements="pageDto.numberOfElements" :totalPages="pageDto.totalPages"
-            :totalElements="pageDto.totalElements" :last="pageDto.last" :first="pageDto.first" @change-page="page = $event" @change-size="size = $event"
+        <Pagination
+            :page="page" :size="size" :pagination="pageDto" 
+            @change-page="page = $event" @change-size="size = $event"
         />
     </div>
 </template>
