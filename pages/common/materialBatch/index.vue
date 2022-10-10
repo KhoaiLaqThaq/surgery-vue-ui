@@ -77,8 +77,7 @@ export default {
             { text: "Đơn vị", value: "unit"},
             { text: "Số lượng", value: "amount"},
             { text: "Giá nhập", value: "price"},
-            { text: "Ngày nhập", value: "receiptDate"},
-            { text: "Người nhập", value: "createdBy"}
+            { text: "Ngày nhập", value: "receiptDate"}
         ];
 
         function setPagination(data) {

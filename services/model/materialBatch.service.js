@@ -16,7 +16,7 @@ class MaterialBatchService {
     }
 
     saveOrUpdate(materialBatch) {
-        return api.post(`${CONFIG.PREFIX_API}/materialBatch`, material);
+        return api.post(`${CONFIG.PREFIX_API}/materialBatch`, materialBatch);
     }
 }
 

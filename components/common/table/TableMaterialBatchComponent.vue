@@ -8,15 +8,17 @@
         <div class="tr" v-for="(item, index) in items" :key="index">
             <div class="td hidden-xs">{{index + 1 + page * size}}</div>
             <div class="td hidden-xs">{{ item.code }}</div>
-            <div class="td radius-xs-top-left-20">{{ item.name }}</div>
-            <div class="td">{{ displayTextTooLong(125, item.composition) }}</div>
+            <div class="td radius-xs-top-left-20">{{ item.material?.code }}</div>
+            <div class="td">{{ item.material?.name }}</div>
+            <div class="td">{{ item.material?.unit }}</div>
+            <div class="td">{{ item.material?.total }}</div>
             <div class="td"><span class="d-flex">{{ item.price }} ₫</span></div>
-            <div class="td"><span class="d-flex">{{ item.sales }} ₫</span></div>
+            <div class="td"><span class="d-flex" v-if="item.createdDate">{{ displayLocalDate_DDMMYYYY(item.createdDate) }}</span></div>
             <div class="td px-0 text-center" v-if="actionEdit || actionDelete">
                 <div class="d-flex me-0">
                     <div class="m-auto cursor-pointer" v-if="actionEdit">
                         <NuxtLink :to="routerPush + '/' + item.id" class="d-flex">
-                            <EditIcon /><span class="ms-1">Sửa</span>
+                            <EditIcon /><span class="ms-1">`Sửa`</span>
                         </NuxtLink>
                     </div>
                     <div class="d-flex me-3 cursor-pointer ms-3 text-danger" v-if="actionDelete">
@@ -31,9 +33,17 @@
 <script>
 import EditIcon from "~~/assets/images/icons/actions/EditIcon.vue";
 import DeleteIcon from "~~/assets/images/icons/actions/DeleteIcon.vue";
+
+import  {displayLocalDate_DDMMYYYY} from "~~/constants/format-date.js"
+
 export default {
     props: ["headers", "items", "actionEdit", "actionDelete", "routerPush", "page", "size"],
     components: { EditIcon, DeleteIcon},
+    setup() {
+        return {
+            displayLocalDate_DDMMYYYY
+        }
+    }
 }
 </script>
 <style lang="">
