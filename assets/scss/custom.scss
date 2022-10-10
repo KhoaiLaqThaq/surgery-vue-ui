@@ -830,6 +830,7 @@ a {
 
 .container-theme .bar-inner {
   background-color: $textTheme !important;
+  border: none !important;
 }
 
 .miniForm {
@@ -1083,6 +1084,36 @@ label {
 }
 
 //################### /table ######################
+
+// ################## Search filter #################
+.filter {
+  border-radius: 5px;
+  margin-right: 10px;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+
+  .filter-title {
+      padding: 8px 15px;
+      display: inline-block;
+      vertical-align: middle;
+  }
+  &.inactive {
+      background-color: rgb(241 245 249);
+  }
+}
+.search-filter {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  &:hover {
+      border: 1px solid rgba(0, 0, 0, 0.2);
+  }
+  svg {
+      width: 16px;
+      height: 16px;
+  }
+}
+// ################## /Search filter #################
 
 //################### tabs custom #################
 .tabs-container ul {

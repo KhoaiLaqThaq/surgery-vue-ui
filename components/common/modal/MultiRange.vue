@@ -18,9 +18,9 @@
                         <div class="col-12 container-theme">
                             <MultiRangeSlider 
                                 baseClassName="multi-range-slider-bar-only"
-                                :min-value="conditionSearch.oBarMinValue"
-                                :max-value="conditionSearch.oBarMaxValue"
-                                :max="conditionSearch.oBarMaxValue"
+                                :min-value="minValueCurrent"
+                                :max-value="maxValueCurrent"
+                                :max="maxValue"
                                 :min="0"
                                 :step="1000"
                                 :range-margin="0"
@@ -37,7 +37,7 @@
     </div>
 </template>
 <script>
-import { ref, reactive } from 'vue';
+import { watch, reactive } from 'vue';
 
 import MultiRangeSlider from "multi-range-slider-vue";
 import "~~/node_modules/multi-range-slider-vue/MultiRangeSliderBarOnly.css";
@@ -47,16 +47,16 @@ export default {
     components: {
         MultiRangeSlider
     },
-    props: ["modalTitle"],
+    props: [ "modalTitle", "maxValue", "minValue", "maxValueCurrent", "minValueCurrent" ],
     setup(props, {emit}) {
-        let maxValue = 1000000;
         const rangePrice = reactive({
-            minPrice: 0,
-            maxPrice: maxValue
+            minPrice: props.minValue,
+            maxPrice: props.maxValue
         });
+
         const conditionSearch = reactive({
-            oBarMinValue: 1000,
-            oBarMaxValue: maxValue,
+            oBarMinValue: props.minValueCurrent,
+            oBarMaxValue: props.maxValueCurrent
         });
 
         function update_oBarValues(e) {
