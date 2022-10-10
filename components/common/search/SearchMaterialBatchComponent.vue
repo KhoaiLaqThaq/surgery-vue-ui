@@ -17,9 +17,8 @@
             <button class="btn btn-secondary" @click="updateConditionSearch()">Tìm kiếm</button>
         </div>
         <!-- modal -->
-        <MultiRange 
-            @updateRangePrice="listenerRangePriceChange($event)" 
-            :modalTitle="'Giá nhập'" 
+        <MultiRange @updateRangePrice="listenerRangePriceChange($event)" 
+            :modalTitle="'Giá'"
             :minValue="rangeValue.minValue"
             :maxValue="rangeValue.maxValue"
             :minValueCurrent="conditionSearch.minPrice"
@@ -32,13 +31,14 @@
             :maxValue="rangeValue.maxValue"
             :minValueCurrent="conditionSearch.minPrice"
             :maxValueCurrent="conditionSearch.maxPrice"
-            :searchMaterial="true"
+            :searchMaterialBatch="true"
         />
         <!-- /modal -->
     </div>
 </template>
 <script>
 import {ref, reactive} from 'vue';
+
 import FilterIcon from '~~/assets/images/icons/actions/FilterIcon.vue';
 import MultiRange from '~~/components/common/modal/MultiRange.vue';
 import ConditionFilter from '~~/components/common/modal/materialBatch/Filter.vue';
@@ -57,9 +57,12 @@ export default {
             minPrice: 0,
             maxPrice: 1000000,
             materialName: "",
+            searchFromDate: "",
+            searchToDate: ""
         });
 
         function listenerRangePriceChange(e) {
+            console.log("listenerRangePriceChange: ", e);
             priceTitle.value = e.minPrice + "₫ - " + e.maxPrice + "₫";
             conditionSearch.minPrice = e.minPrice;
             conditionSearch.maxPrice = e.maxPrice;
@@ -74,17 +77,18 @@ export default {
             
             priceTitle.value = priceTitleString;
             conditionSearch.materialName = e.materialName;
+            conditionSearch.searchFromDate = e.searchFromDate;
+            conditionSearch.searchToDate = e.searchToDate;
             conditionSearch.minPrice = e.minPrice;
             conditionSearch.maxPrice = e.maxPrice;
             console.log("condition search price, min :", e.minPrice, " max: ", e.maxPrice)
         }
 
-
-        const updateConditionSearch = () => emit("update-keyword", conditionSearch);
+        const updateConditionSearch = () => emit("update-filter", conditionSearch);
 
         return {
-            priceTitle,
             rangeValue,
+            priceTitle,
             conditionSearch,
 
             updateConditionSearch,
@@ -94,5 +98,6 @@ export default {
     }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
+    
 </style>
