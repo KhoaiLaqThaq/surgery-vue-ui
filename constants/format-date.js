@@ -15,7 +15,15 @@ export const displayLocalDate = (date) => {
     return year + '/' + month + '/' + day;
 }
 
+export const displayLocalDate_DDMMYYYY = (date) =>{
+    let year = date[0];
+    let month = date[1] < 9 ? '0' + date[1] : date[1];
+    let day = date[2] < 9 ? '0' + date[2] : date[2]
+    return day + '/' + month + '/' + year;
+}
+
 export default {
     getNowDate,
-    displayLocalDate
+    displayLocalDate,
+    displayLocalDate_DDMMYYYY
 };

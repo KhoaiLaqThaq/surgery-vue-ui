@@ -11,7 +11,7 @@ export function useCurrentsRole(rolesCurrent, rolesAccepted) {
 
 export function validateRequired(value) {
   if (!value) return Message.required;
-  if (value.trim().length() < 3) return Message.minLength;
+  if (value.trim().length < 3) return Message.minLength;
   return true;
 }
 
@@ -20,9 +20,3 @@ export function validateSelect(value) {
   return true;
 }
 
-export function displayTextTooLong(length, fieldValue) {
-  if (fieldValue.length > length) {
-    return fieldValue.slice(0, length).concat("...");
-  }
-  return fieldValue;
-}

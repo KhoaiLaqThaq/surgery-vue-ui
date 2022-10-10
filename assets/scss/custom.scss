@@ -1145,6 +1145,7 @@ label {
 }
 //################### /tabs custom ################
 
+// ------------------ Input Floating --------------
 .float-check {
   position: absolute;
   top: 1rem;
@@ -1170,6 +1171,24 @@ label {
   cursor: pointer;
 }
 
+.box-floating {
+  position: relative;
+  
+  .btn-floating {
+    position: absolute;
+    border: 3px solid rgb(141, 141, 141);
+    padding: 2px 4px;
+    border-radius: 4px;
+    background-color: rgb(168, 167, 167);
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+    right: 10px;
+    top: 25%;
+  }
+}
+
+// ------------------ /Input Floating --------------
 .side-menu__sub-open {
   display: block;
 }
@@ -1326,6 +1345,42 @@ label {
     padding-top: 0.5%;
   }
 }
+
+//--------------------------- Suggest container --------------------------------
+#suggest__container {
+  position: relative;
+
+  .suggest__list {
+    position: absolute;
+    top: 58px;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 100%;
+
+    ul {
+      list-style: none;
+      background-color: #fff;
+      border: 1px solid #ced4da;
+      max-height: 200px;
+      &:hover {
+        overflow-y: auto;
+      }
+
+      .suggest__item {
+        padding: 10px;
+        cursor: pointer;
+        
+        &:hover {
+          background-color: #ccc;  
+        }
+      }
+    }
+  }
+}
+//--------------------------- /Suggest container --------------------------------
 
 // responsive for xs <576px
 @media only screen and (max-width: 576px) {
