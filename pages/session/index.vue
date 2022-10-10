@@ -199,8 +199,6 @@ export default {
                 displaySearchToDate: displaySearchToDate.value
             };
 
-            console.log('criteria: ', criteria);
-
             SessionService.search(criteria)
             .then((response) => {
                 let responseData = response.data;

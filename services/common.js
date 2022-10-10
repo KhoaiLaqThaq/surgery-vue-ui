@@ -1,3 +1,5 @@
+import { Message } from '~~/lang/message.js';
+
 export function useCurrentsRole(rolesCurrent, rolesAccepted) {
   if (rolesCurrent && rolesAccepted) {
     for (let i = 0; i < rolesAccepted.length; i++) {
@@ -5,6 +7,17 @@ export function useCurrentsRole(rolesCurrent, rolesAccepted) {
     }
     return false;
   }
+}
+
+export function validateRequired(value) {
+  if (!value) return Message.required;
+  if (value.trim().length() < 3) return Message.minLength;
+  return true;
+}
+
+export function validateSelect(value) {
+  if (!value) return Message.required;
+  return true;
 }
 
 export function displayTextTooLong(length, fieldValue) {

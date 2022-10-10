@@ -94,10 +94,8 @@ import { Form, Field, ErrorMessage } from "vee-validate";
 
 import MaterialService from '~~/services/model/material.service';
 import MaterialTypeService from '~~/services/model/materialType.service';
-import BaseButton from '../common/BaseButton.vue';
-
-import { Message } from '~~/lang/message.js'
-import TitleHeader from '../common/TitleHeader.vue';
+import BaseButton from '~~/components/common/BaseButton.vue';
+import {validateRequired, validateSelect} from '~~/services/common.js';
 
 export default {
     props: ["id", "material"],
@@ -105,8 +103,7 @@ export default {
         Form,
         Field,
         ErrorMessage,
-        BaseButton,
-        TitleHeader
+        BaseButton
     },
     setup(props) {
         const {$showToast} = useNuxtApp();
@@ -146,19 +143,6 @@ export default {
         }
 
         // ---------------------- END set state data --------------------
-
-        // ---------------------- START Validation ------------------------
-        function validateRequired(value) {
-            if (!value) return Message.required;
-            if (value.trim().length() < 3) return Message.minLength;
-            return true;
-        }
-
-        function validateSelect(value) {
-            if (!value) return Message.required;
-            return true;
-        }
-        // ---------------------- END Validation ------------------------
 
         // ---------------------- CALL API --------------------------
         function getAllMaterialTypes() {

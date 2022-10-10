@@ -7,7 +7,7 @@
 
         <TableMaterialTypeComponent 
             :page="page" :size="size" :headers="tableHeaders" :items="pageDto.content"
-            :actionEdit="true" :actionDelete="false" :routerPush="routerPush" />
+            :actionEdit="true" :actionDelete="false" :routerPush="routerPush"
         />
         <Pagination 
             :page="page" :size="size" :pagination="pageDto"
