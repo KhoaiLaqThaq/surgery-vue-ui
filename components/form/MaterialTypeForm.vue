@@ -33,7 +33,7 @@ import { Form, Field, ErrorMessage } from "vee-validate";
 
 import { Message } from '~~/lang/message.js'
 import MaterialTypeService from '~~/services/model/materialType.service';
-import BaseButton from '../common/BaseButton.vue';
+import BaseButton from '~~/components/common/BaseButton.vue';
 
 export default {
     props: ["id", "materialType"],

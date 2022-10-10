@@ -31,7 +31,7 @@
 <script>
 import EditIcon from "~~/assets/images/icons/actions/EditIcon.vue";
 import DeleteIcon from "~~/assets/images/icons/actions/DeleteIcon.vue";
-import {displayTextTooLong} from "~~/services/common.js";
+import {displayTextTooLong} from "~~/constants/format-string.js";
 
 export default {
     props: ["headers", "items", "actionEdit", "actionDelete", "routerPush", "page", "size"],
