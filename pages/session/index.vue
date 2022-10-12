@@ -1,82 +1,13 @@
 <template>
     <div class="mt-3">
-        <div class="card">
-            <div class="card-header search-header">
-                <h6 class="card-title">Tìm kiếm</h6>
-            </div>
-            <div class="card-body">
-                <form @submit.prevent="listenerSearchForm()">
-                    <div class="row mb-xs-3">
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="form-floating mb-3 box">
-                                <input type="text" v-model="conditionSearch.code" id="code" class="form-control pr-5" />
-                                <label for="code">Tìm kiếm theo mã phiên khám...</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="form-floating mb-3 box">
-                                <input type="text" v-model="conditionSearch.patientName" id="patientName" class="form-control pr-5" />
-                                <label for="patientName">Tìm kiếm theo tên bệnh nhân...</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="form-floating mb-3 box">
-                                <input type="text" v-model="conditionSearch.diagnosis" id="diagnosis" class="form-control pr-5" />
-                                <label for="diagnosis">Tìm kiếm theo chuẩn đoán...</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="form-floating mb-3 box">
-                                <input type="text" v-model="conditionSearch.symptom" id="symptom" class="form-control pr-5" />
-                                <label for="symptom">Tìm kiếm theo triệu chứng...</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="form-floating mb-3">
-                                <datepicker-lite class="form-control picker-date box" :class-attr="'border-none'"
-                                    :name-attr="displaySearchFromDate"
-                                    :show-bottom-button="true" :value-attr="displaySearchFromDate" :locale="locale"
-                                    @value-changed="setDisplayFromDate"
-                                />
-                                <label>Từ ngày...</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="form-floating mb-3">
-                                <datepicker-lite class="form-control picker-date box" :class-attr="'border-none'" 
-                                    :name-attr="displaySearchToDate"
-                                    :show-bottom-button="true" :value-attr="displaySearchToDate" :locale="locale"
-                                    @value-changed="setDisplayToDate"
-                                />
-                                <label>Đến ngày...</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="form-floating mb-3 box">
-                                <select v-model="conditionSearch.status" class="form-select">
-                                    <option v-for="(status, index) in sessionStatusList" :key="index" :value="status.value">
-                                        {{ status.name }}
-                                    </option>
-                                </select>
-                                <label for="floatingSelect">Tìm kiếm theo trạng thái...</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row ms-auto">
-                        <div class="col-12 text-right">
-                            <button type="submit" class="btn btn-primary text-small">
-                                Tìm kiếm
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+        <SearchSessionComponent 
+            class="mb-3"
+            @updateConditionSearch="listenerChangedConditionSearch($event)"
+        />
 
         <div class="d-flex mb-3">
             <TitleHeader :title="titlePage" />
-            <AddButton v-if="useCurrentsRole(currentRole,[ROLES.ROLE_ADMIN])"
-                :textSize="'text-small'" :title="'Thêm mới'" :routerPush="routerPush" class="ms-auto" />
+            <AddButton :textSize="'text-small'" :title="'Thêm mới'" :routerPush="routerPush" class="ms-auto" />
         </div>
 
         <div class="table-content">
@@ -104,14 +35,16 @@ import DatepickerLite from "vue3-datepicker-lite";
 import SessionService from '~~/services/model/session.service';
 import TableSessionComponent from '~~/components/common/table/TableSessionComponent.vue';
 import Pagination from '~~/components/common/table/Pagination.vue';
+import SearchSessionComponent from '~~/components/common/search/SearchSessionComponent.vue';
 
 export default {
-    components: { 
-        TitleHeader, 
-        AddButton, 
-        DatepickerLite, 
-        TableSessionComponent, 
-        Pagination 
+    components: {
+        TitleHeader,
+        AddButton,
+        DatepickerLite,
+        TableSessionComponent,
+        Pagination,
+        SearchSessionComponent
     },
     data() {
         const locale = {
@@ -214,8 +147,18 @@ export default {
             });
         }
 
-        const setDisplayFromDate = (e) => displaySearchFromDate.value = e;
-        const setDisplayToDate = (e) => displaySearchToDate.value = e;
+        // TODO: listener change state and then setState searching
+        function listenerChangedConditionSearch(e) {
+            console.log("Listener changed: ", e);
+            conditionSearch.code = e.code;
+            conditionSearch.patientName = e.patientName;
+            conditionSearch.diagnosis = e.diagnosis;
+            conditionSearch.symptom = e.symptom;
+            conditionSearch.status = e.status;
+            displaySearchFromDate.value = e.filterFromDate;
+            displaySearchToDate.value = e.filterToDate;
+            searchCallApi();
+        }
 
         return {
             page, size,
@@ -229,8 +172,7 @@ export default {
             useCurrentsRole,
             listenerSearchForm,
             searchCallApi,
-            setDisplayFromDate,
-            setDisplayToDate
+            listenerChangedConditionSearch
         };
     },
     created() {
