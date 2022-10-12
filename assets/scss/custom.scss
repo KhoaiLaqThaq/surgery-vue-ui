@@ -1,8 +1,8 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
 @import "vue3-carousel/dist/carousel.css";
 
-$primaryTheme: #014683;
-$bgc-content: rgb(241 245 249);
+$primaryTheme: #1e40af;
+$bgc-content: #f1f5f9;
 $textTheme: #fbba16;
 
 #main {
@@ -702,6 +702,10 @@ a {
   min-height: 100px !important;
 }
 
+.minH-200 {
+  min-height: 200px !important;
+}
+
 .lucide {
   stroke-width: 1.5;
 }
@@ -796,6 +800,9 @@ a {
 }
 .radius-20 {
   border-radius: 20px;
+}
+.radius-5 {
+  border-radius: 5px;
 }
 
 // form
