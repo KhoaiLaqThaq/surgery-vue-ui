@@ -175,6 +175,7 @@ export default {
             else page.value = 0;
         };
 
+        // TODO: setState
         function setPagination(data) {
             page.value = data.page;
             size.value = data.size;
@@ -186,6 +187,7 @@ export default {
             pageDto.totalElements = data.totalElements;
         }
 
+        // TODO: search results
         function searchCallApi() {
             let criteria = {
                 page: page.value,

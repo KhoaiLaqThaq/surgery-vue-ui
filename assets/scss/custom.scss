@@ -1105,6 +1105,20 @@ label {
       padding: 8px 15px;
       display: inline-block;
       vertical-align: middle;
+      position: relative;
+      .filter-amount {
+        position: absolute;
+        top: 0px;
+        left: 5px;
+        color: #FFF;
+        background-color: #fbba16;
+        width: 20px;
+        font-size: 13px;
+        text-align: center;
+        vertical-align: middle;
+        justify-content: center;
+        border-radius: 50%;
+      }
   }
   &.inactive {
       background-color: rgb(241 245 249);
@@ -1345,7 +1359,7 @@ label {
 }
 
 .search-header {
-  background-color: #014683;
+  background-color: $primaryTheme;
   color: white;
 
   .card-title {

@@ -29,17 +29,17 @@
       <ul class="dropdown-menu dropdown-acc__customize" aria-labelledby="dropdownMenuAccountInfo">
         <li class="dropdown-item px-3 dropdown-acc-item">
           <div class="name">{{currentUser}}</div>
-          <div class="description text-secondary">Accountor</div>
+          <div class="description fw-bold">Accountor</div>
         </li>
-        <li class="dropdown-item px-3 dropdown-acc-item">
+        <li class="dropdown-item px-3 dropdown-acc-item cursor-pointer">
           <UserIcon class="p-1" />
           <span class="ps-1">Profile</span>
         </li>
-        <li class="dropdown-item px-3 dropdown-acc-item">
+        <li class="dropdown-item px-3 dropdown-acc-item cursor-pointer">
           <IconLock class="p-1" />
           <span class="ps-1">Reset Password</span>
         </li>
-        <li class="dropdown-item px-3 dropdown-acc-item" @click="logout()">
+        <li class="dropdown-item px-3 dropdown-acc-item cursor-pointer" @click="logout()">
           <IconSwitch class="p-1" />
           <span class="ps-1">Logout</span>
         </li>

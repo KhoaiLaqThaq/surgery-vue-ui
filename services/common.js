@@ -10,9 +10,19 @@ export function useCurrentsRole(rolesCurrent, rolesAccepted) {
 }
 
 export function validateRequired(value) {
-  if (!value) return Message.required;
-  if ( value && value.trim().length < 3) return Message.minLength;
-  return true;
+  if (value) {
+    if (isNaN(value)) {
+      if (value.trim().length < 3) return Message.minLength;
+      else return true;
+    }
+    else {
+      if (value > 0) return true;
+      else return Message.greaterZero;
+    }
+  }
+  else 
+    return Message.required;
+  
 }
 
 export function validateSelect(value) {

@@ -140,19 +140,8 @@ export default {
         }
 
         function clearFilter() {
-            let conditionFilter = {
-                materialName: "",
-                minPrice: 0,
-                maxPrice: 0,
-                clearFilterStatus: true
-            };
-            // TODO: setData dành riêng cho tìm kiếm lô
-            if (props.searchMaterialBatch) {
-                conditionFilter['searchFromDate'] = "";
-                conditionFilter['searchToDate'] = "";
-            }
             onClickToCloseModal();
-            emit('update-condition-filter', conditionFilter);
+            emit('update-condition-filter', {});
         }
 
         const onClickToCloseModal = () => document.getElementById('modal-filter-close').click();

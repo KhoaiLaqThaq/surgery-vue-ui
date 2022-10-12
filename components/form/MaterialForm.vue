@@ -1,5 +1,5 @@
 <template>
-    <Form @submit.prevent="onSubmit()">
+    <Form @submit="onSubmit()">
         <div class="row mb-3">
             <!-- code -->
             <div class="col-lg-4 col-md-6 col-xs-12 mb-3">
@@ -36,7 +36,7 @@
             <!-- composition -->
             <div class="col-12 mb-3">
                 <div class="form-floating">
-                    <textarea class="form-control box border-none minH-100" id="composition" v-model="material.composition"></textarea>
+                    <textarea class="form-control box border-none minH-100" id="composition" v-model="material.composition" required></textarea>
                     <label for="composition">Thành phần <span class="text-danger">*</span></label>
                 </div>
             </div>
@@ -63,7 +63,7 @@
             <!-- price -->
             <div class="col-lg-4 col-md-6 col-xs-12">
                 <div class="form-floating">
-                    <Field type="text" class="form-control box border-none mb-3" v-model="material.price" name="price" required="required" />
+                    <Field type="text" class="form-control box border-none mb-3" v-model="material.price" name="price" required="required" :rules="validateRequired" />
                     <ErrorMessage name="price" class="text-danger" />
                     <label for="price">Giá mua <span class="text-danger">*</span></label>
                 </div>
@@ -73,7 +73,7 @@
             <!-- sales -->
             <div class="col-lg-4 col-md-6 col-xs-12">
                 <div class="form-floating">
-                    <Field type="text" class="form-control box border-none mb-3" v-model="material.sales" name="sales" required="required" />
+                    <Field type="text" class="form-control box border-none mb-3" v-model="material.sales" name="sales" required="required" :rules="validateRequired" />
                     <ErrorMessage name="sales" class="text-danger" />
                     <label for="sales">Giá bán <span class="text-danger">*</span></label>
                 </div>
@@ -177,9 +177,9 @@ export default {
 
             MaterialService.saveOrUpdate(materialData)
             .then((response) => {
-                let responseData = response.data();
+                let responseData = response.data;
                 if (responseData) {
-                    console.log("responseData: ", responseData);
+                    navigateTo("/common/material");
                 }
             })
             .catch((error) => {

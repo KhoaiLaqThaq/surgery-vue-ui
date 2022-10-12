@@ -43,7 +43,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6 col-xs-12 mb-3">
                     <label>Lịch tái khám:</label>
-                    <span v-if="session.nextTime">{{ displayLocalDate_DDMMYYYY(session.nextTime) }}</span>
+                    <span v-if="session.nextTime" class="ps-3">{{ displayLocalDate_DDMMYYYY(session.nextTime) }}</span>
                     <span v-else class="ps-3 text-warning">Không có</span>
                 </div>
             </div>

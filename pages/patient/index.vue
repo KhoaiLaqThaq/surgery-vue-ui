@@ -33,8 +33,6 @@
         <div class="content p-0">
             <div class="d-flex mb-3">
                 <TitleHeader :title="titlePage" />
-                <AddButton v-if="useCurrentsRole(currentRole,[ROLES.ROLE_ADMIN, ROLES.ROLE_NEWS_CREATE])"
-                :textSize="'text-small'" :title="btnTitle" :routerPush="routerPush" class="ms-auto" />
             </div>
             <div class="table-content radius-20">
                 <TablePatientComponent :headers="tableHeaders" :items="pageDto.content" :actionEdit="true" :actionDelete="true"
@@ -51,7 +49,6 @@
 <script>
 import {ref, reactive} from 'vue';
 import TitleHeader from "~~/components/common/TitleHeader.vue";
-import AddButton from "~~/components/common/AddButton.vue";
 
 import { ROLES } from "~~/constants/roles.js";
 import {useCurrentsRole} from "~~/services/common.js";
@@ -62,7 +59,6 @@ import Pagination from '~~/components/common/table/Pagination.vue';
 export default {
     components: {
         TitleHeader,
-        AddButton,
         TablePatientComponent,
         Pagination
     },

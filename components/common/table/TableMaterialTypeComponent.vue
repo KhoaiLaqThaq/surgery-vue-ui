@@ -30,7 +30,7 @@ import DeleteIcon from "~~/assets/images/icons/actions/DeleteIcon.vue";
 
 export default {
     props: ["headers", "items", "actionEdit", "actionDelete", "routerPush", "page", "size"],
-    components: [EditIcon, DeleteIcon],
+    components: {EditIcon, DeleteIcon},
 }
 </script>
 <style lang="">

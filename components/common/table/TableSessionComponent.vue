@@ -7,6 +7,12 @@
 
         <div class="tr" v-for="(item, index) in items" :key="index">
             <div class="td text-center">{{ index + 1 + page * size }}</div>
+            <div class="td">{{ item.code }}</div>
+            <div class="td">{{ item.diagnosis }}</div>
+            <div class="td">{{ item.symptom }}</div>
+            <div class="td text-primary cursor-pointer">Chi tiết</div>
+            <div class="td">{{ displaySessionStatus(item.status) }}</div>
+            <div class="td">{{ displayLocalDate_DDMMYYYY(item.createdDate) }}</div>
 
             <div class="td pe-3" v-if="actionEdit || actionDelete">
                 <div class="action-group d-flex">
@@ -24,9 +30,9 @@
 <script>
 import {ref, reactive} from "vue";
 
-
 import EditIcon from "~~/assets/images/icons/actions/EditIcon.vue";
 import DeleteIcon from "~~/assets/images/icons/actions/DeleteIcon.vue";
+import { displayLocalDate_DDMMYYYY } from "~~/constants/format-date.js";
 
 export default {
     components: {
@@ -39,8 +45,19 @@ export default {
 
         }
 
+        function displaySessionStatus(status) {
+            if (status == 0)
+                return "Khám xong";
+            else if (status == 1)
+                return "Tái khám";
+            else
+                return "Khám bình thường";
+        }
+
         return {
-            deleteSession
+            deleteSession,
+            displaySessionStatus,
+            displayLocalDate_DDMMYYYY
         }
     }
 }
