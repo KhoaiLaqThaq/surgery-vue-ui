@@ -5,10 +5,11 @@
                 <div class="d-flex">
                     <div class="title fw-bold">Chi tiết phiên khám</div>
                     <div class="header-items ms-auto text-primary cursor-pointer">
-                        <div class="prescription">
+                        <div class="prescription" @click="onClickToGetPrescriptions(session.id)" data-bs-toggle="modal" data-bs-target="#prescriptionModal">
                             <PostIcon class="w-4" /> <span class="pd-2">Đơn thuốc</span>
                         </div>
                     </div>
+                    <PrescriptionList :prescriptions="prescriptions" />
                 </div>
             </div>
         </div>
@@ -24,6 +25,15 @@
                 </div>
                 <div class="col-lg-4 col-md-6 col-xs-12 mb-3">
                     <label>Triệu chứng: </label><span class="ps-3">{{ session.symptom }}</span>
+                </div>
+                <div class="col-lg-4 col-md-6 col-xs-12 mb-3">
+                    <label>Huyết áp:</label><span class="ps-3">{{ session.bloodPressure }}</span>
+                </div>
+                <div class="col-lg-4 col-md-6 col-xs-12 mb-3">
+                    <label>Mắt trái:</label><span class="ps-3">{{ session.leftEye }}</span>
+                </div>
+                <div class="col-lg-4 col-md-6 col-xs-12 mb-3">
+                    <label>Mắt phải:</label><span class="ps-3">{{ session.rightEye }}</span>
                 </div>
                 <div class="col-12 mb-3">
                     <label>Pháp đồ điều trị:</label>
@@ -46,21 +56,30 @@
                     <span v-if="session.nextTime" class="ps-3">{{ displayLocalDate_DDMMYYYY(session.nextTime) }}</span>
                     <span v-else class="ps-3 text-warning">Không có</span>
                 </div>
+                <div class="col-lg-4 col-md-6 col-xs-12 mb-3">
+                    <label>Thành tiền:</label>
+                    <span class="ps-3 fw-bold text-lg">{{ session.totalPrice }} ₫</span>
+                </div>
             </div>
         </div>
     </div>
 </template>
 <script>
+import { ref } from 'vue';
 import PostIcon from "~~/assets/images/icons/PostIcon.vue";
 
 import { displayLocalDate_DDMMYYYY } from "~~/constants/format-date.js";
+import PrescriptionService from "~~/services/model/prescription.service";
+import PrescriptionList from '../common/modal/prescription/PrescriptionList.vue';
 
 export default {
     components: {
-        PostIcon
+        PostIcon,
+        PrescriptionList
     },
     props: ["session"],
     setup() {
+        const prescriptions = ref([]);
 
         function displaySessionStatus(status) {
             if (status == 0)
@@ -71,9 +90,25 @@ export default {
                 return "Khám bình thường";
         }
 
+        function onClickToGetPrescriptions(sessionId) {
+            if (sessionId) {
+                PrescriptionService.getAllBySessionId(sessionId)
+                .then((response) => {
+                    let responseData = response.data;
+                    if (responseData) prescriptions.value = responseData;
+                })
+                .catch((error) => {
+                    console.log("Error: ", error);
+                });
+            }
+        }
+
         return {
+            prescriptions,
+
             displayLocalDate_DDMMYYYY,
-            displaySessionStatus
+            displaySessionStatus,
+            onClickToGetPrescriptions
         }
     }
 }
