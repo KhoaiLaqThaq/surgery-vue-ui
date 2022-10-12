@@ -7,10 +7,11 @@
             <div class="th pe-3" v-if="actionEdit || actionDelete">Hành động</div>
         </div>
 
-        <div class="tr" v-for="(item, index) in items" :key="index">
+        <div class="tr zoom-in-little" v-for="(item, index) in items" :key="index">
             <div class="td text-center hidden-xs">{{ index + 1 + page*size }}</div>
             <div class="td hidden-xs">{{ item.code }}</div>
             <div class="td">{{ item.name }}</div>
+            <div class="td"><a :href="'tel:' + item.phone">{{ item.phone }}</a></div>
             <div class="td text-center text-primary cursor-pointer">
                 <div class="box-container"
                     data-bs-toggle="modal" data-bs-target="#contactUs"

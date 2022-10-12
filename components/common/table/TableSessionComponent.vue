@@ -5,7 +5,7 @@
             <div class="th pe-3" v-if="actionEdit || actionDelete">Hành động</div>
         </div>
 
-        <div class="tr" v-for="(item, index) in items" :key="index">
+        <div class="tr zoom-in-little" v-for="(item, index) in items" :key="index">
             <div class="td text-center">{{ index + 1 + page * size }}</div>
             <div class="td">{{ item.code }}</div>
             <div class="td">{{ item.diagnosis }}</div>

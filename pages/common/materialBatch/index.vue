@@ -98,6 +98,12 @@ export default {
 
         function listenerConditionFilterChange(e) {
             console.log("listenerConditionFilterChange: ", e)
+            material.name = e.materialName;
+            conditionSearch.maxPrice = e.maxPrice;
+            conditionSearch.minPrice = e.minPrice;
+            conditionSearch.searchFromDate = e.searchFromDate;
+            conditionSearch.searchToDate = e.searchToDate;
+            searchCallApi();
         }
 
         function searchCallApi() {

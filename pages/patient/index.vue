@@ -93,6 +93,7 @@ export default {
             { text: "STT", value: "id", classCss: "hidden-xs" },
             { text: "Mã bệnh nhân", value: "code", classCss: "hidden-xs" },
             { text: "Tên bệnh nhân", value: "name", classCss: "radius-xs-top-left-20" },
+            { text: "Số điện thoại", value: "phone" },
             { text: "Thông tin liên hệ", value: "dob", classCss: "text-center"},
             { text: "Bệnh án", classCss: "text-center"}
         ];

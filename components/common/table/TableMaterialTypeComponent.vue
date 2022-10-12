@@ -5,7 +5,7 @@
             <div class="mx-0 text-center th" v-if="actionEdit || actionDelete">Hành động</div>
         </div>
 
-        <div class="tr" v-for="(item, index) in items" :key="index">
+        <div class="tr zoom-in-little" v-for="(item, index) in items" :key="index">
             <div class="td hidden-xs">{{ index + 1 + page*size }}</div>
             <div class="td radius-xs-top-left-20">{{ item.code }}</div>
             <div class="td">{{ item.name }}</div>

@@ -62,7 +62,7 @@ export default {
             { text: "Mã", value: "code", classCss: "radius-xs-top-left-20"},
             { text: "Chuẩn đoán", value: "diagnosis", classCss: "hidden-xs"},
             { text: "Triệu chứng", value: "symptom", classCss: "hidden-xs"},
-            { text: "Pháp đồ", value: "treatmentPlan", classCss: "hidden-xs"},
+            { text: "Điều trị", value: "treatmentPlan", classCss: "hidden-xs"},
             { text: "Trạng thái", value: "status"},
             { text: "Ngày khám", value: "createdDate", classCss: "hidden-xs"},
         ];

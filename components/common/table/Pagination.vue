@@ -1,5 +1,5 @@
 <template>
-  <div class="table-footer px-3 pb-3">
+  <div class="table-footer box border-none px-3 pb-3">
     <span class="table-pagination">
       <label class="mb-0 hidden-xs">Page Size</label>
       <select class="pagination-size" :value="size" @change="setSize($event)">
