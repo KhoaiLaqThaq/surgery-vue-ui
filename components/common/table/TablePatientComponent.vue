@@ -12,7 +12,12 @@
             <div class="td hidden-xs">{{ item.code }}</div>
             <div class="td">{{ item.name }}</div>
             <div class="td text-center text-primary cursor-pointer">
-                <IconDocumentation /> <span class="hidden-xs">Chi tiết</span>
+                <div class="box-container"
+                    data-bs-toggle="modal" data-bs-target="#contactUs"
+                    @click="setPatientActive(item.id)"
+                >
+                    <IconDocumentation /> <span class="hidden-xs">Chi tiết</span>
+                </div>
             </div>
             <div class="td text-center text-primary cursor-pointer">
                 <NuxtLink :to="'/session/patient/' + item.id" target="_blank">
@@ -22,18 +27,20 @@
 
             <div class="td pe-3" v-if="actionEdit || actionDelete">
                 <div class="action-group d-flex">
-                    <nuxt-link :to="routerPush + item.id" v-if="actionEdit && useCurrentsRole(currentRole, [ROLES.ROLE_ADMIN])">
+                    <NuxtLink :to="routerPush + item.id" v-if="actionEdit && useCurrentsRole(currentRole, [ROLES.ROLE_ADMIN])">
                         <EditIcon /> <span class="ms-1">Sửa</span>
-                    </nuxt-link>
+                    </NuxtLink>
                     <div v-if="actionDelete && useCurrentsRole(currentRole, [ROLES.ROLE_ADMIN])" class="ms-3 cursor-pointer text-danger">
-                        <delete-icon @click="deletePatient(item.id)" /> <span class="ms-1">Xóa</span>
+                        <DeleteIcon @click="deletePatient(item.id)" /> <span class="ms-1">Xóa</span>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    
+        <!-- modal patient info -->
+        <Contact :patientInfo="patientActive" />
+        <!-- /modal patient info -->
+    </div>
 </template>
 <script>
 import { ref } from 'vue';
@@ -45,19 +52,22 @@ import DeleteIcon from "~~/assets/images/icons/actions/DeleteIcon.vue";
 import IconDocumentation from "~~/assets/images/icons/IconDocumentation.vue";
 import {ROLES} from "~~/constants/roles.js";
 import { displayLocalDate } from "~~/constants/format-date.js";
-import SessionService from "~~/services/model/session.service";
+import Contact from '~~/components/common/modal/patientInfo/contact.vue';
+import PatientService from "~~/services/model/patient.service";
 
 export default {
     components: {
         EditIcon,
         DeleteIcon,
         PostIcon,
-        IconDocumentation
+        IconDocumentation,
+        Contact
     },
     props: ["headers", "items", "actionEdit", "actionDelete", "page", "size", "routerPush"],
     setup(props, {emit}) {
         const currentRole = useCurrentRole();
         const { $showToast } = useNuxtApp();
+        const patientActive = ref({});
 
         const displayGender = (gender) => gender == 0 ? "Nam" : "Nữ";
 
@@ -65,29 +75,29 @@ export default {
 
         }
 
-        // TODO: Hiển thị phiên khám theo mã bệnh nhân
-        function showSession(patientCode) {
-            if (patientCode)
-                SessionService.getAllByPatientCode(patientCode)
+        function setPatientActive(patientId) {
+            if (patientId) {
+                PatientService.getPatientInfoByPatientId(patientId)
                 .then((response) => {
                     let responseData = response.data;
-                    if (responseData) {
-                        
-                    }
-                }).catch((error) => {
+                    if (responseData) patientActive.value = responseData;
+                })
+                .catch((error) => {
                     console.log("Error: ", error);
-                    $showToast("Lấy thông tin phiên khám của bệnh nhân không thành công!", "error", 3000);
                 });
+            }
         }
 
         return {
             ROLES,
             currentRole,
+            patientActive,
 
             useCurrentsRole,
             deletePatient,
             displayGender,
             displayLocalDate,
+            setPatientActive
         }
     }
 }
