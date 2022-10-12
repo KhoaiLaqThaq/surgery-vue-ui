@@ -9,17 +9,23 @@ export const getNowDate = () => {
 }
 
 export const displayLocalDate = (date) => {
-    let year = date[0];
-    let month = date[1] < 9 ? '0' + date[1] : date[1];
-    let day = date[2] < 9 ? '0' + date[2] : date[2]
-    return year + '/' + month + '/' + day;
+    if (date) {
+        let year = date[0];
+        let month = date[1] < 9 ? '0' + date[1] : date[1];
+        let day = date[2] < 9 ? '0' + date[2] : date[2]
+        return year + '/' + month + '/' + day;
+    }
+    return "";
 }
 
 export const displayLocalDate_DDMMYYYY = (date) =>{
-    let year = date[0];
-    let month = date[1] < 9 ? '0' + date[1] : date[1];
-    let day = date[2] < 9 ? '0' + date[2] : date[2]
-    return day + '/' + month + '/' + year;
+    if (date) {
+        let year = date[0];
+        let month = date[1] < 9 ? '0' + date[1] : date[1];
+        let day = date[2] < 9 ? '0' + date[2] : date[2]
+        return day + '/' + month + '/' + year;
+    }
+    return "";
 }
 
 export default {

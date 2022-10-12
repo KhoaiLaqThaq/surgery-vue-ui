@@ -11,7 +11,7 @@ export function useCurrentsRole(rolesCurrent, rolesAccepted) {
 
 export function validateRequired(value) {
   if (!value) return Message.required;
-  if (value.trim().length < 3) return Message.minLength;
+  if ( value && value.trim().length < 3) return Message.minLength;
   return true;
 }
 

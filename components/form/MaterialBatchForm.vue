@@ -142,7 +142,6 @@ export default {
     setup(props) {
         const {$showToast} = useNuxtApp();
         const materialBatchId = ref(props.id);
-        const materialBatchExist = ref(props.materialBatch);
         const materialBatch = reactive({
             code: '',
             materialId: '',
@@ -167,11 +166,14 @@ export default {
 
         // ---------------------- START set state data --------------------
         function setMaterialBatch() {
-            let materialBatchExisted = materialBatchExist.value;
+            console.log('set material batch')
+            let materialBatchExisted = props.materialBatch;
+            console.log('set material batch: ', materialBatchExisted)
             if (materialBatchExisted) {
                 materialBatch.code = materialBatchExisted.code;
                 materialBatch.materialId = materialBatchExisted.material?.id;
                 materialBatch.materialName = materialBatchExisted.material?.name;
+                materialBatch.materialTypeId = materialBatchExisted.material?.materialType?.id;
                 materialBatch.unit = materialBatchExisted.unit;
                 materialBatch.amount = materialBatchExisted.amount;
                 materialBatch.receiptDate = materialBatchExisted.receiptDate;

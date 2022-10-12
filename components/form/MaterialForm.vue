@@ -63,7 +63,7 @@
             <!-- price -->
             <div class="col-lg-4 col-md-6 col-xs-12">
                 <div class="form-floating">
-                    <Field type="text" class="form-control box border-none mb-3" v-model="material.price" name="price" :rules="validateRequired" />
+                    <Field type="text" class="form-control box border-none mb-3" v-model="material.price" name="price" required="required" />
                     <ErrorMessage name="price" class="text-danger" />
                     <label for="price">Giá mua <span class="text-danger">*</span></label>
                 </div>
@@ -73,7 +73,7 @@
             <!-- sales -->
             <div class="col-lg-4 col-md-6 col-xs-12">
                 <div class="form-floating">
-                    <Field type="text" class="form-control box border-none mb-3" v-model="material.sales" name="sales" :rules="validateRequired" />
+                    <Field type="text" class="form-control box border-none mb-3" v-model="material.sales" name="sales" required="required" />
                     <ErrorMessage name="sales" class="text-danger" />
                     <label for="sales">Giá bán <span class="text-danger">*</span></label>
                 </div>
@@ -108,7 +108,6 @@ export default {
     setup(props) {
         const {$showToast} = useNuxtApp();
         const materialId = ref(props.id);
-        const materialExist = ref(props.material);
         const material = reactive({
             code: '',
             name: '',
@@ -128,7 +127,7 @@ export default {
 
         // ---------------------- START set state data --------------------
         function setMaterial() {
-            let materialExisted = materialExist.value;
+            let materialExisted = props.material;
             if (materialExisted) {
                 material.code = materialExisted.code;
                 material.name = materialExisted.name;

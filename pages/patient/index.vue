@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        <div class="content">
+        <div class="content p-0">
             <div class="d-flex mb-3">
                 <TitleHeader :title="titlePage" />
                 <AddButton v-if="useCurrentsRole(currentRole,[ROLES.ROLE_ADMIN, ROLES.ROLE_NEWS_CREATE])"
@@ -131,7 +131,7 @@ export default {
                     setPagination(responseData);
                 }
             }).catch((error) => {
-                $showToast("Tìm kiếm có lỗi!");
+                $showToast("Tìm kiếm có lỗi!", "error", 2000);
                 console.log("Error: ", error);
             });
         }

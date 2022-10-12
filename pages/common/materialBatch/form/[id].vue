@@ -20,7 +20,7 @@ export default {
         const materialBatchId = ref(route.params?.id);
         const materialBatch = ref({});
 
-        const getMaterialBatchById = () => {
+        function getMaterialBatchById () {
             if (materialBatchId.value) {
                 MaterialBatchService.getById(materialBatchId.value)
                 .then((response) => {

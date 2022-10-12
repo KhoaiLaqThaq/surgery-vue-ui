@@ -11,7 +11,10 @@
             <div class="td radius-xs-top-left-20">{{ item.name }}</div>
             <div class="td">{{ displayTextTooLong(125, item.composition) }}</div>
             <div class="td"><span class="d-flex">{{ item.price }} ₫</span></div>
-            <div class="td"><span class="d-flex">{{ item.sales }} ₫</span></div>
+            <div class="td">
+                <span class="d-flex" v-if="item.sales">{{ item.sales }} ₫</span>
+                <span v-else class="text-warning">Updating</span>
+            </div>
             <div class="td px-0 text-center" v-if="actionEdit || actionDelete">
                 <div class="d-flex me-0">
                     <div class="m-auto cursor-pointer" v-if="actionEdit">
