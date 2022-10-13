@@ -5,7 +5,7 @@
         <h6 class="card-title">Tìm kiếm</h6>
       </div>
       <div class="card-body pb-0">
-        <form @submit.prevent="searchCallApi()">
+        <form @submit.prevent="listenSearchForm()">
           <div class="row">
             <div class="col-10">
               <div class="form-floating mb-3">
@@ -30,10 +30,9 @@
     </div>
     
     <div class="col-12 table-content">
-      <TableComponent :headers="tableHeader" :items="systemParams" :actionEdit="true" :actionDelete="false"
+      <TableComponent :headers="tableHeaders" :items="pageDto.content" :actionEdit="true" :actionDelete="false"
         :routerPush="routerPush" />
-      <Pagination :page="page" :size="size" :number="number" :numberOfElements="numberOfElements"
-        :totalPages="totalPages" :totalElements="totalElements" :first="first" :last="last"
+      <Pagination :page="page" :size="size" :pagination="pageDto"
         @change-page="page = $event" @change-size="size = $event"
       />
     </div>
@@ -63,26 +62,31 @@ export default {
   setup() {
     const page = ref(0);
     const size = ref(10);
-    const number = ref(0);
-    const numberOfElements = ref(10);
-    const totalPages = ref(0);
-    const totalElements = ref(0);
-    const first = ref(false);
-    const last = ref(false);
-
+    const pageDto = reactive({
+      content: [],
+      number: 0,
+      numberOfElements: 10,
+      totalPages: 0,
+      totalElements: 0,
+      first: false,
+      last: false,
+    });
     const keyword = ref("");
-
     const { $showToast } = useNuxtApp();
-    const systemParams = ref([]);
     const currentRole = useCurrentRole();
 
-    const tableHeader = [
+    const tableHeaders = [
       { text: "STT", value: "id" },
       { text: "Tên tham số", value: "paramName" },
       { text: "Giá trị", value: "paramValue" },
       { text: "Ý nghĩa", value: "description" },
       { text: "Kiểu giá trị", value: "type" },
     ];
+
+    function listenSearchForm() {
+        if (page.value == 0) searchCallApi();
+        else page.value = 0;
+    }
     
     // call api
     function searchCallApi() {
@@ -104,16 +108,15 @@ export default {
         });
     }
 
-    function setPagination(systemParam) {
-      systemParams.value = systemParam.content;
-      page.value = systemParam.page;
-      size.value = systemParam.size;
-      number.value = systemParam.number;
-      numberOfElements.value = systemParam.numberOfElements;
-      totalPages.value = systemParam.totalPages;
-      totalElements.value = systemParam.totalElements;
-      first.value = systemParam.first;
-      last.value = systemParam.last;
+    function setPagination(data) {
+      page.value = data.page;
+      size.value = data.size;
+
+      pageDto.content = data.content;
+      pageDto.number = data.number;
+      pageDto.numberOfElements = data.numberOfElements;
+      pageDto.totalPages = data.totalPages;
+      pageDto.totalElements = data.totalElements;
     }
 
     watch([page, size], () => {
@@ -121,15 +124,15 @@ export default {
     });
 
     return {
-      page, size, number, numberOfElements, totalPages, totalElements, first, last,
+      page, size, pageDto,
 
       keyword,
-      tableHeader,
-      systemParams,
+      tableHeaders,
       currentRole,
       ROLES,
       searchCallApi,
       useCurrentsRole,
+      listenSearchForm
     };
   },
   mounted() {

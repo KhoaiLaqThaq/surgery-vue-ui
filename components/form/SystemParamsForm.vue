@@ -3,7 +3,7 @@
     <div class="row mb-3">
       <div class="col-lg-4 col-md-4 col-sm-12">
         <div class="form-floating mb-3">
-          <Field type="text" class="form-control box" v-model="systemParam.paramName" name="paramName" :rules="validateName" :disabled="systemParamId" />
+          <Field type="text" class="form-control box" v-model="systemParam.paramName" name="paramName" :rules="validateRequired" :disabled="systemParamId" />
           <div class="mt-1 p-1">
             <ErrorMessage name="paramName" class="text-danger" />
           </div>
@@ -12,7 +12,7 @@
       </div>
       <div class="col-lg-4 col-md-4 col-sm-12">
         <div class="form-floating mb-3">
-          <Field type="text" class="form-control box" v-model="systemParam.paramValue" name="paramValue" :rules="validateNumber" 
+          <Field type="text" class="form-control box" v-model="systemParam.paramValue" name="paramValue" :rules="validateRequired" 
           />
           <div class="mt-1 p-1">
             <ErrorMessage name="paramValue" class="text-danger" />
@@ -24,7 +24,7 @@
       <div class="col-lg-4 col-md-4 col-sm-12">
         <div class="form-floating mb-3">
           <Field as="select" name="type" v-model="systemParam.type" class="form-select" required="required"
-            :rules="validateNumber" :disabled="systemParamId">
+            :rules="validateSelect" :disabled="systemParamId">
               <option v-for="(systemType, index) in systemParamTypes" :key="index" :value="systemType.value">
                   {{ systemType.name }}
               </option>
@@ -50,28 +50,20 @@
 </template>
 <script>
 import { ref, reactive } from "vue";
-import { useRoute } from "vue-router";
 import { Form, Field, ErrorMessage } from "vee-validate";
 
 import TitleHeader from "~~/components/common/TitleHeader.vue";
 import BaseButton from "~~/components/common/BaseButton.vue";
 import { systemParamTypes } from "~~/constants/enum";
+import { validateRequired, validateSelect } from "~~/services/common.js";
 
 import SystemParamService from "~~/services/model/systemParam.service";
 
-import axios from "axios";
-import CONFIG from "~~/config";
-import SystemParamsService from "~~/services/model/systemparams.service";
 export default {
   components: { TitleHeader, BaseButton, Form, Field, ErrorMessage },
-  data() {
-    return {
-      systemParamTypes: systemParamTypes
-    }
-  },
-  setup() {
-    const route = useRoute();
-    const systemParamId = ref(route.params.id);
+  props: ["id", "systemParam"],
+  setup(props) {
+    const systemParamId = ref(null);
     const systemParam = reactive({
       paramName: "",
       paramValue: "",
@@ -79,38 +71,21 @@ export default {
       type: ""
     });
     const { $showToast } = useNuxtApp();
-    
-    function validateName(value) {
-      if (!value) return "Trường này là bắt buộc";
-      if (value.trim().length < 3) return "Trường này phải có hơn 3 ký tự";
 
-      return true;
-    }
-
-    function validateNumber(value) {
-      if (!value) return "Trường này là bắt buộc";
-
-      return true;
-    }
-
-    // TODO: Call api to get a systemParamId have id
-    const getSystemParamById = () => {
-      if (systemParamId.value) {
-        SystemParamService.getById(systemParamId.value).then((response) => {
-            let responseData = response.data;
-            if (responseData) {
-              systemParam.paramName = responseData.paramName;
-              systemParam.paramValue = responseData.paramValue;
-              systemParam.description = responseData.description;
-              systemParam.type = responseData.type;
-            }
-          })
-          .catch((error) => {
-            $showToast("Tải thông tin tham số hệ thống không thành công", "error", 2000);
-            console.log("error: " + error);
-          });
+    function setSystemParam() {
+      let systemParamExisted = props.systemParam;
+      if (systemParamExisted) {
+        systemParamId.value = props.id;
+        systemParam.paramName = systemParamExisted.paramName;
+        systemParam.paramValue = systemParamExisted.paramValue;
+        systemParam.description = systemParamExisted.description;
+        systemParam.type = systemParamExisted.type;
       }
-    };
+    }
+
+    watch(props, () => {
+      setSystemParam();
+    });
 
     // call api save
     function onSubmit() {
@@ -138,7 +113,7 @@ export default {
     }
 
     function checkParamType() {
-      if (systemParamId.value && systemParam.type) {
+      if (systemParam.type) {
         if (systemParam.type === "integer") {
           let message = "";
           if (isNaN(systemParam.paramValue)) {
@@ -159,18 +134,14 @@ export default {
     }
 
     return {
+      systemParamTypes: systemParamTypes,
       systemParam,
       systemParamId,
-      //doInputParamName,
-      getSystemParamById,
       onSubmit,
-      validateName,
-      validateNumber,
+      validateRequired,
+      validateSelect
     };
-  },
-  mounted() {
-    this.getSystemParamById();
-  },
+  }
 };
 </script>
 <style lang="scss"></style>
