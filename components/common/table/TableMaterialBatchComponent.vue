@@ -10,7 +10,7 @@
             <div class="td hidden-xs">{{ item.code }}</div>
             <div class="td radius-xs-top-left-20">{{ item.material?.code }}</div>
             <div class="td">{{ item.material?.name }}</div>
-            <div class="td">{{ item.material?.unit }}</div>
+            <div class="td">{{ item.unit }}</div>
             <div class="td">{{ item.material?.total }}</div>
             <div class="td"><span class="d-flex">{{ item.price }} ₫</span></div>
             <div class="td"><span class="d-flex" v-if="item.createdDate">{{ displayLocalDate_DDMMYYYY(item.createdDate) }}</span></div>

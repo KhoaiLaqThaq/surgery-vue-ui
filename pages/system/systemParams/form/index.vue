@@ -6,28 +6,10 @@
     <SystemParamsForm />
   </div>
 </template>
-<script>
+<script setup>
 import SystemParamsForm from "~~/components/form/SystemParamsForm.vue";
 import TitleHeader from "~~/components/common/TitleHeader.vue";
-export default {
-  components: {
-    SystemParamsForm,
-    TitleHeader,
-  },
 
-  data() {
-    return {
-      titleForm: "Thêm tham số hệ thống",
-    };
-  },
-  setup() {
-    // define variables
-
-    return {
-      //   addNews,
-    };
-  },
-  mounted() {},
-};
+const titleForm = "Thêm tham số hệ thống";
 </script>
 <style lang="scss"></style>
