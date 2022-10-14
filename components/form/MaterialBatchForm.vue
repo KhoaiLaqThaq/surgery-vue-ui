@@ -166,9 +166,7 @@ export default {
 
         // ---------------------- START set state data --------------------
         function setMaterialBatch() {
-            console.log('set material batch')
             let materialBatchExisted = props.materialBatch;
-            console.log('set material batch: ', materialBatchExisted)
             if (materialBatchExisted) {
                 materialBatch.code = materialBatchExisted.code;
                 materialBatch.materialId = materialBatchExisted.material?.id;
@@ -244,7 +242,7 @@ export default {
                 let responseData = response.data;
                 if (responseData) {
                     $showToast("Lưu thông tin lô vật tư thành công!", "success", 2000);
-                    navigateTo('/common/mateiralBatch');
+                    navigateTo('/common/materialBatch');
                 }
             })
             .catch((error) => {

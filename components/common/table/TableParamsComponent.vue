@@ -14,7 +14,6 @@
       <div class="td">{{ item.paramName }}</div>
       <div class="td">{{ item.paramValue }}</div>
       <div class="td">{{ item.description }}</div>
-      <div class="td">{{ item.type === "integer" ? "Integer" : "String" }}</div>
       <div class="td px-0 text-center" v-if="actionEdit || actionDelete">
         <div class="d-flex me-0">
           <div class="m-auto cursor-pointer"

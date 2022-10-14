@@ -864,6 +864,9 @@ a {
 .border-none {
   border: none !important;
 }
+.border-unset {
+  border: unset !important;
+}
 
 .container-theme .bar-inner {
   background-color: $textTheme !important;
@@ -1034,6 +1037,10 @@ label {
       background-color: $primaryTheme;
       color: #ffffff;
       position: relative;
+
+      .th-title {
+        display: grid;
+      }
 
       &:hover {
         cursor: grab;

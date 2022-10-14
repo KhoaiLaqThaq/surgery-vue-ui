@@ -79,8 +79,7 @@ export default {
       { text: "STT", value: "id" },
       { text: "Tên tham số", value: "paramName" },
       { text: "Giá trị", value: "paramValue" },
-      { text: "Ý nghĩa", value: "description" },
-      { text: "Kiểu giá trị", value: "type" },
+      { text: "Ý nghĩa", value: "description" }
     ];
 
     function listenSearchForm() {
