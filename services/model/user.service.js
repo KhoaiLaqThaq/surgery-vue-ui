@@ -3,32 +3,20 @@ import CONFIG from "~~/config";
 
 class UserService {
 
+    search(criteria) {
+        return api.post(`${CONFIG.PREFIX_API}/user/search`, criteria);
+    }
+
     getById(userId) {
-        return api.get(`${CONFIG.USER_GATEWAY}/api/user/${userId}`);
-    }
-
-    getAllGroup(){
-        return api.get(`${CONFIG.USER_GATEWAY}/api/groups`)
-    }
-
-    checkEmail(userEmail){
-        return api.get(`${CONFIG.USER_GATEWAY}/api/user/checkExistByEmail/${userEmail}`)
-    }
-
-    checkExistUser(username){
-        return api.get(`${CONFIG.USER_GATEWAY}/api/user/checkExistByUsername/${username}`)
+        return api.get(`${CONFIG.PREFIX_API}/user/${userId}`);
     }
 
     saveOrUpdate(user) {
-        return api.post(`${CONFIG.USER_GATEWAY}/api/user`, user);
-    }
-
-    update(id, user) {
-        return api.put(`${CONFIG.USER_GATEWAY}/api/user/${id}`, user);
+        return api.post(`${CONFIG.PREFIX_API}/user`, user);
     }
 
     deleteById(k6kUserId){
-        return api.delete(`${CONFIG.USER_GATEWAY}/api/user/delete/${k6kUserId}`);
+        return api.delete(`${CONFIG.PREFIX_API}/userDepartment/delete/${k6kUserId}`);
     }
 }
 
