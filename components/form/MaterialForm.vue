@@ -3,9 +3,12 @@
         <div class="row mb-3">
             <!-- code -->
             <div class="col-lg-4 col-md-6 col-xs-12 mb-3">
-                <div class="form-floating">
-                    <Field type="text" class="form-control box border-none" v-model="material.code" name="code" :rules="validateRequired"/>
+                <div class="form-floating box-floating">
+                    <Field
+                        type="text" class="form-control box border-none" 
+                        v-model="material.code" name="code" :rules="validateRequired"/>
                     <ErrorMessage name="code" class="text-danger" />
+                    <span class="btn-floating" @click="generateCode()" v-if="!materialId">Auto</span>
                     <label for="">Mã vật tư <span class="text-danger">*</span></label>
                 </div>
             </div>
@@ -59,6 +62,15 @@
                 </div>
             </div>
             <!-- /total -->
+
+            <!-- unit -->
+            <div class="col-lg-4 col-md-6 col-xs-12">
+                <div class="form-floating">
+                    <input type="text" class="form-control box mb-3" :value="material.unit" id="unit" />
+                    <label for="unit">Đơn vị <span class="text-danger">*</span></label>
+                </div>
+            </div>
+            <!-- /unit -->
 
             <!-- price -->
             <div class="col-lg-4 col-md-6 col-xs-12">
@@ -170,6 +182,7 @@ export default {
                 total: material.total,
                 price: material.price,
                 sales: material.sales,
+                unit: material.unit,
                 materialType: {
                     id: materialTypeId.value
                 }
@@ -186,9 +199,11 @@ export default {
                 console.log("Error: ", error);
             });
         }
-
+        
+        const generateCode = () => material.code = "M_" + new Date().getTime();
         return {
             material,
+            materialId,
             materialTypeId,
             materialTypeList,
 
@@ -196,7 +211,8 @@ export default {
             setMaterial,
             validateSelect,
             validateRequired,
-            getAllMaterialTypes
+            getAllMaterialTypes,
+            generateCode
         }
     },
     created() {

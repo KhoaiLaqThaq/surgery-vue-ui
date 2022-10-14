@@ -1,11 +1,10 @@
 <template>
-    <Form @submit.prevent="onSubmit()">
+    <Form @submit="onSubmit()">
         <div class="row mb-3">
             <!-- code -->
             <div class="col-lg-4 col-md-6 col-xs-12">
                 <div class="form-floating">
-                    <Field type="text" class="form-control box mb-3" v-model="materialType.code" required="required" name="code" :rules="validateRequired" :disabled="materialTypeId" />
-                    <ErrorMessage name="code" class="text-danger" />
+                    <Field type="text" class="form-control box mb-3" v-model="materialType.code" name="code" :disabled="materialTypeId" />
                     <label for="">Mã loại vật tư</label>
                 </div>
             </div>
@@ -71,7 +70,7 @@ export default {
 
         function onSubmit() {
             let materialTypeData = {
-                id: materialTypeId,
+                id: materialTypeId.value,
                 code: materialType.code,
                 name: materialType.name
             };

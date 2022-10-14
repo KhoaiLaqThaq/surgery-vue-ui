@@ -153,6 +153,7 @@ export default {
             expiredDate: '',
             displayExpiredDate: '',
             price: 0,
+            sales: 0,
             createdBy: '',
             createdDate: ''
         });
@@ -178,6 +179,7 @@ export default {
                 materialBatch.expiredDate = materialBatchExisted.expiredDate;
                 materialBatch.displayExpiredDate = materialBatchExisted.expiredDate;
                 materialBatch.price = materialBatchExisted.price;
+                materialBatch.sales = materialBatchExisted.sales;
                 materialBatch.createdBy = materialBatchExisted.createdBy;
                 materialBatch.createdDate = materialBatchExisted.createdDate;
             }
@@ -231,7 +233,8 @@ export default {
                 amount: materialBatch.amount,
                 displayExpiredDate: '',
                 receiptDate: materialBatch.receiptDate,
-                price: materialBatch.price
+                price: materialBatch.price,
+                sales: materialBatch.sales
             };
             if (materialBatchId.value) {
                 materialBatchDTO["createdBy"] = materialBatch.createdBy;
