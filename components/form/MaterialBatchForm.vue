@@ -99,7 +99,10 @@
         </div>
         <hr>
         <div class="row ms-auto">
-            <div class="col-12 text-right">
+            <div class="col-6">
+                <BackButton class="btn-primary box ms-auto" :btnType="'button'" :name="'Quay lại'" :textSize="'text-small'" :routePush="'/common/materialBatch'"/>
+            </div>
+            <div class="col-6 text-right">
                 <button type="submit" class="btn btn-primary text-small">Lưu</button>
             </div>
         </div>
@@ -115,6 +118,7 @@ import { displayAmountCharacters } from '~~/constants/format-string.js';
 
 import DatepickerLite from "vue3-datepicker-lite";
 import BaseButton from '~~/components/common/BaseButton.vue';
+import BackButton from '~~/components/common/BackButton.vue';
 
 import MaterialService from '~~/services/model/material.service';
 import MaterialTypeService from '~~/services/model/materialType.service';
@@ -123,7 +127,7 @@ import MaterialBatchService from '~~/services/model/materialBatch.service';
 
 export default {
     props:["id", "materialBatch"],
-    components: { BaseButton, Form, Field, ErrorMessage, DatepickerLite },
+    components: { BaseButton, Form, Field, ErrorMessage, DatepickerLite, BackButton },
     data() {
         const locale = {
             format: "DD/MM/YYYY",

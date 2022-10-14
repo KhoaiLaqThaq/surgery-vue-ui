@@ -94,7 +94,10 @@
         </div>
         <hr />
         <div class="row pb-0">
-            <div class="col-12 text-right">
+            <div class="col-6">
+                <BackButton class="btn-primary box ms-auto" :btnType="'button'" :name="'Quay lại'" :textSize="'text-small'" :routePush="'/common/material'"/>
+            </div>
+            <div class="col-6 text-right">
                 <BaseButton class="btn-primary box ms-auto" :btnType="'submit'" :name="'Lưu'" :textSize="'text-small'" />
             </div>
         </div>
@@ -107,16 +110,13 @@ import { Form, Field, ErrorMessage } from "vee-validate";
 import MaterialService from '~~/services/model/material.service';
 import MaterialTypeService from '~~/services/model/materialType.service';
 import BaseButton from '~~/components/common/BaseButton.vue';
+import BackButton from '~~/components/common/BackButton.vue';
+
 import {validateRequired, validateSelect} from '~~/services/common.js';
 
 export default {
     props: ["id", "material"],
-    components: {
-        Form,
-        Field,
-        ErrorMessage,
-        BaseButton
-    },
+    components: { Form, Field, ErrorMessage, BaseButton, BackButton },
     setup(props) {
         const {$showToast} = useNuxtApp();
         const materialId = ref(props.id);
