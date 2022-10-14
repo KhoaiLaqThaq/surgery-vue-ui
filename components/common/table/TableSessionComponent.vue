@@ -10,13 +10,19 @@
             <div class="td">{{ item.code }}</div>
             <div class="td">{{ item.diagnosis }}</div>
             <div class="td">{{ item.symptom }}</div>
-            <div class="td text-primary cursor-pointer">Chi tiết</div>
+            <div 
+                class="td text-primary cursor-pointer" 
+                data-bs-toggle="modal" data-bs-target="#treatmentPlan"
+                @click="setTreatmentPlanActive(item.treatmentPlan)"
+            >
+                Chi tiết
+            </div>
             <div class="td">{{ displaySessionStatus(item.status) }}</div>
             <div class="td">{{ displayLocalDate_DDMMYYYY(item.createdDate) }}</div>
 
             <div class="td pe-3" v-if="actionEdit || actionDelete">
                 <div class="action-group d-flex">
-                    <nuxt-link :to="routerPush + item.id" v-if="actionEdit">
+                    <nuxt-link :to="routerPush + '/' + item.id" v-if="actionEdit">
                         <EditIcon /> <span class="ms-1">Sửa</span>
                     </nuxt-link>
                     <div v-if="actionDelete" class="ms-3 cursor-pointer text-danger">
@@ -25,6 +31,9 @@
                 </div>
             </div>
         </div>
+        <!-- modal -->
+        <TreatmentPlanDetail :treatmentPlan="treatmentPlanActive" />
+        <!-- /modal -->
     </div>
 </template>
 <script>
@@ -33,13 +42,15 @@ import {ref, reactive} from "vue";
 import EditIcon from "~~/assets/images/icons/actions/EditIcon.vue";
 import DeleteIcon from "~~/assets/images/icons/actions/DeleteIcon.vue";
 import { displayLocalDate_DDMMYYYY } from "~~/constants/format-date.js";
+import TreatmentPlanDetail from "~~/components/common/modal/session/TreatmentPlanDetail.vue";
 
 export default {
-    components: {
-        EditIcon, DeleteIcon
-    },
+    components: { EditIcon, DeleteIcon, TreatmentPlanDetail },
     props: ["headers", "items", "actionEdit", "actionDelete", "page", "size", "routerPush"],
     setup() {
+        const treatmentPlanActive = ref("");
+
+        const setTreatmentPlanActive = (e) => treatmentPlanActive.value = e;
 
         function deleteSession(sessionId) {
 
@@ -55,9 +66,12 @@ export default {
         }
 
         return {
+            treatmentPlanActive,
+
             deleteSession,
             displaySessionStatus,
-            displayLocalDate_DDMMYYYY
+            displayLocalDate_DDMMYYYY,
+            setTreatmentPlanActive
         }
     }
 }

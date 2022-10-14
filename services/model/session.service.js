@@ -18,6 +18,10 @@ class SessionService {
         return api.post(`${CONFIG.PREFIX_API}/session/search`, criteria);
     }
 
+    saveOrUpdate(session) {
+        return api.post(`${CONFIG.PREFIX_API}/session`, session);
+    }
+
 }
 
 export default new SessionService();
