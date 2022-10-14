@@ -1,17 +1,20 @@
 <template>
-    <button class="btn"
+    <button class="btn px-3"
         :type="btnType"
     >
-        <span :class="textSize">{{ name }}</span>
+        <SendIcon class="w-4" />
+        <span :class="textSize" class="ps-2">{{ name }}</span>
     </button>
 </template>
 <script>
+import SendIcon from '~~/assets/images/icons/actions/SendIcon.vue';
 export default {
     props: [
-        'btnType',
-        'name',
-        'textSize'
-    ]
+        "btnType",
+        "name",
+        "textSize"
+    ],
+    components: { SendIcon }
 }
 </script>
 <style lang="">
