@@ -11,15 +11,8 @@
         </div>
 
         <div class="table-content">
-            <TableSessionComponent :headers="tableHeaders" :items="pageDto.content"
-                :actionEdit="true" :actionDelete="true" :routerPush="routerPush" :page="page" :size="size"
-            />
-
-            <Pagination
-                :page="page" :size="size" :pagination="pageDto"
-                @change-page="page = $event" @change-size="size = $event"
-            />
-
+            <TableSessionComponent :headers="tableHeaders" :items="pageDto.content" :actionEdit="true" :actionDelete="false" :routerPush="routerPush" :page="page" :size="size" />
+            <Pagination :page="page" :size="size" :pagination="pageDto" @change-page="page = $event" @change-size="size = $event" />
         </div>
     </div>
 </template>
@@ -38,14 +31,7 @@ import Pagination from '~~/components/common/table/Pagination.vue';
 import SearchSessionComponent from '~~/components/common/search/SearchSessionComponent.vue';
 
 export default {
-    components: {
-        TitleHeader,
-        AddButton,
-        DatepickerLite,
-        TableSessionComponent,
-        Pagination,
-        SearchSessionComponent
-    },
+    components: { TitleHeader, AddButton, DatepickerLite, TableSessionComponent, Pagination, SearchSessionComponent },
     data() {
         const locale = {
             format: "DD/MM/YYYY",

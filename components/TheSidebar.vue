@@ -21,7 +21,7 @@
           <span class="side-menu__title pl-1"> Quản lý hệ thống</span>
         </a>
         <ul class="submenu collapse">
-          <li>
+          <!-- <li>
             <NuxtLink to="/system/group" class="side-menu" aria-label="group"
               :class="{ active: routeNameActive == 'group' }"
               v-if="checkSidebarAuthority([ROLES.ROLE_ADMIN, ROLES.ROLE_GROUP_USER_VIEW])">
@@ -30,7 +30,7 @@
               </div>
               <span class="side-menu__title pl-1"> Nhóm người dùng</span>
             </NuxtLink>
-          </li>
+          </li> -->
           <li>
             <NuxtLink to="/system/user" class="side-menu" aria-label="user"
               :class="{ active: routeNameActive == 'user' }" title="Quản lý người dùng"

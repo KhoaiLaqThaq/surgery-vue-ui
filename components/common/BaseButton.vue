@@ -1,5 +1,5 @@
 <template>
-    <button class="btn px-3"
+    <button class="btn px-3 zoom-in"
         :type="btnType"
     >
         <SendIcon class="w-4" />

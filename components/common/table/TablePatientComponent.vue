@@ -28,7 +28,7 @@
 
             <div class="td pe-3" v-if="actionEdit || actionDelete">
                 <div class="action-group d-flex">
-                    <NuxtLink :to="routerPush + item.id" v-if="actionEdit && useCurrentsRole(currentRole, [ROLES.ROLE_ADMIN])">
+                    <NuxtLink :to="routerPush + '/' + item.id" v-if="actionEdit && useCurrentsRole(currentRole, [ROLES.ROLE_ADMIN])">
                         <EditIcon /> <span class="ms-1">Sửa</span>
                     </NuxtLink>
                     <div v-if="actionDelete && useCurrentsRole(currentRole, [ROLES.ROLE_ADMIN])" class="ms-3 cursor-pointer text-danger">

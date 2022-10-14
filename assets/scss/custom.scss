@@ -1024,8 +1024,9 @@ label {
     padding: 5px;
     width: 100%;
     background-color: $bgc-content;
-    border-top-left-radius: 20px;
-    border-end-start-radius: 20px;
+    // border-top-left-radius: 20px;
+    border-radius: 20px;
+    // border-end-start-radius: 20px;
 
     .th {
       height: 56px;
