@@ -33,7 +33,7 @@ export default {
   components: { EditIcon, DeleteIcon },
   props: ["headers", "items", "actionEdit", "actionDelete", "page", "size", "routerPush"],
   setup() {
-    const displayUserActive = (enabled) => enabled == 0 ? 'Khóa' : 'Mở';
+    const displayUserActive = (enabled) => enabled == 0 ? 'Khóa' : 'Hoạt động';
     return {
       displayUserActive
     }

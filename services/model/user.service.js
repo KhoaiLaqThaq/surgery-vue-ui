@@ -12,7 +12,7 @@ class UserService {
     }
 
     saveOrUpdate(user) {
-        return api.post(`${CONFIG.PREFIX_API}/user`, user);
+        return api.post(`${CONFIG.PREFIX_API}/signUp`, user);
     }
 
     deleteById(k6kUserId){
