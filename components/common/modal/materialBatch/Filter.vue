@@ -107,6 +107,7 @@ export default {
         };
     },
     setup(props, {emit}) {
+        const count = ref(0);
         const name = ref('');
         const rangePrice = reactive({
             minPrice: props.minValue,
@@ -128,7 +129,8 @@ export default {
                 materialName: name.value,
                 minPrice: rangePrice.minPrice,
                 maxPrice: rangePrice.maxPrice,
-                clearFilterStatus: false 
+                clearFilterStatus: false,
+                countFilter: countFilter()
             };
             // TODO: setData dành riêng cho tìm kiếm lô
             if (props.searchMaterialBatch) {
@@ -139,9 +141,20 @@ export default {
             emit('update-condition-filter', conditionFilter);
         }
 
+        function countFilter() {
+            count.value = 0;
+            if (name.value) count.value++;
+            if (rangePrice.maxPrice > 0) count.value++;
+            if (props.searchMaterialBatch) {
+                if (displaySearchFromDate.value) count.value++;
+                if (displaySearchToDate.value) count.value++;
+            }
+            return count.value;
+        }
+
         function clearFilter() {
             onClickToCloseModal();
-            emit('update-condition-filter', {});
+            emit('update-condition-filter', {clearFilterStatus: true});
         }
 
         const onClickToCloseModal = () => document.getElementById('modal-filter-close').click();

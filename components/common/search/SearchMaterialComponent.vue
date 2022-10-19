@@ -1,13 +1,13 @@
 <template>
     <div class="d-flex p-2 box">
-        <div class="filter search-filter border-style cursor-pointer"
-            data-bs-toggle="modal" data-bs-target="#materialBatchFilter"
-        >
-            <span class="filter-title"><FilterIcon /> <span class="ms-1">Lọc</span></span>
+        <div class="filter search-filter border-style cursor-pointer" data-bs-toggle="modal" data-bs-target="#materialBatchFilter">
+            <span class="filter-title">
+                <span class="filter-amount" v-if="amountFilter">{{ amountFilter }}</span>
+                <FilterIcon />
+                <span class="ms-1">Lọc</span>
+            </span>
         </div>
-        <div class="filter inactive cursor-pointer" v-if="multiRange"
-            data-bs-toggle="modal" data-bs-target="#multiRange"
-        >
+        <div class="filter inactive cursor-pointer" v-if="multiRange" data-bs-toggle="modal" data-bs-target="#multiRange">
             <span class="filter-title">{{ priceTitle }}</span>
         </div>
         <div class="form-group">
@@ -47,6 +47,7 @@ export default {
     components: { FilterIcon, MultiRange, ConditionFilter },
     props: [ "multiRange", "simplePrice", "keyword" ],
     setup(props, {emit}) {
+        const amountFilter = ref(null);
         const priceTitle = ref("Giá +");
         const rangeValue = reactive({
             minValue: 0,
@@ -71,18 +72,18 @@ export default {
                 priceTitleString = "Giá +";
             else
                 priceTitleString = e.minPrice + "₫ - " + e.maxPrice + "₫";
-            
             priceTitle.value = priceTitleString;
             conditionSearch.materialName = e.materialName;
-            conditionSearch.minPrice = e.minPrice;
-            conditionSearch.maxPrice = e.maxPrice;
-            console.log("condition search price, min :", e.minPrice, " max: ", e.maxPrice)
+            conditionSearch.minPrice = e.minPrice ? e.minPrice : 0;
+            conditionSearch.maxPrice = e.maxPrice ? e.maxPrice : 0;
+            amountFilter.value = e.countFilter;
         }
 
 
         const updateConditionSearch = () => emit("update-keyword", conditionSearch);
 
         return {
+            amountFilter,
             priceTitle,
             rangeValue,
             conditionSearch,

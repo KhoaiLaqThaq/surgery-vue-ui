@@ -704,12 +704,23 @@ a {
   border-bottom-right-radius: 5px;
 }
 
+.w-unset {
+  width: unset !important;
+}
+
 .w-4 {
   width: 1rem;
 }
 
 .w100 {
   width: 100%;
+}
+
+.mw50 {
+  max-width: 50% !important;
+}
+.mw75 {
+  max-width: 75% !important;
 }
 
 .h-4 {
@@ -730,6 +741,14 @@ a {
 
 .minH-100 {
   min-height: 100px !important;
+}
+
+.minW-200 {
+  min-width: 200px;
+}
+
+.minW-250 {
+  min-width: 250px;
 }
 
 .minH-200 {
@@ -1360,7 +1379,6 @@ label {
   font-weight: 400;
   color: #212529;
   text-align: center;
-  vertical-align: middle;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
