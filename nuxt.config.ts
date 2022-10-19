@@ -23,6 +23,7 @@ export default {
   },
   css: [
     "@/assets/scss/custom.scss",
+    "@/assets/scss/select2.scss",
     "@fortawesome/fontawesome-svg-core/styles.css",
   ],
   plugins: [

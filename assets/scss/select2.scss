@@ -1,0 +1,50 @@
+// Select 2 stylesheet
+.container-select2__box {
+    position: relative;
+    display: flex;
+    cursor: pointer;
+
+    .select2__icon {
+        position: absolute;
+        top: 30%;
+        right: 10px;
+    }
+}
+
+.select2__items {
+    position: absolute;
+    background-color: #FFFFFF;
+    z-index: 9999;
+    box-shadow: 0 10px 20px rgb(0 0 0 / 8%);
+    border: 1px solid #abb8c4;
+    ul {
+        .select2__searching {
+            position: relative;
+            margin: 10px;
+            .select2_search {
+                position: absolute;
+                top: 7px;
+                left: 7px;
+
+                svg {
+                    color: #6c757d;
+                }
+            }
+            input {
+                padding-left: 40px;
+            }
+        }
+        li {
+            list-style: none;
+        }
+        .select2__item {
+            padding: 12px 10px 12px 40px;
+
+            &:hover {
+                cursor: pointer;
+                background-color: #c1ceda;
+            }
+        }
+    }
+}
+// Select 2 stylesheet
