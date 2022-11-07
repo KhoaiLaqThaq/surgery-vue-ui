@@ -32,7 +32,7 @@
             </div>
             <hr />
             <div class="form-group mb-0 text-center">
-              <button class="btn btn-login btn-block" type="submit">
+              <button class="btn btn-login btn-block" id="btnSubmit" type="submit">
                 Đăng nhập
               </button>
             </div>

@@ -52,17 +52,18 @@ import IconCommunity from '~~/assets/images/icons/IconCommunity.vue';
 import DashboardService from "~~/services/model/dashboard.service";
 
 export default {
-    components: {
-        ComputerIcon, PostIcon, UserIcon, IconCommunity, UserInactiveIcon, UserChartIcon, 
-        UserChartIcon
-    },
+    components: { ComputerIcon, PostIcon, UserIcon, IconCommunity, UserInactiveIcon, UserChartIcon, UserChartIcon },
     setup() {
         const { $showToast } = useNuxtApp();
         const reports = reactive({
-            userTotal: 0,
-            viewTotal: 0,
-            newsTotal: 0,
-            userInactiveTotal: 0
+            moneyTrend: {
+                price: 0,
+                sales: 0,
+                interest: 0
+            },
+            sessionTrend: 0,
+            patientTrend: 0,
+            materialBatchTrend: 0
         });
 
         function setData(reportData) {

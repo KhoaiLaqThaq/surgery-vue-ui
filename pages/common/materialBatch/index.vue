@@ -110,7 +110,7 @@ export default {
             let criteria = {
                 page: page.value,
                 size: size.value,
-                materialName: material.name,
+                material: {name: material.name},
                 materialCode: material.code,
                 code: conditionSearch.code,
                 minPrice: conditionSearch.minPrice,

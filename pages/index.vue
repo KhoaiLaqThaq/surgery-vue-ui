@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="d-flex my-3">
-      <h6 class="fw-bold">Báo cáo nhanh</h6>
+      <h6 class="fw-bold">Báo cáo nhanh tháng này</h6>
     </div>
   </div>
 </template>

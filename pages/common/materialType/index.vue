@@ -11,7 +11,7 @@
         />
         <Pagination 
             :page="page" :size="size" :pagination="pageDto"
-            @change-page="page = $event" @change-size="size = $event"
+            @change-page="listenerChangedPage($event)" @change-size="listenerChangedSize($event)"
         />
     </div>
 </template>
@@ -83,12 +83,25 @@ export default {
             });
         }
 
+        function listenerChangedPage(pageNum) {
+            page.value = pageNum;
+            searchCallApi();
+        }
+
+        function listenerChangedSize(sizeNum) {
+            size.value = sizeNum;
+            page.value = 0;
+            searchCallApi();
+        }
+
         return {
             page, size,
             pageDto,
             tableHeaders,
 
-            searchCallApi
+            searchCallApi,
+            listenerChangedSize,
+            listenerChangedPage
         };
     },
     created() {

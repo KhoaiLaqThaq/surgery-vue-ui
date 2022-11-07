@@ -6,7 +6,7 @@
         </div>
         <SearchComponent :multiRange="true" @updateKeyword="listenerRangePriceChange($event)" class="mb-3" />
         <TableMaterialComponent :headers="tableHeaders" :items="pageDto.content" :actionEdit="true" :actionDelete="false" :routerPush="routerPush" :page="page" :size="size" />
-        <Pagination :page="page" :size="size" :pagination="pageDto" @change-page="page = $event" @change-size="size = $event" />
+        <Pagination :page="page" :size="size" :pagination="pageDto" @change-page="listenerChangedPage($event)" @change-size="listenerChangedSize($event)" />
     </div>
 </template>
 <script>
@@ -62,11 +62,6 @@ export default {
             { text: 'Giá bán', value: 'sales', classCss: 'minW-100'}
         ];
 
-        function listenSearchForm() {
-            if (page.value == 0) searchCallApi();
-            else page.value = 0;
-        }
-
         function setPagination(data) {
             page.value = data.page;
             size.value = data.size;
@@ -105,14 +100,26 @@ export default {
             searchCallApi();
         }
 
+        function listenerChangedPage(pageNum) {
+            page.value = pageNum;
+            searchCallApi();
+        }
+
+        function listenerChangedSize(sizeNum) {
+            size.value = sizeNum;
+            page.value = 0;
+            searchCallApi();
+        }
+
         return {
             page, size,
             pageDto,
             tableHeaders,
 
             searchCallApi,
-            listenSearchForm,
-            listenerRangePriceChange
+            listenerRangePriceChange,
+            listenerChangedSize,
+            listenerChangedPage
         }
     },
     created() {

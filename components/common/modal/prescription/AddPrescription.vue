@@ -9,7 +9,7 @@
                 <div class="modal-body">
                     <div class="row mb-3">
                         <div class="col-12 text-right">
-                            <button class="btn btn-primary" type="button" @click="addRow()"><IconPlus /> Thêm thuốc</button>
+                            <button class="btn btn-primary" type="button" @click="addMaterialForPrescription()"><IconPlus /> Thêm thuốc</button>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -27,12 +27,12 @@
                                 </div>
                                 <div class="td">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" v-model="item.total" />
+                                        <input type="text" class="form-control" :value="item.material?.total" />
                                     </div>
                                 </div>
                                 <div class="td">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" v-model="item.amount" />
+                                        <input type="text" class="form-control" v-model="item.amount" @input="autocompletePricing(index)" />
                                     </div>
                                 </div>
                                 <div class="td">
@@ -48,6 +48,11 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <BaseButton @click="apply()" id="btnApply" class="btn-primary box ms-auto" :btnType="'button'" :name="'Áp dụng'" :textSize="'text-small'" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -56,14 +61,15 @@
 <script>
 import {ref, reactive, watch} from 'vue';
 
+import BaseButton from '~~/components/common/BaseButton.vue';
 import Select2 from '~~/components/common/Select2.vue';
 import MaterialService from '~~/services/model/material.service';
 import IconPlus from '~~/assets/images/icons/IconPlus.vue';
 
 export default {
-    components: { Select2, IconPlus },
-    setup() {
-        // const stt = ref(0);
+    components: { Select2, IconPlus, BaseButton },
+    setup(props, {emit}) {
+        const { $showToast } = useNuxtApp();
         const tableHeaders = [
             { text: "STT", classCss: "w-auto" },
             { text: "Tên thuốc", classCss: "minW-200" },
@@ -71,7 +77,7 @@ export default {
             { text: "Số lượng" },
             { text: "Đơn vị" },
             { text: "Thành tiền" },
-            { text: "#" }
+            // { text: "#" }
         ];
         const materialName = ref('');
         const materials = ref({});
@@ -80,16 +86,16 @@ export default {
             id: null,
             name: '',
             total: 0,
-            amount: 0,
-            unit: '',
-            totalPrice: 0
+            sales: 0
         });
-        const materialMock = reactive({
+        const prescription = reactive({
             id: null,
-            name: '',
-            total: 0,
+            material: null,
+            session: null,
+            dosage: '',
             amount: 0,
             unit: '',
+            note: '',
             totalPrice: 0
         });
 
@@ -102,6 +108,7 @@ export default {
                 .then((response) => {
                     let responseData = response.data;
                     if (responseData) materials.value = responseData;
+                    else materials.value = [];
                 })
                 .catch((error) => {
                     console.log("Error: ", error);
@@ -111,43 +118,69 @@ export default {
             }
         }
 
-        const addMaterialForPrescription = () => {
-            materialsInPrescriptions.value.push(materialMock);
-        }
+        const addMaterialForPrescription = () => materialsInPrescriptions.value.push({});
         const listenerChangedValue = (e) => materialName.value = e;
         const resetDataSelect2 = () => materials.value = {};
 
         function setItemActive(e) {
-            console.log("Set item active: ", e);
+            console.log("material: ", e);
            if (e) {
+                // set material
                 material.id = e.id;
                 material.name = e.name;
                 material.total = e.total;
-                material.amount = 0;
-                material.unit = e.unit;
-                material.totalPrice = 0;
-                console.log("set item index: ", e.index);
-                // materialsInPrescriptions.value[e.index] = material;
-                materialsInPrescriptions.value.splice(e.index, 1, material);
-                
+                material.sales = e.sales;
+                // set prescription
+                prescription.amount = 0;
+                prescription.unit = e.unit;
+                prescription.dosage = '';
+                prescription.note = '';
+                prescription.totalPrice = 0;
+                let prescriptionIndex = {
+                    material,
+                    amount: prescription.amount,
+                    unit: prescription.unit,
+                    dosage: prescription.dosage,
+                    note: prescription.note,
+                    totalPrice: prescription.totalPrice
+                };
+                materialsInPrescriptions.value[e.index] = Object.assign({}, prescriptionIndex);
                 resetDataSelect2();
            }
         }
 
-        function addRow() {
-            addMaterialForPrescription();
+        function apply() {
+            let prescriptions = materialsInPrescriptions.value;
+            console.log("materialsInPrescriptions value: ", prescriptions);
+            emit("add-prescription", prescriptions);
+            onClickToCloseModal();
         }
 
+        function autocompletePricing(index) {
+            console.log("index value: ", index);
+            if (materialsInPrescriptions.value[index].material && materialsInPrescriptions.value[index].material.sales > 0) {
+                if (materialsInPrescriptions.value[index].material?.total > materialsInPrescriptions.value[index].amount) {
+                    document.getElementById('btnApply').disabled = false;
+                    materialsInPrescriptions.value[index].totalPrice = materialsInPrescriptions.value[index].material?.sales * materialsInPrescriptions.value[index].amount;
+                } else {
+                    $showToast('Số lượng vượt quá trong kho! Hãy nhập lại!', 'warning', 2000);
+                    document.getElementById('btnApply').disabled = true;
+                }
+            }
+        }
+
+        const onClickToCloseModal = () => document.getElementById('modal-close').click();
+
         return {
-            // stt,
             materials,
             tableHeaders,
             materialsInPrescriptions,
 
-            addRow,
+            apply,
             setItemActive,
             listenerChangedValue,
-            addMaterialForPrescription
+            addMaterialForPrescription,
+            autocompletePricing
         };
     }
 }

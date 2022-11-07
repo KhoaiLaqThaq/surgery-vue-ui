@@ -22,7 +22,9 @@ export default {
                 SessionService.getById(sessionId.value)
                 .then((response) => {
                     let responseData = response.data;
-                    if (responseData) session.value = responseData;
+                    if (responseData) {
+                        session.value = responseData;
+                    }
                 })
                 .catch((error) => {
                     $showToast("Tải phiên khám không thành công!", "error", 2000);

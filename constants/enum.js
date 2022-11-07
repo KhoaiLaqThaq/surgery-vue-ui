@@ -32,3 +32,7 @@ export const genders = [
   { name: "Nam", value: "nam" },
   { name: "Nữ", value: "nữ" }
 ];
+
+export const ParamName = {
+  MONEY_SERVICE: "PHI_KHAM"
+};

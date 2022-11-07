@@ -10,6 +10,10 @@ class SystemParamService {
         return api.get(`${CONFIG.PREFIX_API}/systemParam/${systemParamId}`);
     }
 
+    getByName(paramName) {
+        return api.get(`${CONFIG.PREFIX_API}/systemParam/name=${paramName}`);
+    }
+
     saveOrUpdate(data) {
         return api.post(`${CONFIG.PREFIX_API}/systemParam`, data);
     }

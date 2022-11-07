@@ -15,7 +15,7 @@
                     <input type="text" v-model="fieldValue" @input="autoSearching()" class="form-control" />
                 </li>
                 <li class="select2__item zoom-in-little" v-for="(item, index) in items"
-                    :key="index" @click="setSelectedItem(item, id)">{{ displayAmountCharacters(25, item.name) }}</li>
+                    :key="index" @click="setSelectedItem(item, id)">{{ item.name != null ? displayAmountCharacters(25, item.name) : '' }}</li>
             </ul>
         </div>
     </div>
@@ -57,17 +57,21 @@ export default {
          */
         const toggleSelect2 = (id) => {
             console.log("set-select2", id);
-            hideSelect2Dropdown();
+            hideSelect2Dropdown(id);
+            let selector = document.getElementById("select__box_" + id);
             if (id != null) {
-                document.getElementById("select__box_" + id).classList.toggle("d-none");
+                selector.classList.toggle("d-none");
             }
         }
 
-        const hideSelect2Dropdown = () => {
+        const hideSelect2Dropdown = (id) => {
+            console.log('hideSelect2Dropdown')
             let selected2Selectors = document.getElementsByClassName("select2__items");
             for (let i = 0; i < selected2Selectors.length; i++) {
-                const element = selected2Selectors[i];
-                element.classList.add("d-none");
+                if (id != i) {
+                    const element = selected2Selectors[i];
+                    element.classList.add("d-none");
+                }
             }
         }
 

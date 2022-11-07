@@ -24,6 +24,7 @@ export default {
   css: [
     "@/assets/scss/custom.scss",
     "@/assets/scss/select2.scss",
+    "@/assets/scss/pagination.scss",
     "@fortawesome/fontawesome-svg-core/styles.css",
   ],
   plugins: [
@@ -48,4 +49,8 @@ export default {
       },
     ],
   },
+  pageTransition: {
+    name: 'page',
+    mode: 'out-in'
+  }
 };

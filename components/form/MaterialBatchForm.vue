@@ -17,7 +17,7 @@
             <div class="col-lg-3 col-md-6 col-xs-12" id="suggest__container">
                 <div class="form-floating mb-3">
                     <Field
-                        type="text" class="form-control" v-model="materialBatch.materialName" 
+                        type="text" class="form-control" v-model="material.name" 
                         required="required" name="materialName"
                         @input="searchMaterialsByName()"
                         id="materialName"
@@ -65,7 +65,7 @@
             <!-- materialType -->
             <div class="col-lg-3 col-md-6 col-xs-12">
                 <div class="form-floating">
-                    <Field as="select" name="materialType" v-model="materialBatch.materialTypeId" class="form-select box" required="required" :value="materialBatch.materialTypeId" :rules="validateSelect">
+                    <Field as="select" name="materialType" v-model="material.materialTypeId" class="form-select box" required="required" :rules="validateSelect">
                         <option v-for="(materialType, index) in materialTypes" :key="index" :value="materialType.id">{{materialType.name}}</option>
                     </Field>
                     <ErrorMessage name="materialType" class="text-danger" />
@@ -81,6 +81,14 @@
                     />
                     <ErrorMessage name="price" class="text-danger" />
                     <label for="price">Giá nhập <span class="text-danger">*</span></label>
+                </div>
+            </div>
+            <!-- /price -->
+            <!-- sales -->
+            <div class="col-lg-3 col-md-6 col-xs-12">
+                <div class="form-floating mb-3">
+                    <Field type="text" class="form-control" v-model="materialBatch.sales" name="sales" />
+                    <label for="sales">Giá bán</label>
                 </div>
             </div>
             <!-- /price -->
@@ -145,7 +153,7 @@ export default {
     },
     setup(props) {
         const {$showToast} = useNuxtApp();
-        const materialBatchId = ref(props.id);
+        const materialBatchId = ref(null);
         const materialBatch = reactive({
             code: '',
             materialId: '',
@@ -161,6 +169,18 @@ export default {
             createdBy: '',
             createdDate: ''
         });
+        const material = reactive({
+            id: null,
+            code: '',
+            name: '',
+            composition: '',
+            suggest: '',
+            total: 0,
+            unit: '',
+            price: 0,
+            sales: 0,
+            materialTypeId: ''
+        })
         const materials = ref([]);
         const materialTypes = ref([]);
         const notiByName = ref("");
@@ -173,10 +193,11 @@ export default {
         function setMaterialBatch() {
             let materialBatchExisted = props.materialBatch;
             if (materialBatchExisted) {
+                materialBatchId.value = materialBatchExisted.id;
                 materialBatch.code = materialBatchExisted.code;
-                materialBatch.materialId = materialBatchExisted.material?.id;
-                materialBatch.materialName = materialBatchExisted.material?.name;
-                materialBatch.materialTypeId = materialBatchExisted.material?.materialType?.id;
+                // materialBatch.materialId = materialBatchExisted.material?.id;
+                // materialBatch.materialName = materialBatchExisted.material?.name;
+                // materialBatch.materialTypeId = materialBatchExisted.material?.materialType?.id;
                 materialBatch.unit = materialBatchExisted.unit;
                 materialBatch.amount = materialBatchExisted.amount;
                 materialBatch.receiptDate = materialBatchExisted.receiptDate;
@@ -186,6 +207,23 @@ export default {
                 materialBatch.sales = materialBatchExisted.sales;
                 materialBatch.createdBy = materialBatchExisted.createdBy;
                 materialBatch.createdDate = materialBatchExisted.createdDate;
+
+                setMaterial(materialBatchExisted.material);
+            }
+        }
+        
+        function setMaterial(materialExisted) {
+            if (materialExisted) {
+                material.id = materialExisted.id;
+                material.code = materialExisted.code;
+                material.name = materialExisted.name;
+                material.composition = materialExisted.composition;
+                material.suggest = materialExisted.suggest;
+                material.total = materialExisted.total;
+                material.unit = materialExisted.unit;
+                material.price = materialExisted.price;
+                material.sales = materialExisted.sales;
+                material.materialTypeId = materialExisted.materialType?.id;
             }
         }
         // ---------------------- END set state data --------------------
@@ -203,8 +241,8 @@ export default {
         }
 
         function searchMaterialsByName() {
-            if (materialBatch.materialName) {
-                let criteria = {name: materialBatch.materialName};
+            if (material.name) {
+                let criteria = {name: material.name};
                 MaterialService.searchMaterialsByName(criteria)
                 .then((response) => {
                     let responseData = response.data;
@@ -231,14 +269,16 @@ export default {
             let materialBatchDTO = {
                 id: materialBatchId.value,
                 code: materialBatch.code,
-                materialName: materialBatch.materialName,
-                materialTypeId: materialBatch.materialTypeId,
+                // materialId: materialBatch.materialId,
+                // materialName: materialBatch.materialName,
+                // materialTypeId: materialBatch.materialTypeId,
                 unit: materialBatch.unit,
                 amount: materialBatch.amount,
                 displayExpiredDate: '',
                 receiptDate: materialBatch.receiptDate,
                 price: materialBatch.price,
-                sales: materialBatch.sales
+                sales: materialBatch.sales,
+                material
             };
             if (materialBatchId.value) {
                 materialBatchDTO["createdBy"] = materialBatch.createdBy;
@@ -258,11 +298,9 @@ export default {
             });
         }
 
-        function setMaterialChoose(material) {
-            materialBatch.materialId = material.id;
-            materialBatch.materialName = material.name;
-            materialBatch.unit = material.unit;
-            materialBatch.materialTypeId = material.materialType?.id;
+        function setMaterialChoose(materialChoose) {
+            setMaterial(materialChoose);
+            
             renderMaterials([]);
         }
 
@@ -276,6 +314,7 @@ export default {
 
         return {
             materialBatchId,
+            material,
             materialBatch,
             materials,
             materialTypes,

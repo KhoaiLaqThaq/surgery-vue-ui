@@ -58,8 +58,12 @@
             <!-- /address -->
         </div>
         <hr />
-        <div class="row mb-3">
+        <div class="d-flex mb-3">
             <TitleHeader :title="'Thông tin phiên khám'" />
+            <button class="btn btn-primary ms-auto" type="button" data-bs-toggle="modal" data-bs-target="#addPrescription"><PostIcon class="w-4" /> Kê đơn</button>
+            <AddPrescription @add-prescription="addPrescription($event)" />
+        </div>
+        <div class="row mb-3">
             <!-- diagnosis -->
             <div class="col-lg-3 col-md-6 col-xs-12 mb-3">
                 <div class="form-floating">
@@ -98,7 +102,7 @@
         <div class="row mb-3">
             <div class="table-container">
                 <div class="tr">
-                    <div class="th" v-for="(item, index) in tableHeaders" :key="index">
+                    <div class="th text-center" v-for="(item, index) in tableHeaders" :key="index">
                         <div class="th-title fw-bold"><span>{{ item.text }}</span><span>{{ item.acronym }}</span></div>
                     </div>
                 </div>
@@ -215,16 +219,19 @@ import { Form, Field, ErrorMessage } from "vee-validate";
 import DatepickerLite from "vue3-datepicker-lite";
 import BaseButton from '~~/components/common/BaseButton.vue';
 import BackButton from '~~/components/common/BackButton.vue';
+import PostIcon from '~~/assets/images/icons/PostIcon.vue';
 import {validateRequired, validateSelect} from '~~/services/common.js';
-import { genders } from "~~/constants/enum.js";
+import { genders, ParamName } from "~~/constants/enum.js";
 import TitleHeader from '~~/components/common/TitleHeader.vue';
 import PrinterIcon from '~~/assets/images/icons/actions/PrinterIcon.vue';
 
 import SessionService from '~~/services/model/session.service';
+import SystemParamService from '~~/services/model/systemParam.service';
 import { displayLocalDate_DDMMYYYY } from '~~/constants/format-date.js';
+import AddPrescription from '../common/modal/prescription/AddPrescription.vue';
 
 export default {
-    components: { DatepickerLite, Form, Field, ErrorMessage, TitleHeader, PrinterIcon, BaseButton, BackButton },
+    components: { DatepickerLite, Form, Field, ErrorMessage, TitleHeader, PrinterIcon, BaseButton, BackButton, PostIcon, AddPrescription },
     props: [ "id", "session" ],
     data() {
         const locale = {
@@ -254,6 +261,7 @@ export default {
     setup(props) {
         const { $showToast } = useNuxtApp();
         const sessionId = ref("");
+        const moneyService = ref(0);
         
         const patient = reactive({
             id: null,
@@ -276,7 +284,8 @@ export default {
             displayNextTime: "",
             totalPrice: 0,
             createdBy: "",
-            createdDate: ""
+            createdDate: "",
+            prescriptions: []
         });
         const sessionDetail = reactive({
             id: null,
@@ -288,13 +297,15 @@ export default {
             leftCYL: "", rightCYL: "",
             leftAXIS: "", rightAXIS: "",
             leftADD: "", rightADD: "",
-            leftPD: "", rightPD: ""
+            leftPD: "", rightPD: "",
+            prescriptions: []
         });
 
         watch([props], () => setSessionData());
 
         function setSessionData() {
             let sessionExisted = props.session;
+            console.log("sessionExisted: ", sessionExisted);
             if (sessionExisted) {
                 sessionId.value = sessionExisted.id;
                 session.code = sessionExisted.code;
@@ -305,7 +316,10 @@ export default {
                 session.status = sessionExisted.status;
                 session.nextTime = sessionExisted.nextTime;
                 session.displayNextTime = sessionExisted.nextTime;
+                session.createdBy = sessionExisted.createdBy;
+                session.createdDate = sessionExisted.createdDate;
                 session.totalPrice = sessionExisted.totalPrice;
+                session.prescriptions = sessionExisted.prescriptions;
                 setSessionDetail(sessionExisted.sessionDetail);
                 setPatient(sessionExisted.patient);
             }
@@ -348,6 +362,7 @@ export default {
 
         function onSubmit() {
             console.log("Entering onSubmit");
+            calculateTotalPrice();
             let sessionData = {
                 id: sessionId.value,
                 code: session.code,
@@ -357,27 +372,44 @@ export default {
                 note: session.note,
                 displayNextTime: session.displayNextTime,
                 totalPrice: session.totalPrice,
+                createdBy: session.createdBy,
+                createdDate: session.createdDate,
                 sessionDetail,
-                patient
+                patient,
+                prescriptions: session.prescriptions
             };
 
-            if (sessionId.value) {
-                sessionData["createdBy"] = session.createdBy;
-                sessionData["createdDate"] = session.createdDate;
-            }
-
             console.log("Session: ", sessionData);
-            SessionService.saveOrUpdate(sessionData)
+            // SessionService.saveOrUpdate(sessionData)
+            // .then((response) => {
+            //     let responseData = response.data;
+            //     if (responseData) {
+            //         console.log("responseData: ", responseData);
+            //         navigateTo("/session");
+            //     }
+            // })
+            // .catch((error) => {
+            //     console.log("Error: ", error);
+            // });
+        }
+
+        // TODO: get money for service
+        function calculateTotalPrice() {
+            SystemParamService.getByName(ParamName.MONEY_SERVICE)
             .then((response) => {
                 let responseData = response.data;
-                if (responseData) {
-                    console.log("responseData: ", responseData);
-                    navigateTo("/session");
+                if (responseData && responseData.paramValue) {
+                    moneyService.value = parseInt(responseData.paramValue);
+                    session.totalPrice += moneyService.value;
                 }
-            })
-            .catch((error) => {
+            }).catch((error) => {
                 console.log("Error: ", error);
-            });
+            })
+        } 
+
+        function addPrescription(e) {
+            console.log("prescription: ", e);
+            session.prescriptions = e;
         }
         
         return {
@@ -385,6 +417,7 @@ export default {
             genders,
 
             onSubmit,
+            addPrescription,
             setPatientDOB,
             setNextTime,
             validateRequired,
