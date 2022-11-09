@@ -58,11 +58,15 @@
             <!-- /address -->
         </div>
         <hr />
+
+        <!-- add-prescription -->
         <div class="d-flex mb-3">
             <TitleHeader :title="'Thông tin phiên khám'" />
             <button class="btn btn-primary ms-auto" type="button" data-bs-toggle="modal" data-bs-target="#addPrescription"><PostIcon class="w-4" /> Kê đơn</button>
-            <AddPrescription @add-prescription="addPrescription($event)" />
+            <AddPrescription @add-prescription="addPrescription($event)" :prescriptions="session.prescriptions" />
         </div>
+        <!-- /add-prescription -->
+
         <div class="row mb-3">
             <!-- diagnosis -->
             <div class="col-lg-3 col-md-6 col-xs-12 mb-3">
@@ -298,7 +302,7 @@ export default {
             leftAXIS: "", rightAXIS: "",
             leftADD: "", rightADD: "",
             leftPD: "", rightPD: "",
-            prescriptions: []
+            // prescriptions: []
         });
 
         watch([props], () => setSessionData());

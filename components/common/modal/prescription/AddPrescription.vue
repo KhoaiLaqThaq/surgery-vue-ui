@@ -64,7 +64,7 @@
     </div>
 </template>
 <script>
-import {ref, reactive, watch} from 'vue';
+import {ref, reactive, watch, computed} from 'vue';
 
 import BaseButton from '~~/components/common/BaseButton.vue';
 import Select2 from '~~/components/common/Select2.vue';
@@ -73,6 +73,7 @@ import IconPlus from '~~/assets/images/icons/IconPlus.vue';
 
 export default {
     components: { Select2, IconPlus, BaseButton },
+    props: [ "prescriptions" ],
     setup(props, {emit}) {
         const { $showToast } = useNuxtApp();
         const tableHeaders = [
@@ -105,6 +106,9 @@ export default {
         });
 
         watch([materialName], () => onLoadMaterialsByName());
+        watch([props], () => {
+                materialsInPrescriptions.value = props.prescriptions;
+        });
 
         function onLoadMaterialsByName() {
             if (materialName.value && materialName.value.length > 0) {
