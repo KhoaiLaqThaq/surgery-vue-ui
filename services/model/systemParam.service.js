@@ -11,7 +11,7 @@ class SystemParamService {
     }
 
     getByName(paramName) {
-        return api.get(`${CONFIG.PREFIX_API}/systemParam/name=${paramName}`);
+        return api.get(`${CONFIG.PREFIX_API}/systemParam?name=${paramName}`);
     }
 
     saveOrUpdate(data) {

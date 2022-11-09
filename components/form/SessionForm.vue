@@ -260,8 +260,8 @@ export default {
     },
     setup(props) {
         const { $showToast } = useNuxtApp();
+        const costService = ref(0);
         const sessionId = ref("");
-        const moneyService = ref(0);
         
         const patient = reactive({
             id: null,

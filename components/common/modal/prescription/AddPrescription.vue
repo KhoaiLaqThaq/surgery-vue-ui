@@ -20,10 +20,15 @@
                             <div class="tr bg-white material-item" v-for="(item, index) in materialsInPrescriptions" :key="index">
                                 <div class="td w-auto">{{ index + 1 }}</div>
                                 <div class="td">
-                                    <Select2 :id="index" class="minW-250" :title="'Tên thuốc'" :items="materials"
+                                    <Select2 class="minW-250" 
+                                        :id="index"
+                                        :title="'Tên thuốc'"
+                                        :items="materials"
                                         @change-value="listenerChangedValue($event)"
                                         @set-item-active="setItemActive($event)"
+                                        v-if="!item.id"
                                     />
+                                    <span class="fw-bold" v-else>{{ item.material?.name }}</span>
                                 </div>
                                 <div class="td">
                                     <div class="form-floating">
@@ -80,7 +85,7 @@ export default {
             // { text: "#" }
         ];
         const materialName = ref('');
-        const materials = ref({});
+        const materials = ref([]);
         const materialsInPrescriptions = ref([]);
         const material = reactive({
             id: null,
@@ -108,19 +113,18 @@ export default {
                 .then((response) => {
                     let responseData = response.data;
                     if (responseData) materials.value = responseData;
-                    else materials.value = [];
+                    else resetDataSelect2();
                 })
                 .catch((error) => {
                     console.log("Error: ", error);
                 })
-            } else {
-                materials.value = {};
-            }
+            } else resetDataSelect2();
+            
         }
 
         const addMaterialForPrescription = () => materialsInPrescriptions.value.push({});
         const listenerChangedValue = (e) => materialName.value = e;
-        const resetDataSelect2 = () => materials.value = {};
+        const resetDataSelect2 = () => materials.value = [];
 
         function setItemActive(e) {
             console.log("material: ", e);

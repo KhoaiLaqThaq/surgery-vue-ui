@@ -14,8 +14,13 @@
                     <span class="select2_search"><SearchIcon /></span>
                     <input type="text" v-model="fieldValue" @input="autoSearching()" class="form-control" />
                 </li>
-                <li class="select2__item zoom-in-little" v-for="(item, index) in items"
-                    :key="index" @click="setSelectedItem(item, id)">{{ item.name != null ? displayAmountCharacters(25, item.name) : '' }}</li>
+                <li class="select2__item zoom-in-little"
+                    v-for="(item, index) in items"
+                    :key="index" 
+                    @click="setSelectedItem(item, id)"
+                >
+                    {{ item.name != null ? displayAmountCharacters(25, item.name) : '' }}
+                </li>
             </ul>
         </div>
     </div>
