@@ -205,7 +205,24 @@
             </div>
             <!-- /note -->
         </div>
-        <hr>
+
+        <div class="row mb-3">
+            <!-- <div class="col-12">
+                <div class="form-group">
+                    <label>Phí dịch vụ khám: </label>
+                    <div class="form-control">
+                        {{ costService }}
+                    </div>
+                </div>
+            </div> -->
+            <label class="form-label">Phí khám</label>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" disabled v-model="costService">
+                <span class="input-group-text bg-primary text-white fw-bold cursor-pointer" @click="freeForCostService">Miễn phí</span>
+            </div>
+        </div>
+
+        <hr class="hr">
         <div class="row">
             <div class="col-6">
                 <BackButton class="btn-primary box ms-auto" :btnType="'button'" :name="'Quay lại'" :textSize="'text-small'" :routePush="'/session'"/>
@@ -289,6 +306,7 @@ export default {
             totalPrice: 0,
             createdBy: "",
             createdDate: "",
+            freeCostService: true,
             prescriptions: []
         });
         const sessionDetail = reactive({
@@ -323,6 +341,7 @@ export default {
                 session.createdBy = sessionExisted.createdBy;
                 session.createdDate = sessionExisted.createdDate;
                 session.totalPrice = sessionExisted.totalPrice;
+                session.freeCostService = sessionExisted.freeCostService;
                 session.prescriptions = sessionExisted.prescriptions;
                 setSessionDetail(sessionExisted.sessionDetail);
                 setPatient(sessionExisted.patient);
@@ -363,10 +382,21 @@ export default {
 
         const setPatientDOB = (e) => patient.displayDob = e;
         const setNextTime = (e) => session.displayNextTime = e;
+        const freeForCostService = () => costService.value = 0;
+
+        // TODO: this function will be add prescriptions to session and re-calculate session totalPrice.
+        const addPrescription = (e) => {
+            session.prescriptions = e;
+            for (let i = 0; i < e.length; i++) {
+                session.totalPrice += e[i].totalPrice;
+            }
+        };
 
         function onSubmit() {
             console.log("Entering onSubmit");
-            calculateTotalPrice();
+            // TODO: this code will be calculateTotalPrice with the cost service
+            session.totalPrice += costService.value;
+            // TODO: format data before commit
             let sessionData = {
                 id: sessionId.value,
                 code: session.code,
@@ -378,47 +408,42 @@ export default {
                 totalPrice: session.totalPrice,
                 createdBy: session.createdBy,
                 createdDate: session.createdDate,
+                freeCostService: session.freeCostService,
                 sessionDetail,
                 patient,
                 prescriptions: session.prescriptions
             };
 
             console.log("Session: ", sessionData);
-            // SessionService.saveOrUpdate(sessionData)
-            // .then((response) => {
-            //     let responseData = response.data;
-            //     if (responseData) {
-            //         console.log("responseData: ", responseData);
-            //         navigateTo("/session");
-            //     }
-            // })
-            // .catch((error) => {
-            //     console.log("Error: ", error);
-            // });
+            SessionService.saveOrUpdate(sessionData)
+            .then((response) => {
+                let responseData = response.data;
+                if (responseData) {
+                    // console.log("responseData: ", responseData);
+                    navigateTo("/session");
+                }
+            })
+            .catch((error) => {
+                console.log("Error: ", error);
+            });
         }
 
         // TODO: get money for service
-        function calculateTotalPrice() {
+        function getCostSerivce() {
             SystemParamService.getByName(ParamName.MONEY_SERVICE)
             .then((response) => {
                 let responseData = response.data;
-                if (responseData && responseData.paramValue) {
-                    moneyService.value = parseInt(responseData.paramValue);
-                    session.totalPrice += moneyService.value;
-                }
-            }).catch((error) => {
+                if (responseData && responseData.paramValue) costService.value = parseInt(responseData.paramValue);
+            })
+            .catch((error) => {
                 console.log("Error: ", error);
             })
-        } 
-
-        function addPrescription(e) {
-            console.log("prescription: ", e);
-            session.prescriptions = e;
         }
         
         return {
             patient, session, sessionDetail,
             genders,
+            costService,
 
             onSubmit,
             addPrescription,
@@ -426,8 +451,13 @@ export default {
             setNextTime,
             validateRequired,
             validateSelect,
-            displayLocalDate_DDMMYYYY
+            getCostSerivce,
+            displayLocalDate_DDMMYYYY,
+            freeForCostService
         }
+    },
+    mounted() {
+        this.getCostSerivce();
     }
 }
 </script>
