@@ -7,7 +7,7 @@
             <div class="auth-logo">
               <nuxt-link to="/" class="text-center">
                 <span class="logo-lg">
-                  <img src="~/assets/images/logo-mavin2.jpeg" alt="" height="200" />
+                  <img src="~/assets/images/logo/logomavin.png" alt="" height="200" />
                 </span>
               </nuxt-link>
             </div>

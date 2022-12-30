@@ -29,4 +29,3 @@ export function validateSelect(value) {
   if (!value) return Message.required;
   return true;
 }
-
