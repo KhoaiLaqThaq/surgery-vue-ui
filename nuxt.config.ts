@@ -23,18 +23,20 @@ export default {
   },
   css: [
     "@/assets/scss/custom.scss",
+    "@/assets/scss/sizing.scss",
     "@/assets/scss/select2.scss",
     "@/assets/scss/pagination.scss",
     "@fortawesome/fontawesome-svg-core/styles.css",
   ],
   plugins: [
-    { src: "~/plugins/editor-vue.js" },
-    { src: "~/plugins/fort-awesome.js" },
+    { src: "~/plugins/fontawesome.js" },
     { src: "~/plugins/i-fetch.js" },
     { src: "~/plugins/number-format.js" }
   ],
   components: true,
-  buildModules: [],
+  buildModules: [
+    '@nuxt/image'
+  ],
   build: {
     transpile: [
       "chartjs"
@@ -51,6 +53,10 @@ export default {
   },
   pageTransition: {
     name: 'page',
+    mode: 'out-in'
+  },
+  layoutTransition: {
+    name: 'layout',
     mode: 'out-in'
   }
 };

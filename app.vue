@@ -1,17 +1,12 @@
 <template>
   <div id="main" class="auto-scroll-y">
-    <NuxtLayout :name="layout">
-      <!-- <NuxtPage /> -->
-    </NuxtLayout>
+    <NuxtLayout :name="layout"></NuxtLayout>
   </div>
 </template>
 
 <script>
 import { ref, watch } from 'vue';
 import "bootstrap";
-
-import VueJwtDecode from 'vue-jwt-decode';
-import camelcaseKeys from 'camelcase-keys';
 
 import TokenService from "~~/services/model/token.service";
 
@@ -88,5 +83,14 @@ export default {
 .page-leave-to {
   opacity: 0;
   filter: blur(1rem);
+}
+.layout-enter-active,
+.layout-leave-active {
+  transition: all 0.4s;
+}
+.layout-enter-from,
+.layout-leave-to {
+  filter: blur(1rem);
+  opacity: 0
 }
 </style>
