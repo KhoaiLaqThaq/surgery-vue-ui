@@ -4,7 +4,7 @@
       <div class="th" v-for="(item, index) in headers" :key="index">{{ item.text }}</div>
       <div class="th" v-if="actionEdit || actionDelete">Hành động</div>
     </div>
-    <div class="tr" v-for="(item, index) in items" :key="index">
+    <div class="tr zoom-in-little" v-for="(item, index) in items" :key="index">
       <div class="td">{{ index + 1 + page*size }}</div>
       <div class="td">{{ item.name }}</div>
       <div class="td" v-if="actionEdit || actionDelete">

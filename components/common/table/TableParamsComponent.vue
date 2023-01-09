@@ -9,7 +9,7 @@
       </div>
     </div>
 
-    <div class="tr" v-for="(item, index) in items" :key="index">
+    <div class="tr zoom-in-little" v-for="(item, index) in items" :key="index">
       <div class="td">{{ index + 1 }}</div>
       <div class="td">{{ item.paramName }}</div>
       <div class="td">{{ item.paramValue }}</div>
