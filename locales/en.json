@@ -1,0 +1,59 @@
+{
+    "hello": "Hello, {name}!",
+    "label": {
+        "action": {
+            "fast": "Actions",
+            "newSession": "Add Session",
+            "newPrescription": "Add Prescription",
+            "newMaterialBatch": "Add Material Batch",
+            "newMaterial": "Add Material",
+            "apply": "Apply",
+            "removeFilter": "Remove Filter"
+        },
+        "transaction": {
+            "text": "Transaction",
+            "recents": "Transaction recents"
+        },
+        "showMore": {
+            "text": "Show More"
+        },
+        "search": {
+            "text": "Search",
+            "keyword": "Searching by keywords",
+            "phone": "Searching by phone",
+            "parent": "Searching by parent name"
+        },
+        "session": {
+            "code": "Session Code",
+            "diagnosis": "Diagnosis",
+            "symptom": "Symptom",
+            "fromDate": "From Date",
+            "toDate": "To Date",
+            "status": "Status"
+        },
+        "statistic": {
+            "text": "Statistics",
+            "fromDate": "From Date",
+            "toDate": "To Date",
+            "income": "Income",
+            "session": "Session",
+            "patient": "Patient",
+            "importMoney": "Import Money"
+        },
+        "sidebar": {
+            "home": "Home",
+            "system": "System management",
+            "user": "User management",
+            "systemParams": "Parameters management",
+            "common": "Common management",
+            "material": "Material management",
+            "materialType": "Material type management",
+            "materialBatch": "Material batch management",
+            "patient": "Patient management",
+            "session": "Session management"
+        },
+        "patient": {
+            "name": "Patient name"
+        }
+    }
+}

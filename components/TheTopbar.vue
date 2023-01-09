@@ -1,9 +1,10 @@
 <template>
   <div class="top-bar">
-    <nav class="me-auto hidden-xs">
+    <font-awesome-icon icon="fa-solid fa-bars" class="s30x30 cursor-pointer text-theme" />
+    <nav class="me-auto hidden-xs ms-3">
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <NuxtLink to="/">MyMavin</NuxtLink>
+          <NuxtLink to="/">Surgery</NuxtLink>
         </li>
         <li class="breadcrumb-item active">
           <span>{{routeNameState == "index" ? "Trang chủ" : routeNameState}}</span>
@@ -13,6 +14,11 @@
 
     <div class="me-auto d-none show-xs">
       <span @click="toggleSidebar()"><AlignJustifyIcon /></span>
+    </div>
+
+    <div class="locales me-3">
+      <img src="@/assets/images/flag_us.png" class="zoom-in-little" height="20" width="30" alt="US" @click="$i18n.locale = 'en'">
+      <img src="@/assets/images/flag_vi.png" class="zoom-in-little" height="20" width="30" alt="VI" @click="$i18n.locale = 'vi'">
     </div>
 
     <div class="dropdown me-4">
@@ -48,7 +54,6 @@
   </div>
 </template>
 <script>
-import { ref, watch } from "vue";
 import RingIcon from "~~/assets/images/icons/RingIcon.vue";
 import UserIcon from "~~/assets/images/icons/UserIcon.vue";
 import IconLock from "~~/assets/images/icons/IconLock.vue";
@@ -67,9 +72,7 @@ export default {
     const routeNameState = useRouteActive();
     const token = useToken();
     const currentUser = useCurrentUser();
-
     function logout() {
-      console.log('entering logout()...')
       token.value = '';
       localStorage.clear();
     }
@@ -85,6 +88,15 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-
+<style lang="scss" scoped>
+.locales {
+  img {
+    margin-right: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    &.active {
+      border: 3px solid #0097ff8c;
+    }
+  }
+}
 </style>

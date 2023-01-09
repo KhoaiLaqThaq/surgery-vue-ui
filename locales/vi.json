@@ -1,0 +1,59 @@
+{
+    "hello": "Xin chào, {name}!",
+    "label": {
+        "action": {
+            "fast": "Thao tác nhanh",
+            "newSession": "Thêm phiên khám",
+            "newPrescription": "Thêm đơn thuốc",
+            "newMaterialBatch": "Thêm lô vật tư",
+            "newMaterial": "Thêm vật tư mới",
+            "apply": "Áp dụng",
+            "removeFilter": "Bỏ lọc"
+        },
+        "transaction": {
+            "text": "Giao dịch",
+            "recents": "Các giao dịch gần đây"
+        },
+        "showMore": {
+            "text": "Hiển thị thêm"
+        },
+        "search": {
+            "text": "Tìm kiếm",
+            "keyword": "Tìm kiếm từ khóa",
+            "phone": "Tìm kiếm số điện thoại",
+            "parent": "Tìm kiếm tên người nhà"
+        },
+        "session": {
+            "code": "Mã phiên khám",
+            "diagnosis": "Chuẩn đoán",
+            "symptom": "Triệu chứng",
+            "fromDate": "Từ ngày khám",
+            "toDate": "Đến ngày",
+            "status": "Trạng thái"
+        },
+        "statistic": {
+            "text": "Các thông kê",
+            "fromDate": "Từ ngày",
+            "toDate": "Đến ngày",
+            "income": "Doanh thu",
+            "session": "Lượt khám bệnh",
+            "patient": "Người khám bệnh",
+            "importMoney": "Tiền nhập vật tư"
+        },
+        "sidebar": {
+            "home": "Trang chủ",
+            "system": "Quản lý hệ thống",
+            "user": "Quản lý người dùng",
+            "systemParams": "Quản lý tham số hệ thống",
+            "common": "Quản lý chung",
+            "material": "Quản lý vật tư",
+            "materialType": "Quản lý loại vật tư",
+            "materialBatch": "Quản lý lô vật tư",
+            "patient": "Quản lý bệnh nhân",
+            "session": "Quản lý phiên khám"
+        },
+        "patient": {
+            "name": "Tên bệnh nhân"
+        }
+    }
+}
