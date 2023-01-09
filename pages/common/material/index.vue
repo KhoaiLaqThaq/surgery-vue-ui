@@ -40,6 +40,7 @@ export default {
         const size = ref(10);
         const conditionSearch = reactive({
             keyword: "",
+            materialName: "",
             minPrice: 0,
             maxPrice: 0
         });
@@ -54,12 +55,12 @@ export default {
         });
 
         let tableHeaders = [
-            { text: 'STT', value: 'id', classCss: 'hidden-xs' },
-            { text: 'Mã vật tư', value: 'code', classCss: 'hidden-xs'},
-            { text: 'Tên vật tư', value: 'name', classCss: 'radius-xs-top-left-20'},
-            { text: 'Thành phần', value: 'composition'},
-            { text: 'Giá nhập', value: 'price', classCss: 'minW-100'},
-            { text: 'Giá bán', value: 'sales', classCss: 'minW-100'}
+            { text: 'STT', value: 'id', classCss: 'hidden-xs', classCss: 'list__header__no' },
+            { text: 'Mã vật tư', value: 'code', classCss: 'list__header__code hidden-xs'},
+            { text: 'Tên vật tư', value: 'name', classCss: 'list__header__name radius-xs-top-left-20'},
+            { text: 'Thành phần', value: 'composition', classCss: 'list__header__composition'},
+            { text: 'Giá nhập', value: 'price', classCss: 'list__header__price minW-100'},
+            { text: 'Giá bán', value: 'sales', classCss: 'list__header__sales minW-100'}
         ];
 
         function setPagination(data) {
@@ -77,6 +78,7 @@ export default {
             let criteria = {
                 page: page.value,
                 size: size.value,
+                name: conditionSearch.materialName,
                 keyword: conditionSearch.keyword,
                 minPrice: conditionSearch.minPrice,
                 maxPrice: conditionSearch.maxPrice
@@ -94,9 +96,11 @@ export default {
         }
 
         function listenerRangePriceChange(e) {
+            console.log('$e', e)
             conditionSearch.keyword = e.keyword;
             conditionSearch.minPrice = e.minPrice;
             conditionSearch.maxPrice = e.maxPrice;
+            conditionSearch.materialName = e.materialName;
             searchCallApi();
         }
 

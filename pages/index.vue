@@ -1,15 +1,36 @@
 <template>
-  <div class="row">
-    <div class="d-flex my-3">
-      <h6 class="fw-bold">Báo cáo nhanh tháng này</h6>
+  <div class="mt-3">
+    <div class="row">
+      <div class="col-md-9">
+        <!-- truy cap nhanh -->
+        <access-smart></access-smart>
+        <!-- /truy cap nhanh -->
+        <hr class="hr"/>
+
+        <!-- bao cao/thong ke nhanh -->
+        <statistic></statistic>
+        <!-- /bao cao/thong ke nhanh -->
+      </div>
+
+      <div class="col-md-3 border-x">
+        <session-report></session-report>
+      </div>
     </div>
+
+    
   </div>
 </template>
 <script>
-import TitleHeader from '~~/components/common/TitleHeader.vue';
+import AccessSmart from '~~/components/dashboard/AccessSmart.vue';
+import SessionReport from '~~/components/dashboard/SessionReport.vue';
+import Statistic from '~~/components/dashboard/statistic';
 
 export default {
-    components: { TitleHeader },
+    components: { 
+      AccessSmart,
+      SessionReport,
+      Statistic
+     },
     setup() {
       return {
         
