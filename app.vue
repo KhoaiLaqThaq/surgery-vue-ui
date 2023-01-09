@@ -7,6 +7,7 @@
 <script>
 import { ref, watch } from 'vue';
 import "bootstrap";
+import '@vuepic/vue-datepicker/dist/main.css'
 
 import TokenService from "~~/services/model/token.service";
 

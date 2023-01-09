@@ -1,7 +1,7 @@
 export default {
   ssr: false,
   head: {
-    title: "H-Dashboard",
+    title: "Surgery",
     htmlAttrs: {
       lang: "en",
     },
@@ -23,6 +23,7 @@ export default {
   },
   css: [
     "@/assets/scss/custom.scss",
+    "@/assets/scss/position.scss",
     "@/assets/scss/sizing.scss",
     "@/assets/scss/select2.scss",
     "@/assets/scss/pagination.scss",
@@ -31,7 +32,8 @@ export default {
   plugins: [
     { src: "~/plugins/fontawesome.js" },
     { src: "~/plugins/i-fetch.js" },
-    { src: "~/plugins/number-format.js" }
+    { src: "~/plugins/number-format.js" },
+    { src: "~/plugins/i18n.ts"}
   ],
   components: true,
   buildModules: [
@@ -39,7 +41,8 @@ export default {
   ],
   build: {
     transpile: [
-      "chartjs"
+      "chartjs",
+      "@vuepic/vue-datepicker"
     ]
   },
   modules: [],
