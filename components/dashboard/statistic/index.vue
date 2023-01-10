@@ -6,10 +6,10 @@
     </div>
   </div>
   <div class="row statistic">
-    <statistic-item-import-money :statistic="statistic"></statistic-item-import-money>
-    <statistic-item-income :statistic="statistic"></statistic-item-income>
-    <statistic-item-session :statistic="statistic"></statistic-item-session>
-    <statistic-item-patient :statistic="statistic"></statistic-item-patient>
+    <statistic-item-import-money :statistic="statistic" class="mb-3"></statistic-item-import-money>
+    <statistic-item-income :statistic="statistic" class="mb-3"></statistic-item-income>
+    <statistic-item-session :statistic="statistic" class="mb-3"></statistic-item-session>
+    <statistic-item-patient :statistic="statistic" class="mb-3"></statistic-item-patient>
   </div>
 </template>
 <script>
@@ -40,20 +40,13 @@ export default {
       statistic.totalPatient = data.totalPatient;
     }
 
-    function changeStatisticFilter(e) {
-      console.log("filter: ", e);
-      let request = {
-        range: e
-      }
-      searchStatistic(request)
-    }
+    const changeStatisticFilter = (e) => searchStatistic({ range: e })
     
     function searchStatistic(range) {
       DashboardService.getStatistic(range)
         .then(response => {
           let data = response.data;
           if (data) {
-            console.log(data);
             setStatistic(data);
           }
         })

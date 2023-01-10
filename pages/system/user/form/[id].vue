@@ -2,7 +2,7 @@
     <UserForm class="mt-3" :id="id" :user="user" />
 </template>
 <script>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 import UserForm from "~~/components/form/UserForm.vue";
@@ -13,7 +13,7 @@ export default {
     setup() {
         const { $showToast } = useNuxtApp();
         const route = useRoute();
-        const id = ref(route.params?.id);
+        const id = computed(() => route.params?.id);
         const user = ref({});
 
         function getUserById() {

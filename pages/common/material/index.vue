@@ -42,7 +42,7 @@ export default {
             keyword: "",
             materialName: "",
             minPrice: 0,
-            maxPrice: 0
+            maxPrice: 1000000
         });
         const pageDto = reactive({
             content: [],

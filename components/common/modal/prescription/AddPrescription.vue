@@ -113,7 +113,7 @@ export default {
         function onLoadMaterialsByName() {
             if (materialName.value && materialName.value.length > 0) {
                 resetDataSelect2();
-                MaterialService.searchMaterialsByName({name: materialName.value})
+                MaterialService.searchMaterialsByNameAndTotalExist({name: materialName.value})
                 .then((response) => {
                     let responseData = response.data;
                     if (responseData) materials.value = responseData;

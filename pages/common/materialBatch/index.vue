@@ -76,6 +76,7 @@ export default {
             { text: "Vật tư", value: "materialName"},
             { text: "Đơn vị", value: "unit"},
             { text: "Số lượng", value: "amount"},
+            { text: "Tồn kho", value: "amount"},
             { text: "Giá nhập", value: "price"},
             { text: "Ngày nhập", value: "receiptDate"}
         ];

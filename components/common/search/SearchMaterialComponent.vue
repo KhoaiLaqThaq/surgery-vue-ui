@@ -11,10 +11,10 @@
             <span class="filter-title">{{ priceTitle }}</span>
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" v-model="conditionSearch.keyword">
+            <input type="text" class="form-control" id="keyword" v-model="conditionSearch.keyword">
         </div>
         <div class="form-group ms-auto">
-            <button class="btn btn-secondary" @click="updateConditionSearch()">Tìm kiếm</button>
+            <button class="btn btn-secondary btnSubmit" @click="updateConditionSearch()">Tìm kiếm</button>
         </div>
         <!-- modal -->
         <MultiRange 
@@ -27,7 +27,7 @@
         />
         <ConditionFilter
             @updateConditionFilter="listenerConditionFilterChange($event)" 
-            :modalTitle="'Lọc Kết Quả'" 
+            :modalTitle="'Filter'" 
             :minValue="rangeValue.minValue"
             :maxValue="rangeValue.maxValue"
             :minValueCurrent="conditionSearch.minPrice"

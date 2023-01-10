@@ -19,6 +19,10 @@ class MaterialService {
         return api.post(`${CONFIG.PREFIX_API}/material/name`, criteria);
     }
 
+    searchMaterialsByNameAndTotalExist(criteria) {
+        return api.post(`${CONFIG.PREFIX_API}/material/nameAndTotalExist`, criteria);
+    }
+
     saveOrUpdate(material) {
         return api.post(`${CONFIG.PREFIX_API}/material`, material);
     }

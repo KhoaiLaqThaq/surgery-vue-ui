@@ -29,7 +29,18 @@
             "symptom": "Symptom",
             "fromDate": "From Date",
             "toDate": "To Date",
-            "status": "Status"
+            "status": "Status",
+            "leftEye": "Left Eye",
+            "rightEye": "Right Eye",
+            "bloodPressure": "Blood Pressure",
+            "weight": "Weight",
+            "heartbeat": "Heartbeat",
+            "nextTime": "Next Time",
+            "treatmentPlan": "Treatment Plan",
+            "note": "Note",
+            "cost": "Cost Service",
+            "free": "Free",
+            "detail": "Session details"
         },
         "statistic": {
             "text": "Statistics",
@@ -53,7 +64,10 @@
             "session": "Session management"
         },
         "patient": {
-            "name": "Patient name"
+            "name": "Patient name",
+            "phone": "Patient phone",
+            "gender": "Gender",
+            "address": "Address"
         }
     }
 }

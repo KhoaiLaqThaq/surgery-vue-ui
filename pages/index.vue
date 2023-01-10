@@ -16,8 +16,6 @@
         <session-report></session-report>
       </div>
     </div>
-
-    
   </div>
 </template>
 <script>
@@ -26,16 +24,6 @@ import SessionReport from '~~/components/dashboard/SessionReport.vue';
 import Statistic from '~~/components/dashboard/statistic';
 
 export default {
-    components: { 
-      AccessSmart,
-      SessionReport,
-      Statistic
-     },
-    setup() {
-      return {
-        
-      }
-    }
+    components: { AccessSmart, SessionReport, Statistic }
 };
 </script>
-<style lang=""></style>

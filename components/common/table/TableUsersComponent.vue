@@ -4,7 +4,7 @@
       <div class="th" v-for="(item, index) in headers" :key="index">{{ item.text }}</div>
       <div class="th pe-3" v-if="actionEdit || actionDelete">Hành động</div>
     </div>
-    <div class="tr zoom-in-little" v-for="(item, index) in items" :key="index" @click="rowActive($event)">
+    <div class="tr zoom-in-little" v-for="(item, index) in items" :key="index">
       <div class="td text-center hidden-xs">{{ index + 1 + page*size }}</div>
       <div class="td">{{ item.username }}</div>
       <div class="td hidden-xs">{{ item.email }}</div>
@@ -32,15 +32,8 @@ export default {
   props: ["headers", "items", "actionEdit", "actionDelete", "page", "size", "routerPush"],
   setup() {
     const displayUserActive = (enabled) => enabled == 0 ? 'Khóa' : 'Hoạt động';
-
-    function rowActive(e) {
-      console.log('rowActive', e)
-      e.classList.toggle("rowActive")
-    }
-
     return {
       displayUserActive,
-      rowActive
     }
   }
 };

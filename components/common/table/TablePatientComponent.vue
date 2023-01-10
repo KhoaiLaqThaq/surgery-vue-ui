@@ -28,10 +28,10 @@
 
             <div class="td pe-3" v-if="actionEdit || actionDelete">
                 <div class="action-group d-flex">
-                    <NuxtLink :to="routerPush + '/' + item.id" v-if="actionEdit && useCurrentsRole(currentRole, [ROLES.ROLE_ADMIN])">
+                    <NuxtLink :to="routerPush + '/' + item.id" v-if="actionEdit">
                         <EditIcon /> <span class="ms-1">Sửa</span>
                     </NuxtLink>
-                    <div v-if="actionDelete && useCurrentsRole(currentRole, [ROLES.ROLE_ADMIN])" class="ms-3 cursor-pointer text-danger">
+                    <div v-if="actionDelete " class="ms-3 cursor-pointer text-danger">
                         <DeleteIcon @click="deletePatient(item.id)" /> <span class="ms-1">Xóa</span>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
 </template>
 <script>
 import { ref } from 'vue';
-import { useCurrentsRole } from "~~/services/common.js";
+// import { useCurrentsRole } from "~~/services/common.js";
 
 import PostIcon from "~~/assets/images/icons/PostIcon.vue";
 import EditIcon from "~~/assets/images/icons/actions/EditIcon.vue";
@@ -66,7 +66,7 @@ export default {
     },
     props: ["headers", "items", "actionEdit", "actionDelete", "page", "size", "routerPush"],
     setup(props, {emit}) {
-        const currentRole = useCurrentRole();
+        // const currentRole = useCurrentRole();
         const { $showToast } = useNuxtApp();
         const patientActive = ref({});
 
@@ -91,10 +91,10 @@ export default {
 
         return {
             ROLES,
-            currentRole,
+            // currentRole,
             patientActive,
 
-            useCurrentsRole,
+            // useCurrentsRole,
             deletePatient,
             displayGender,
             displayLocalDate,

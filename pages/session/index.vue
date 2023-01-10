@@ -1,9 +1,6 @@
 <template>
     <div class="mt-3">
-        <SearchSessionComponent 
-            class="mb-3"
-            @updateConditionSearch="listenerChangedConditionSearch($event)"
-        />
+        <SearchSessionComponent class="mb-3" @updateConditionSearch="listenerChangedConditionSearch($event)" />
 
         <div class="d-flex mb-3">
             <TitleHeader :title="titlePage" />
@@ -24,25 +21,14 @@ import { useCurrentsRole } from '~~/services/common.js';
 import { sessionStatusList } from "~~/constants/enum.js";
 import TitleHeader from '~~/components/common/TitleHeader.vue';
 import AddButton from '~~/components/common/AddButton.vue';
-import DatepickerLite from "vue3-datepicker-lite";
 import SessionService from '~~/services/model/session.service';
 import TableSessionComponent from '~~/components/common/table/TableSessionComponent.vue';
 import Pagination from '~~/components/common/table/Pagination.vue';
 import SearchSessionComponent from '~~/components/common/search/SearchSessionComponent.vue';
 
 export default {
-    components: { TitleHeader, AddButton, DatepickerLite, TableSessionComponent, Pagination, SearchSessionComponent },
+    components: { TitleHeader, AddButton, TableSessionComponent, Pagination, SearchSessionComponent },
     data() {
-        const locale = {
-            format: "DD/MM/YYYY",
-            weekday: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-            months: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
-            startsWeeks: 0,
-            todayBtn: "Today",
-            clearBtn: "Clear",
-            closeBtn: "Close",
-        };
-
         const tableHeaders = [
             { text: "STT", value: "id", classCss: "hidden-xs"},
             { text: "Mã", value: "code", classCss: "radius-xs-top-left-20"},
@@ -54,7 +40,6 @@ export default {
         ];
 
         return {
-            locale: locale,
             tableHeaders: tableHeaders,
             sessionStatusList: sessionStatusList,
             titlePage: "Quản lý danh sách phiên khám",
@@ -80,7 +65,9 @@ export default {
             patientName: "",
             diagnosis: "",
             symptom: "",
-            status: null
+            status: null,
+            searchFromDate: null,
+            searchToDate: null
         });
         const displaySearchFromDate = ref("");
         const displaySearchToDate = ref("");
@@ -116,8 +103,8 @@ export default {
                 diagnosis: conditionSearch.diagnosis,
                 symptom: conditionSearch.symptom,
                 status: conditionSearch.status,
-                displaySearchFromDate: displaySearchFromDate.value,
-                displaySearchToDate: displaySearchToDate.value
+                searchFromDate: conditionSearch.searchFromDate,
+                searchToDate: conditionSearch.searchToDate
             };
 
             SessionService.search(criteria)
@@ -141,8 +128,8 @@ export default {
             conditionSearch.diagnosis = e.diagnosis;
             conditionSearch.symptom = e.symptom;
             conditionSearch.status = e.status;
-            displaySearchFromDate.value = e.filterFromDate;
-            displaySearchToDate.value = e.filterToDate;
+            conditionSearch.searchFromDate = e.filterFromDate;
+            conditionSearch.searchToDate = e.filterToDate;
             searchCallApi();
         }
 

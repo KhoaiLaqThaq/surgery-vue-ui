@@ -28,8 +28,22 @@ export const displayLocalDate_DDMMYYYY = (date) =>{
     return "";
 }
 
-export default {
-    getNowDate,
-    displayLocalDate,
-    displayLocalDate_DDMMYYYY
-};
+export const formatDDMMYYYY = (date) => {
+    if (date) {
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`
+    }
+    return ''
+}
+
+export const convertDobTo_DDMMYYYY = (date) => {
+    if (date) {
+        const day = date[2];
+        const month = date[1];
+        const year = date[0];
+        return `${day}/${month}/${year}`
+    }
+    return ''
+} 

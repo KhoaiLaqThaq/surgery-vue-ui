@@ -3,7 +3,7 @@
         <div class="session-container__detail">
             <div class="session-header">
                 <div class="d-flex">
-                    <div class="title fw-bold">Chi tiết phiên khám</div>
+                    <div class="title fw-bold">{{ $t('label.session.detail') }}</div>
                     <div class="header-items ms-auto text-primary cursor-pointer">
                         <div class="prescription" @click="onClickToGetPrescriptions(session.id)" data-bs-toggle="modal" data-bs-target="#prescriptionModal">
                             <PostIcon class="w-4" /> <span class="pd-2">Đơn thuốc</span>
@@ -17,48 +17,48 @@
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-xs-12 mb-3">
                     <div class="form-group">
-                        <label>Mã:</label><span class="ps-3">{{ session.code }}</span>
+                        <label>{{ $t('label.session.code') }}:</label><span class="ps-3">{{ session.code }}</span>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 col-xs-12 mb-3">
-                    <label>Chuẩn đoán: </label><span class="ps-3">{{ session.diagnosis }}</span>
+                    <label>{{ $t('label.session.diagnosis') }}: </label><span class="ps-3">{{ session.diagnosis }}</span>
                 </div>
                 <div class="col-lg-4 col-md-6 col-xs-12 mb-3">
-                    <label>Triệu chứng: </label><span class="ps-3">{{ session.symptom }}</span>
+                    <label>{{ $t('label.session.symptom') }}: </label><span class="ps-3">{{ session.symptom }}</span>
                 </div>
                 <div class="col-lg-4 col-md-6 col-xs-12 mb-3">
-                    <label>Huyết áp:</label><span class="ps-3">{{ session.bloodPressure }}</span>
+                    <label>{{ $t('label.session.bloodPressure') }}:</label><span class="ps-3">{{ session.bloodPressure }}</span>
                 </div>
                 <div class="col-lg-4 col-md-6 col-xs-12 mb-3">
-                    <label>Mắt trái:</label><span class="ps-3">{{ session.leftEye }}</span>
+                    <label>{{ $t('label.session.leftEye') }}:</label><span class="ps-3">{{ session.leftEye }}</span>
                 </div>
                 <div class="col-lg-4 col-md-6 col-xs-12 mb-3">
-                    <label>Mắt phải:</label><span class="ps-3">{{ session.rightEye }}</span>
+                    <label>{{ $t('label.session.rightEye') }}:</label><span class="ps-3">{{ session.rightEye }}</span>
                 </div>
                 <div class="col-12 mb-3">
-                    <label>Pháp đồ điều trị:</label>
+                    <label>{{ $t('label.session.treatmentPlan') }}:</label>
                     <textarea class="form-control h-auto minH-200 auto-scroll-y" disabled :value="session.treatmentPlan"></textarea>
                 </div>
                 <div class="col-12 mb-3">
-                    <label>Ghi chú:</label>
+                    <label>{{ $t('label.session.note') }}:</label>
                     <p v-if="session.note">{{ session.note }}</p>
                     <p v-else>Updating...</p>
                 </div>
                 
                 <div class="col-lg-4 col-md-6 col-xs-12 mb-3">
                     <div class="form-group">
-                        <label>Trạng thái:</label>
+                        <label>{{ $t('label.session.status') }}:</label>
                         <span class="ps-3">{{ displaySessionStatus(session.status) }}</span>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 col-xs-12 mb-3">
-                    <label>Lịch tái khám:</label>
+                    <label>{{ $t('label.session.nextTime') }}:</label>
                     <span v-if="session.nextTime" class="ps-3">{{ displayLocalDate_DDMMYYYY(session.nextTime) }}</span>
                     <span v-else class="ps-3 text-warning">Không có</span>
                 </div>
                 <div class="col-lg-4 col-md-6 col-xs-12 mb-3">
                     <label>Thành tiền:</label>
-                    <span class="ps-3 fw-bold text-lg">{{ session.totalPrice }} ₫</span>
+                    <span class="ps-3 fw-bold text-lg" v-if="session.totalPrice">{{ $n(session.totalPrice) }} ₫</span>
                 </div>
             </div>
         </div>
@@ -70,7 +70,7 @@ import PostIcon from "~~/assets/images/icons/PostIcon.vue";
 
 import { displayLocalDate_DDMMYYYY } from "~~/constants/format-date.js";
 import PrescriptionService from "~~/services/model/prescription.service";
-import PrescriptionList from '../common/modal/prescription/PrescriptionList.vue';
+import PrescriptionList from '~~/components/common/modal/prescription/PrescriptionList.vue';
 
 export default {
     components: {

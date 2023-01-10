@@ -10,7 +10,7 @@
                 <div class="form-floating">
                     <Field type="text" class="form-control box border-none" v-model="patient.name" name="patientName" :rules="validateRequired" />
                     <ErrorMessage name="patientName" class="text-danger" />
-                    <label for="">Tên bệnh nhân <span class="text-danger">*</span></label>
+                    <label for="">{{ $t('label.patient.name') }} <span class="text-danger">*</span></label>
                 </div>
             </div>
             <!-- /patientName -->
@@ -20,23 +20,11 @@
                 <div class="form-floating">
                     <Field type="text" class="form-control box border-none" v-model="patient.phone" name="phone" />
                     <ErrorMessage name="phone" class="text-danger" />
-                    <label for="">Số điện thoại</label>
+                    <label for="">{{ $t('label.patient.phone') }}</label>
                 </div>
             </div>
             <!-- /phone -->
 
-            <!-- dob -->
-            <div class="col-lg-3 col-md-6 col-xs-12 mb-3">
-                <div class="form-floating">
-                    <datepicker-lite class="form-control picker-date box" :class-attr="'border-none'"
-                        :name-attr="displayLocalDate_DDMMYYYY(patient.dob)"
-                        :show-bottom-button="true" :value-attr="displayLocalDate_DDMMYYYY(patient.dob)" :locale="locale"
-                        @value-changed="setPatientDOB"
-                    />
-                    <label>Ngày sinh</label>
-                </div>
-            </div>
-            <!-- /dob -->
             <!-- gender -->
             <div class="col-lg-3 col-md-6 col-xs-12 mb-3">
                 <div class="form-floating">
@@ -44,15 +32,32 @@
                         <option v-for="(gender, index) in genders" :key="index" :value="gender.value">{{gender.name}}</option>
                     </Field>
                     <ErrorMessage name="gender" class="text-danger" />
-                    <label for="">Giới tính</label>
+                    <label for="">{{ $t('label.patient.gender') }}</label>
                 </div>
             </div>
             <!-- /gender -->
+
+            <!-- dob -->
+            <div class="col-lg-3 col-md-6 col-xs-12 mb-3">
+                <Datepicker 
+                    v-model="patient.dob" 
+                    :format="formatDDMMYYYY"
+                    :enable-time-picker="false"
+                    placeholder="Ngày sinh"
+                    v-if="!patient.id && !patient.dob" 
+                />
+                <div class="form-floating" v-else>
+                    <input type="text" class="form-control" :value="convertDobTo_DDMMYYYY(patient.dob)" disabled>
+                    <label for="">Ngày sinh</label>
+                </div>
+            </div>
+            <!-- /dob -->
+
             <!-- address -->
             <div class="col-12 mb-3">
                 <div class="form-floating">
                     <textarea class="form-control box border-none minH-100" id="address" v-model="patient.address" required></textarea>
-                    <label for="address">Địa chỉ <span class="text-danger">*</span></label>
+                    <label for="address">{{ $t('label.patient.address') }} <span class="text-danger">*</span></label>
                 </div>
             </div>
             <!-- /address -->
@@ -73,7 +78,7 @@
                 <div class="form-floating">
                     <Field type="text" class="form-control box border-none" v-model="session.diagnosis" name="diagnosis" :rules="validateRequired" />
                     <ErrorMessage name="diagnosis" class="text-danger" />
-                    <label for="">Chuẩn đoán <span class="text-danger">*</span></label>
+                    <label for="">{{ $t('label.session.diagnosis') }} <span class="text-danger">*</span></label>
                 </div>
             </div>
             <!-- /diagnosis -->
@@ -82,7 +87,7 @@
                 <div class="form-floating">
                     <Field type="text" class="form-control box border-none" v-model="session.symptom" name="symptom" :rules="validateRequired" />
                     <ErrorMessage name="symptom" class="text-danger" />
-                    <label for="">Triệu chứng <span class="text-danger">*</span></label>
+                    <label for="">{{ $t('label.session.symptom') }} <span class="text-danger">*</span></label>
                 </div>
             </div>
             <!-- /symptom -->
@@ -90,7 +95,7 @@
             <div class="col-lg-3 col-md-6 col-xs-12 mb-3">
                 <div class="form-floating">
                     <Field type="text" class="form-control box border-none" v-model="session.leftEye" name="leftEye" :rules="validateRequired" />
-                    <label for="">Mắt trái</label>
+                    <label for="">{{ $t('label.session.leftEye') }}</label>
                 </div>
             </div>
             <!-- /leftEye -->
@@ -98,7 +103,7 @@
             <div class="col-lg-3 col-md-6 col-xs-12 mb-3">
                 <div class="form-floating">
                     <Field type="text" class="form-control box border-none" v-model="session.rightEye" name="rightEye" :rules="validateRequired" />
-                    <label for="">Mắt phải</label>
+                    <label for="">{{ $t('label.session.rightEye') }}</label>
                 </div>
             </div>
             <!-- /rightEye -->
@@ -153,7 +158,7 @@
             <div class="col-lg-3 col-md-4 col-sm-12 mb-3">
                 <div class="form-floating">
                     <Field type="text" class="form-control box border-none" v-model="sessionDetail.bloodPressure" name="bloodPressure" />
-                    <label for="">Huyết áp</label>
+                    <label for="">{{ $t('label.session.bloodPressure') }}</label>
                 </div>
             </div>
             <!-- /bloodPressure -->
@@ -161,7 +166,7 @@
             <div class="col-lg-3 col-md-4 col-sm-12 mb-3">
                 <div class="form-floating">
                     <Field type="text" class="form-control box border-none" v-model="sessionDetail.weight" name="weight" />
-                    <label for="">Cân nặng</label>
+                    <label for="">{{ $t('label.session.weight') }}</label>
                 </div>
             </div>
             <!-- weight -->
@@ -169,19 +174,22 @@
             <div class="col-lg-3 col-md-4 col-sm-12 mb-3">
                 <div class="form-floating">
                     <Field type="text" class="form-control box border-none" v-model="sessionDetail.heartbeat" name="heartbeat" />
-                    <label for="">Nhịp tim</label>
+                    <label for="">{{ $t('label.session.heartbeat') }}</label>
                 </div>
             </div>
             <!-- /heartbeat -->
             <!-- nextTime -->
             <div class="col-lg-3 col-md-4 col-sm-12 mb-3">
-                <div class="form-floating">
-                    <datepicker-lite class="form-control picker-date box" :class-attr="'border-none'"
-                        :name-attr="session.nextTime"
-                        :show-bottom-button="true" :value-attr="displayLocalDate_DDMMYYYY(session.nextTime)" :locale="locale"
-                        @value-changed="setNextTime"
-                    />
-                    <label for="">Lịch tái khám</label>
+                <Datepicker
+                    v-model="session.nextTime" 
+                    :format="formatDDMMYYYY" 
+                    :enable-time-picker="false" 
+                    placeholder="Tái khám"
+                    v-if="!session.id && !session.nextTime"
+                ></Datepicker>
+                <div class="form-floating" v-else>
+                    <input type="text" class="form-control" :value="convertDobTo_DDMMYYYY(session.nextTime)" disabled>
+                    <label for="">{{ $t('label.session.nextTime') }}</label>
                 </div>
             </div>
             <!-- /nextTime -->
@@ -192,7 +200,7 @@
             <div class="col-12 mb-3">
                 <div class="form-floating">
                     <textarea class="form-control box border-none minH-100" id="treatmentPlan" v-model="session.treatmentPlan" required></textarea>
-                    <label for="treatmentPlan">Điều trị: <span class="text-danger">*</span></label>
+                    <label for="treatmentPlan">{{ $t('label.session.treatmentPlan') }}: <span class="text-danger">*</span></label>
                 </div>
             </div>
             <!-- /treatmentPlan -->
@@ -200,7 +208,7 @@
             <div class="col-12 mb-3">
                 <div class="form-floating">
                     <Field type="text" class="form-control box border-none" v-model="session.note" name="note"/>
-                    <label for="">Ghi chú</label>
+                    <label for="">{{ $t('label.session.note') }}</label>
                 </div>
             </div>
             <!-- /note -->
@@ -215,10 +223,10 @@
                     </div>
                 </div>
             </div> -->
-            <label class="form-label">Phí khám</label>
+            <label class="form-label">{{ $t('label.session.cost') }}</label>
             <div class="input-group mb-3">
                 <input type="text" class="form-control" disabled v-model="costService">
-                <span class="input-group-text bg-primary text-white fw-bold cursor-pointer" @click="freeForCostService">Miễn phí</span>
+                <span class="input-group-text bg-primary text-white cursor-pointer" @click="freeForCostService">{{ $t('label.session.free') }}</span>
             </div>
         </div>
 
@@ -234,10 +242,10 @@
     </Form>
 </template>
 <script>
-import { ref, reactive, watch } from 'vue';
+import { ref, reactive, computed, watch } from 'vue';
 import { Form, Field, ErrorMessage } from "vee-validate";
 
-import DatepickerLite from "vue3-datepicker-lite";
+import Datepicker from '@vuepic/vue-datepicker';
 import BaseButton from '~~/components/common/BaseButton.vue';
 import BackButton from '~~/components/common/BackButton.vue';
 import PostIcon from '~~/assets/images/icons/PostIcon.vue';
@@ -249,22 +257,17 @@ import PrinterIcon from '~~/assets/images/icons/actions/PrinterIcon.vue';
 import SessionService from '~~/services/model/session.service';
 import SystemParamService from '~~/services/model/systemParam.service';
 import { displayLocalDate_DDMMYYYY } from '~~/constants/format-date.js';
-import AddPrescription from '../common/modal/prescription/AddPrescription.vue';
+import AddPrescription from '~~/components/common/modal/prescription/AddPrescription.vue';
+
+import {
+    formatDDMMYYYY,
+    convertDobTo_DDMMYYYY
+} from '~~/constants/format-date'
 
 export default {
-    components: { DatepickerLite, Form, Field, ErrorMessage, TitleHeader, PrinterIcon, BaseButton, BackButton, PostIcon, AddPrescription },
+    components: { Datepicker, Form, Field, ErrorMessage, TitleHeader, PrinterIcon, BaseButton, BackButton, PostIcon, AddPrescription },
     props: [ "id", "session" ],
     data() {
-        const locale = {
-            format: "DD/MM/YYYY",
-            weekday: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-            months: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
-            startsWeeks: 0,
-            todayBtn: "Today",
-            clearBtn: "Clear",
-            closeBtn: "Close",
-        };
-
         const tableHeaders = [
             { text: "Mắt", acronym: "(Eyes)"},
             { text: "Cầu", acronym: "(SPH)"},
@@ -275,20 +278,23 @@ export default {
         ];
 
         return {
-            locale: locale,
-            tableHeaders
+            tableHeaders,
+            formatDDMMYYYY,
+            convertDobTo_DDMMYYYY
         };
     },
     setup(props) {
-        const { $showToast } = useNuxtApp();
         const costService = ref(0);
         const sessionId = ref("");
+        const sessionExisted = computed(() => props.session);
+
+        watch([sessionExisted], () => setSessionData(sessionExisted.value));
         
         const patient = reactive({
             id: null,
             name: "",
             phone: "",
-            dob: "",
+            dob: null,
             displayDob: "",
             gender: "",
             address: ""
@@ -323,28 +329,24 @@ export default {
             // prescriptions: []
         });
 
-        watch([props], () => setSessionData());
-
-        function setSessionData() {
-            let sessionExisted = props.session;
-            console.log("sessionExisted: ", sessionExisted);
-            if (sessionExisted) {
-                sessionId.value = sessionExisted.id;
-                session.code = sessionExisted.code;
-                session.diagnosis = sessionExisted.diagnosis;
-                session.symptom = sessionExisted.symptom;
-                session.treatmentPlan = sessionExisted.treatmentPlan;
-                session.note = sessionExisted.note;
-                session.status = sessionExisted.status;
-                session.nextTime = sessionExisted.nextTime;
-                session.displayNextTime = sessionExisted.nextTime;
-                session.createdBy = sessionExisted.createdBy;
-                session.createdDate = sessionExisted.createdDate;
-                session.totalPrice = sessionExisted.totalPrice;
-                session.freeCostService = sessionExisted.freeCostService;
-                session.prescriptions = sessionExisted.prescriptions;
-                setSessionDetail(sessionExisted.sessionDetail);
-                setPatient(sessionExisted.patient);
+        function setSessionData(e) {
+            if (e) {
+                sessionId.value = e.id;
+                session.code = e.code;
+                session.diagnosis = e.diagnosis;
+                session.symptom = e.symptom;
+                session.treatmentPlan = e.treatmentPlan;
+                session.note = e.note;
+                session.status = e.status;
+                session.nextTime = e.nextTime;
+                session.displayNextTime = e.nextTime;
+                session.createdBy = e.createdBy;
+                session.createdDate = e.createdDate;
+                session.totalPrice = e.totalPrice;
+                session.freeCostService = e.freeCostService;
+                session.prescriptions = e.prescriptions;
+                setSessionDetail(e.sessionDetail);
+                setPatient(e.patient);
             }
         }
 
@@ -374,7 +376,7 @@ export default {
                 patient.name = patientExisted.name;
                 patient.phone = patientExisted.phone;
                 patient.dob = patientExisted.dob;
-                patient.displayDob = patientExisted.dob;
+                // patient.displayDob = patientExisted.dob;
                 patient.gender = patientExisted.gender;
                 patient.address = patientExisted.address;
             }
@@ -386,6 +388,7 @@ export default {
 
         // TODO: this function will be add prescriptions to session and re-calculate session totalPrice.
         const addPrescription = (e) => {
+            console.log('prescription, ', e);
             session.prescriptions = e;
             for (let i = 0; i < e.length; i++) {
                 session.totalPrice += e[i].totalPrice;
@@ -393,6 +396,10 @@ export default {
         };
 
         function onSubmit() {
+            // if (session.prescriptions) {
+            //     alert('Chưa kê đơn thuốc');
+            //     return;
+            // }
             console.log("Entering onSubmit");
             // TODO: this code will be calculateTotalPrice with the cost service
             session.totalPrice += costService.value;

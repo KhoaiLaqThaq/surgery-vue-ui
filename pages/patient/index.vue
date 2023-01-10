@@ -2,7 +2,7 @@
     <div class="mt-3">
         <div class="card">
             <div class="card-header search-header">
-                <h6 class="card-title">Tìm kiếm</h6>
+                <h6 class="card-title">{{ $t('label.search.text') }}</h6>
             </div>
             <div class="card-body">
                 <form @submit.prevent="listenSearchForm()">
@@ -10,20 +10,25 @@
                         <div class="col-md-4">
                             <div class="form-floating mb-3">
                                 <input type="text" v-model="conditionSearch.keyword" id="keyword" class="form-control pr-5" />
-                                <label for="keyword">Tìm kiếm từ khóa...</label>
+                                <label for="keyword">{{ $t('label.search.keyword') }}</label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-floating mb-3">
                                 <input type="text" v-model="conditionSearch.phone" id="phone" class="form-control pr-5" />
-                                <label for="phone">Tìm kiếm số điện thoại...</label>
+                                <label for="phone">{{ $t('label.search.phone') }}</label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-floating mb-3">
                                 <input type="text" v-model="conditionSearch.parentName" id="parentName" class="form-control pr-5" />
-                                <label for="parentName">Tìm kiếm tên người nhà...</label>
+                                <label for="parentName">{{ $t('label.search.parent') }}</label>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <button class="btn btn-primary float-end">{{ $t('label.search.text') }}</button>
                         </div>
                     </div>
                 </form>
@@ -51,7 +56,7 @@ import {ref, reactive} from 'vue';
 import TitleHeader from "~~/components/common/TitleHeader.vue";
 
 import { ROLES } from "~~/constants/roles.js";
-import {useCurrentsRole} from "~~/services/common.js";
+// import {useCurrentsRole} from "~~/services/common.js";
 import TablePatientComponent from '~~/components/common/table/TablePatientComponent.vue';
 import PatientService from "~~/services/model/patient.service";
 import Pagination from '~~/components/common/table/Pagination.vue';
@@ -71,7 +76,6 @@ export default {
     },
     setup() {
         const { $showToast } = useNuxtApp();
-        const currentRole = useCurrentRole();
         const page = ref(0);
         const size = ref(10);
         const pageDto = reactive({
@@ -140,12 +144,11 @@ export default {
         return {
             ROLES,
             conditionSearch,
-            currentRole,
             tableHeaders,
             page, size,
             pageDto,
 
-            useCurrentsRole,
+            // useCurrentsRole,
             listenSearchForm,
             searchCallApi
         }

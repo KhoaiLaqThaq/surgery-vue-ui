@@ -2,7 +2,7 @@
     <Form @submit="onSubmit()">
         <div class="row mb-3">
             <!-- code -->
-            <div class="col-lg-3 col-md-6 col-xs-12">
+            <div class="col-lg-3 col-md-6 col-xs-12 mb-3">
                 <div class="form-floating mb-3 box-floating">
                     <Field 
                         type="text" class="form-control" v-model="materialBatch.code" 
@@ -14,7 +14,7 @@
             </div>
             <!-- /code -->
             <!-- materialName -->
-            <div class="col-lg-3 col-md-6 col-xs-12" id="suggest__container">
+            <div class="col-lg-3 col-md-6 col-xs-12 mb-3" id="suggest__container">
                 <div class="form-floating mb-3">
                     <Field
                         type="text" class="form-control" v-model="material.name" 
@@ -36,7 +36,7 @@
             </div>
             <!-- /materialName -->
             <!-- amount -->
-            <div class="col-lg-3 col-md-6 col-xs-12">
+            <div class="col-lg-3 col-md-6 col-xs-12 mb-3">
                 <div class="form-floating mb-3">
                     <Field
                         type="text" class="form-control" v-model="materialBatch.amount"
@@ -48,7 +48,7 @@
             </div>
             <!-- /amount -->
             <!-- unit -->
-            <div class="col-lg-3 col-md-6 col-xs-12">
+            <div class="col-lg-3 col-md-6 col-xs-12 mb-3">
                 <div class="form-floating mb-3">
                     <Field
                         type="text" class="form-control" v-model="materialBatch.unit"
@@ -63,7 +63,7 @@
 
         <div class="row mb-3">
             <!-- materialType -->
-            <div class="col-lg-3 col-md-6 col-xs-12">
+            <div class="col-lg-3 col-md-6 col-xs-12 mb-3">
                 <div class="form-floating">
                     <Field as="select" name="materialType" v-model="material.materialTypeId" class="form-select box" required="required" :rules="validateSelect">
                         <option v-for="(materialType, index) in materialTypes" :key="index" :value="materialType.id">{{materialType.name}}</option>
@@ -74,7 +74,7 @@
             </div>
             <!-- /materialType -->
             <!-- price -->
-            <div class="col-lg-3 col-md-6 col-xs-12">
+            <div class="col-lg-3 col-md-6 col-xs-12 mb-3">
                 <div class="form-floating mb-3">
                     <Field type="text" class="form-control" v-model="materialBatch.price"
                         required="required" name="price" :rules="validateRequired"
@@ -85,7 +85,7 @@
             </div>
             <!-- /price -->
             <!-- sales -->
-            <div class="col-lg-3 col-md-6 col-xs-12">
+            <div class="col-lg-3 col-md-6 col-xs-12 mb-3">
                 <div class="form-floating mb-3">
                     <Field type="text" class="form-control" v-model="materialBatch.sales" name="sales" />
                     <label for="sales">Giá bán</label>
@@ -93,14 +93,17 @@
             </div>
             <!-- /price -->
             <!-- expiredDate -->
-            <div class="col-lg-3 col-md-6 col-xs-12">
-                <div class="form-floating mb-3">
-                    <datepicker-lite class="form-control picker-date" :class-attr="'border-none'"
-                        :name-attr="materialBatch.displayExpiredDate"
-                        :show-bottom-button="true" :value-attr="materialBatch.displayExpiredDate" :locale="locale"
-                        @value-changed="setExpiredDate"
-                    />
-                    <label>Ngày hết hạn</label>
+            <div class="col-lg-3 col-md-6 col-xs-12 mb-3">
+                <Datepicker 
+                    v-model="materialBatch.expiredDate" 
+                    :format="formatDDMMYYYY"
+                    :enable-time-picker="false"
+                    placeholder="Ngày hết hạn"
+                    v-if="!materialBatch.id" 
+                />
+                <div class="form-floating" v-else>
+                    <input type="text" class="form-control" :value="convertDobTo_DDMMYYYY(materialBatch.expiredDate)" disabled>
+                    <label for="">Ngày hết hạn</label>
                 </div>
             </div>
             <!-- /expiredDate -->
@@ -124,33 +127,22 @@ import {validateRequired, validateSelect} from '~~/services/common.js';
 import { HttpStatus, HttpCode } from '~~/constants/http-status.js';
 import { displayAmountCharacters } from '~~/constants/format-string.js';
 
-import DatepickerLite from "vue3-datepicker-lite";
+import Datepicker from '@vuepic/vue-datepicker';
 import BaseButton from '~~/components/common/BaseButton.vue';
 import BackButton from '~~/components/common/BackButton.vue';
 
 import MaterialService from '~~/services/model/material.service';
 import MaterialTypeService from '~~/services/model/materialType.service';
 import MaterialBatchService from '~~/services/model/materialBatch.service';
+import {
+    formatDDMMYYYY,
+    convertDobTo_DDMMYYYY
+} from '~~/constants/format-date'
 
 
 export default {
     props:["id", "materialBatch"],
-    components: { BaseButton, Form, Field, ErrorMessage, DatepickerLite, BackButton },
-    data() {
-        const locale = {
-            format: "DD/MM/YYYY",
-            weekday: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-            months: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
-            startsWeeks: 0,
-            todayBtn: "Today",
-            clearBtn: "Clear",
-            closeBtn: "Close",
-        };
-
-        return {
-            locale
-        }
-    },
+    components: { Datepicker, BaseButton, Form, Field, ErrorMessage, BackButton },
     setup(props) {
         const {$showToast} = useNuxtApp();
         const materialBatchId = ref(null);
@@ -328,7 +320,8 @@ export default {
             displayAmountCharacters,
             generateCode,
             loadMaterialTypes,
-            onSubmit
+            onSubmit,
+            formatDDMMYYYY
         }
     },
     created() {

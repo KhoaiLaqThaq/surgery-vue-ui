@@ -6,6 +6,10 @@ class SessionService {
         return api.get(`${CONFIG.PREFIX_API}/session/patient/${patientId}`);
     }
 
+    getByTop5() {
+        return api.get(`${CONFIG.PREFIX_API}/session/top5`);
+    }
+
     getById(sessionId) {
         return api.get(`${CONFIG.PREFIX_API}/session/${sessionId}`);
     }

@@ -15,7 +15,7 @@
                         <!-- name -->
                         <div class="col-12 mb-3">
                             <div class="form-floating box">
-                                <input type="text" class="form-control" id="name" v-model="name" />
+                                <input type="text" class="form-control" id="name" v-model="conditionFilter.name" />
                                 <label for="name">Tên vật tư</label>
                             </div>
                         </div>
@@ -24,8 +24,8 @@
                         <!-- price -->
                         <div class="col-12">
                             <div class="range-value">
-                                Giá nhập từ <span class="fw-bold">{{rangePrice.minPrice}} ₫</span> 
-                                đến <span class="fw-bold">{{rangePrice.maxPrice}} ₫</span>
+                                Giá nhập từ <span class="fw-bold">{{conditionFilter.minPrice}} ₫</span> 
+                                đến <span class="fw-bold">{{conditionFilter.maxPrice}} ₫</span>
                             </div>
                         </div>
                         <div class="col-12 mb-3 container-theme">
@@ -43,35 +43,21 @@
                         <!-- /price -->
                     </div>
                     <div class="row" v-if="searchMaterialBatch">
-                        <!-- from receiptDate -->
-                        <div class="col-md-6 col-sm-12 mb-3">
-                            <div class="form-floating">
-                                <datepicker-lite class="form-control picker-date box" :class-attr="'border-none'"
-                                    :name-attr="displaySearchFromDate"
-                                    :show-bottom-button="true" :value-attr="displaySearchFromDate" :locale="locale"
-                                    @value-changed="setDisplayFromDate"
-                                />
-                                <label>Từ ngày...</label>
-                            </div>
+                        <!-- rangeDate -->
+                        <div class="form-floating mb-3 box">
+                            <Datepicker v-model="conditionFilter.range" 
+                                @update:model-value="onChangeFilter"
+                                range
+                                multi-calendars close-on-scroll
+                                placeholder="Khoảng thời gian"
+                            ></Datepicker>
                         </div>
-                        <!-- /from receiptDate -->
-                        <!-- to receiptDate -->
-                        <div class="col-md-6 col-sm-12 mb-3">
-                            <div class="form-floating">
-                                <datepicker-lite class="form-control picker-date box" :class-attr="'border-none'" 
-                                    :name-attr="displaySearchToDate"
-                                    :show-bottom-button="true" :value-attr="displaySearchToDate" :locale="locale"
-                                    @value-changed="setDisplayToDate"
-                                />
-                                <label>Đến ngày...</label>
-                            </div>
-                        </div>
-                        <!-- /to receiptDate -->
+                        <!-- /rangeDate -->
                     </div>
                 </div>
 
                 <div class="confirm-footer">
-                    <button class="btn btn-primary radius-unset" @click="updateConditionFilter()">Áp dụng</button>
+                    <button class="btn btn-primary radius-unset btn__apply" @click="updateConditionFilter()">Áp dụng</button>
                 </div>
             </div>
         </div>
@@ -80,7 +66,7 @@
 <script>
 import { ref, reactive } from 'vue';
 
-import DatepickerLite from "vue3-datepicker-lite";
+import Datepicker from '@vuepic/vue-datepicker';
 import MultiRangeSlider from "multi-range-slider-vue";
 import "~~/node_modules/multi-range-slider-vue/MultiRangeSliderBarOnly.css";
 import "~~/node_modules/multi-range-slider-vue/MultiRangeSliderBlack.css";
@@ -88,66 +74,56 @@ import "~~/node_modules/multi-range-slider-vue/MultiRangeSliderBlack.css";
 export default {
     props: [ "modalTitle", "maxValue", "minValue", "minValueCurrent", "maxValueCurrent", "searchMaterial", "searchMaterialBatch" ],
     components: {
-        MultiRangeSlider,
-        DatepickerLite
-    },
-    data() {
-        const locale = {
-            format: "DD/MM/YYYY",
-            weekday: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-            months: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
-            startsWeeks: 0,
-            todayBtn: "Today",
-            clearBtn: "Clear",
-            closeBtn: "Close",
-        };
-
-        return {
-            locale: locale
-        };
+        MultiRangeSlider, Datepicker
     },
     setup(props, {emit}) {
         const count = ref(0);
-        const name = ref('');
-        const rangePrice = reactive({
+        const conditionFilter = reactive({
+            name: '',
             minPrice: props.minValue,
-            maxPrice: props.maxValue
+            maxPrice: props.maxValue,
+            filterFromDate: '',
+            filterToDate: '',
+            range: null
         });
-        const displaySearchFromDate = ref('');
-        const displaySearchToDate = ref('');
-
-        const setDisplayFromDate = (e) => displaySearchFromDate.value = e;
-        const setDisplayToDate = (e) => displaySearchToDate.value = e;
 
         function update_oBarValues(e) {
-            rangePrice.minPrice = e.minValue;
-            rangePrice.maxPrice = e.maxValue;
+            conditionFilter.minPrice = e.minValue;
+            conditionFilter.maxPrice = e.maxValue;
         }
 
         function updateConditionFilter() {
             let conditionFilter = {
-                materialName: name.value,
-                minPrice: rangePrice.minPrice,
-                maxPrice: rangePrice.maxPrice,
+                materialName: conditionFilter.name,
+                minPrice: conditionFilter.minPrice,
+                maxPrice: conditionFilter.maxPrice,
+                filterFromDate: conditionFilter.filterFromDate,
+                filterToDate: conditionFilter.filterToDate,
                 clearFilterStatus: false,
                 countFilter: countFilter()
             };
-            // TODO: setData dành riêng cho tìm kiếm lô
-            if (props.searchMaterialBatch) {
-                conditionFilter['searchFromDate'] = displaySearchFromDate.value;
-                conditionFilter['searchToDate'] = displaySearchToDate.value;
-            }
             onClickToCloseModal();
             emit('update-condition-filter', conditionFilter);
         }
 
+        function onChangeFilter(modelData) {
+            console.log('modelData:', modelData);
+            if (modelData) {
+                conditionFilter.filterFromDate = modelData[0];
+                conditionFilter.filterToDate = modelData[1];
+            } else {
+                conditionFilter.filterFromDate = null;
+                conditionFilter.filterToDate = null;
+            }
+        }
+
         function countFilter() {
             count.value = 0;
-            if (name.value) count.value++;
-            if (rangePrice.maxPrice > 0) count.value++;
+            if (conditionFilter.name) count.value++;
+            if (conditionFilter.maxPrice > 0) count.value++;
             if (props.searchMaterialBatch) {
-                if (displaySearchFromDate.value) count.value++;
-                if (displaySearchToDate.value) count.value++;
+                if (conditionFilter.filterFromDate) count.value++;
+                if (conditionFilter.filterToDate) count.value++;
             }
             return count.value;
         }
@@ -160,15 +136,11 @@ export default {
         const onClickToCloseModal = () => document.getElementById('modal-filter-close').click();
 
         return {
-            name,
-            rangePrice,
-            displaySearchFromDate,
-            displaySearchToDate,
+            onChangeFilter,
+            conditionFilter,
 
             updateConditionFilter,
             update_oBarValues,
-            setDisplayFromDate,
-            setDisplayToDate,
             clearFilter
         }
     }

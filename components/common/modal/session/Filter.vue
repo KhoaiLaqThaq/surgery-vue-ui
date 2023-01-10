@@ -1,7 +1,7 @@
 <template>
     <div class="modal fade" id="sessionFilter" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content pb-3">
                 <div class="modal-header">
                     <h5 class="modal-title">{{ modalTitle }}</h5>
                     <button type="button" id="modal-filter-close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -10,53 +10,43 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-12 mb-3">
-                            <span class="text-yl float-end cursor-pointer" @click="clearFilter()">Bỏ lọc</span>
+                            <span class="text-yl float-end cursor-pointer" @click="clearFilter()">{{ $t('label.action.removeFilter') }}</span>
                         </div>
                         <div class="col-12">
                             <!-- code -->
                             <div class="form-floating mb-3 box">
                                 <input type="text" class="form-control" id="code" v-model="conditionFilter.code" />
-                                <label for="code">Mã phiên khám</label>
+                                <label for="code">{{ $t('label.session.code') }}</label>
                             </div>
                             <!-- /code -->
                             <!-- patientName -->
                             <div class="form-floating mb-3 box">
                                 <input type="text" class="form-control" id="name" v-model="conditionFilter.patientName" />
-                                <label for="name">Tên bệnh nhân</label>
+                                <label for="name">{{ $t("label.patient.name") }}</label>
                             </div>
                             <!-- /patientName -->
                             <!-- diagnosis -->
                             <div class="form-floating mb-3 box">
                                 <input type="text" class="form-control" id="diagnosis" v-model="conditionFilter.diagnosis" />
-                                <label for="diagnosis">Chuẩn đoán</label>
+                                <label for="diagnosis">{{ $t('label.session.diagnosis') }}</label>
                             </div>
                             <!-- /diagnosis -->
                             <!-- symptom -->
                             <div class="form-floating mb-3 box">
                                 <input type="text" class="form-control" id="symptom" v-model="conditionFilter.symptom" />
-                                <label for="symptom">Triệu chứng</label>
+                                <label for="symptom">{{ $t('label.session.symptom') }}</label>
                             </div>
                             <!-- /symptom -->
-                            <!-- fromDate -->
+                            <!-- rangeDate -->
                             <div class="form-floating mb-3 box">
-                                <datepicker-lite class="form-control picker-date box" :class-attr="'border-none'"
-                                    :name-attr="conditionFilter.filterFromDate"
-                                    :show-bottom-button="true" :value-attr="conditionFilter.filterFromDate" :locale="locale"
-                                    @value-changed="setFilterFromDate"
-                                />
-                                <label for="filterFormDate">Từ ngày khám</label>
+                                <Datepicker v-model="conditionFilter.range" 
+                                    @update:model-value="onChangeFilter"
+                                    range
+                                    multi-calendars close-on-scroll
+                                    placeholder="Khoảng thời gian"
+                                ></Datepicker>
                             </div>
-                            <!-- /fromDate -->
-                            <!-- toDate -->
-                            <div class="form-floating mb-3 box">
-                                <datepicker-lite class="form-control picker-date box" :class-attr="'border-none'" 
-                                    :name-attr="conditionFilter.filterToDate"
-                                    :show-bottom-button="true" :value-attr="conditionFilter.filterToDate" :locale="locale"
-                                    @value-changed="setFilterToDate"
-                                />
-                                <label for="filterToDate">Đến ngày khám</label>
-                            </div>
-                            <!-- /toDate -->
+                            <!-- /rangeDate -->
                             <!-- status -->
                             <div class="form-floating mb-3 box">
                                 <select class="form-control" v-model="conditionFilter.status">
@@ -64,14 +54,14 @@
                                         {{ status.name }}
                                     </option>
                                 </select>
-                                <label for="status">Trạng thái</label>
+                                <label for="status">{{ $t('label.session.status') }}</label>
                             </div>
                             <!-- /status -->
                         </div>
                     </div>
                 </div>
-                <div class="confirm-footer">
-                    <button class="btn btn-primary radius-unset" @click="updateConditionFilter()">Áp dụng</button>
+                <div class="confirm-footer text-center">
+                    <button class="btn btn-primary radius-unset" @click="updateConditionFilter()">{{ $t('label.action.apply') }}</button>
                 </div>
             </div>
         </div>
@@ -80,29 +70,17 @@
 <script>
 import { ref, reactive } from "vue";
 
-import DatepickerLite from "vue3-datepicker-lite";
+import Datepicker from '@vuepic/vue-datepicker';
 import {sessionStatusList} from "~~/constants/enum.js";
 export default {
     components: {
-        DatepickerLite
+        Datepicker
     },
-    props: [
-        "modalTitle"
-    ],
-    data() {
-        const locale = {
-            format: "DD/MM/YYYY",
-            weekday: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-            months: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
-            startsWeeks: 0,
-            todayBtn: "Today",
-            clearBtn: "Clear",
-            closeBtn: "Close",
-        };
-
-        return {
-            locale: locale
-        };
+    props: {
+        modalTitle: {
+            type: String,
+            required: true
+        }
     },
     setup(props, {emit}) {
         const count = ref(0);
@@ -113,11 +91,9 @@ export default {
             symptom: '',
             filterFromDate: '',
             filterToDate: '',
-            status: ''
+            status: '',
+            range: null
         });
-
-        const setFilterFromDate = (e) => conditionFilter.filterFromDate = e;
-        const setFilterToDate = (e) => conditionFilter.filterToDate = e;
 
         function updateConditionFilter() {
             let sessionConditionFilter = {
@@ -146,11 +122,20 @@ export default {
             return count.value;
         }
 
+        function onChangeFilter(modelData) {
+            if (modelData) {
+                conditionFilter.filterFromDate = modelData[0];
+                conditionFilter.filterToDate = modelData[1];
+            } else {
+                conditionFilter.filterFromDate = null;
+                conditionFilter.filterToDate = null;
+            }
+        }
+
         function clearFilter() {
             onClickToCloseModal();
             emit('update-condition-filter', {});
         }
-
 
         const onClickToCloseModal = () => document.getElementById('modal-filter-close').click();
 
@@ -160,8 +145,7 @@ export default {
 
             clearFilter,
             updateConditionFilter,
-            setFilterFromDate,
-            setFilterToDate
+            onChangeFilter
         }
     }
 }
