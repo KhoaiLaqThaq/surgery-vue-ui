@@ -1,7 +1,7 @@
 <template>
   <div class="top-bar">
-    <font-awesome-icon icon="fa-solid fa-bars" class="s30x30 cursor-pointer text-theme" />
-    <nav class="me-auto hidden-xs ms-3">
+    <font-awesome-icon icon="fa-solid fa-bars" class="s30x30 cursor-pointer text-theme" @click="toggleSidebar()" />
+    <nav class="me-auto ms-3">
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
           <NuxtLink to="/">Surgery</NuxtLink>
@@ -12,9 +12,9 @@
       </ol>
     </nav>
 
-    <div class="me-auto d-none show-xs">
+    <!-- <div class="me-auto d-none show-xs">
       <span @click="toggleSidebar()"><AlignJustifyIcon /></span>
-    </div>
+    </div> -->
 
     <div class="locales me-3">
       <img src="@/assets/images/flag_us.png" class="zoom-in-little" height="20" width="30" alt="US" @click="$i18n.locale = 'en'">

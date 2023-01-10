@@ -5,6 +5,27 @@ $primaryTheme: #1e40af;
 $bgc-content: #f1f5f9;
 $textTheme: #fbba16;
 
+// ----------------transition page and layout change
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.4s;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  filter: blur(1rem);
+}
+.layout-enter-active,
+.layout-leave-active {
+  transition: opacity 0.5s;
+}
+.layout-enter,
+.layout-leave-active {
+  opacity: 0;
+}
+
+// --------------/transition page and layout change
+
 #main {
   height: 100vh;
   overflow-x: hidden;
@@ -23,6 +44,7 @@ $textTheme: #fbba16;
   position: relative;
   .sidebar {
     position: relative;
+    height: 100vh;
 
     .logo-sidebar__bottom {
       // background-image: url("@/assets/images/logo/logo_bot.svg");
@@ -1494,6 +1516,15 @@ label {
         }
       }
     }
+    .side-nav .has-submenu ul.submenu.show li {
+      border-left: unset !important;
+      padding-left: 1rem;
+
+      .side-menu__icon svg {
+        left: 5px !important;
+        background-color: unset !important;
+      }
+    }
 
     .sidebar {
       position: absolute;
@@ -1503,7 +1534,6 @@ label {
       z-index: 9999;
       width: 100%;
       display: none;
-      
       background-color: #212529;
       .side-nav {
         width: 80%;

@@ -15,7 +15,7 @@
               </nuxt-link>
           </template>
           <template v-else>
-              <div class="nav-link side-menu" :title="$t(item.title)" @click="toggleSidebar(item.id)">
+              <div class="nav-link side-menu" :title="$t(item.title)" @click="toggleSidebar(item.id, false)">
                   <div class="side-menu__icon" v-if="item.iconData">
                     <font-awesome-icon :icon="item.iconData" />
                   </div>
@@ -23,9 +23,9 @@
               </div>
               <ul class="submenu collapse" :id="item.id">
                 <li v-for="(subItem, index) in item.children" :key="index">
-                  <nuxt-link class="side-menu" :to="subItem.to" :title="subItem.title">
+                  <nuxt-link class="side-menu" :to="subItem.to" :title="$t(subItem.title)" @click="toggleSidebar(item.id, true)">
                     <div class="side-menu__icon" v-if="subItem.iconData">
-                      <font-awesome-icon :icon="subItem.iconData" />
+                      <font-awesome-icon :icon="subItem.iconData" class="s14x14"/>
                     </div>
                     <span class="side-menu__title ps-1">{{ $t(subItem.label) }}</span>
                   </nuxt-link>
@@ -73,24 +73,31 @@ export default {
         let routeCurrent = routeActive[size - 1];
         let submenuCurrent = routeCurrent.closest('ul');
         if (submenuCurrent) {
-          submenu.value = submenuCurrent.id;
+          setSubmenu(submenuCurrent.id);
           submenuCurrent.classList.add('show')
         }
       }
     }
 
-    function toggleSidebar(submenuId) {
+    function toggleSidebar(submenuId, choiceSubmenu) {
       if (submenuId) {
         let submenuSelector = document.getElementById(submenuId);
-        if (submenu.value === submenuId) {
+        if (!choiceSubmenu) {
+          // Case: chọn Show|hide submenu
           submenuSelector.classList.toggle('show');
-          setSubmenu("")
         } else {
-          if (submenu.value) {
-            document.getElementById(submenu.value).classList.toggle('show');
+          // Case: Chọn submenu
+          if (submenu.value === submenuId) {
+            // Case: Chon submenu cung level cung parent
+            setSubmenu(submenuId);
           }
-          submenuSelector.classList.toggle('show');
-          setSubmenu(submenuId);
+          else {
+            // Case: Chon submenu cung level khac parent
+            if (submenu.value) {
+              document.getElementById(submenu.value).classList.toggle('show');
+            }
+            setSubmenu(submenuId);
+          }
         }
       } else {
         if (submenu.value) {
@@ -108,14 +115,14 @@ export default {
       initData
     };
   },
-  watch: {
-    $route: {
-      deep: true,
-      handler(to, from) {
-        this.toggleSidebar();
-      }
-    }
-  },
+  // watch: {
+  //   $route: {
+  //     deep: true,
+  //     handler(to, from) {
+  //       this.toggleSidebar();
+  //     }
+  //   }
+  // },
   beforeCreate() {
     this.initData();
   }

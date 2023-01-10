@@ -80,9 +80,7 @@ export default {
         AuthService.login(data)
           .then((response) => {
             let responseData = response.data;
-            console.log('response:', response);
             if (responseData){
-              console.log('response status:', response.status);
               if( response.status == HttpStatus.OK) {
                 saveInforLogin(responseData);
                 $showToast("Đăng nhập thành công!", "success", 2000);
@@ -95,7 +93,6 @@ export default {
             }
           }).catch(error => {
             errorMessage.value = "Vui lòng kiểm tra lại thông tin tài khoản!";
-            console.log("LOGIN ERROR: " + error);
           });
 
       }
@@ -104,7 +101,6 @@ export default {
     function saveInforLogin(responseData) {
       let accessToken = responseData?.jwt;
       let decode = VueJwtDecode.decode(responseData?.jwt);
-      console.log("Decode: ", decode);
       if (decode) {
         let roles = responseData?.roles;
         let expiresIn = decode.exp - decode.iat;

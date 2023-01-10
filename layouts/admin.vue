@@ -1,19 +1,19 @@
 <template>
-    <div class="container-fluid d-flex pt-2" :id="colorTheme">
-        <div class="sidebar" id="sidebar">
-            <TheSidebar1 />
-            <div class="toggle-sidebar">
-                <span class="d-none show-xs" @click="toggleSidebar()"><XIcon class="text-white" /></span>
-            </div>
-        </div>
-        <div class="col-10 content">
-            <TheTopbar @toggle-sidebar="toggleSidebar()" />
-            <div class="row pb-4">
-                <NuxtPage />
-            </div>
-            <!-- <TheFooter /> -->
-        </div>
+  <div class="container-fluid d-flex pt-2" :id="colorTheme">
+    <div class="sidebar" id="sidebar">
+      <TheSidebar1 />
+      <div class="toggle-sidebar">
+          <span class="d-none show-xs" @click="toggleSidebar()"><XIcon class="text-white" /></span>
+      </div>
     </div>
+    <div class="col-10 content">
+      <TheTopbar @toggle-sidebar="toggleSidebar()" />
+      <div class="row pb-4">
+          <NuxtPage />
+      </div>
+      <!-- <TheFooter /> -->
+    </div>
+  </div>
 </template> 
 
 <script>
@@ -24,27 +24,19 @@ import TheSidebar1 from '~~/components/decorator/TheSidebar1.vue';
 import XIcon from '~~/assets/images/icons/XIcon.vue';
 
 export default {
-    components: {
-        TheTopbar,
-        // TheSidebar,
-        TheSidebar1,
-        TheFooter,
-        XIcon
-    },
-    data() {
-        return {
-            colorTheme: "primary_theme"
-        };
-    },
-    
-    setup() {
-        const toggleSidebar = () => document.getElementById('sidebar').classList.toggle('show-xs');
-        return {
-            toggleSidebar
-        };
-    }
+  components: {
+    TheTopbar,
+    // TheSidebar,
+    TheSidebar1,
+    TheFooter,
+    XIcon
+  },
+  data() {
+    const toggleSidebar = () => document.getElementById('sidebar').classList.toggle('show-xs');
+    return {
+        colorTheme: "primary_theme",
+        toggleSidebar
+    };
+  }
 }
 </script>
-<style lang="scss">
-    
-</style>

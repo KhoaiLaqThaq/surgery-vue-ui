@@ -13,24 +13,14 @@
       </li>
       <!-- submenu -->
       <li class="nav-item has-submenu" aria-label="has-submenu">
-        <a class="nav-link side-menu cursor-pointer" title="Quản lý chung" @click="toggleSubmenu('system')" id="system"
+        <div class="nav-link side-menu cursor-pointer" title="Quản lý chung" @click="toggleSubmenu('system')" id="system"
           ref="system" :v-if="checkSidebarAuthority([ROLES.ROLE_ADMIN, ROLES.ROLE_MNG_SYSTEM])">
           <div class="side-menu__icon">
             <IconTooling />
           </div>
           <span class="side-menu__title pl-1"> Quản lý hệ thống</span>
-        </a>
+        </div>
         <ul class="submenu collapse">
-          <!-- <li>
-            <NuxtLink to="/system/group" class="side-menu" aria-label="group"
-              :class="{ active: routeNameActive == 'group' }"
-              v-if="checkSidebarAuthority([ROLES.ROLE_ADMIN, ROLES.ROLE_GROUP_USER_VIEW])">
-              <div class="side-menu__icon">
-                <IconGroup />
-              </div>
-              <span class="side-menu__title pl-1"> Nhóm người dùng</span>
-            </NuxtLink>
-          </li> -->
           <li>
             <NuxtLink to="/system/user" class="side-menu" aria-label="user"
               :class="{ active: routeNameActive == 'user' }" title="Quản lý người dùng"
@@ -55,13 +45,13 @@
       </li>
       <!-- submenu -->
       <li class="nav-item has-submenu" aria-label="has-submenu">
-        <a class="nav-link side-menu cursor-pointer" title="Quản lý chung" @click="toggleSubmenu('common')" id="common"
+        <div class="nav-link side-menu cursor-pointer" title="Quản lý chung" @click="toggleSubmenu('common')" id="common"
           ref="common" v-if="checkSidebarAuthority([ROLES.ROLE_ADMIN, ROLES.ROLE_MNG_COMMON])">
           <div class="side-menu__icon">
             <IconCommunity />
           </div>
           <span class="side-menu__title pl-1"> Quản lý chung</span>
-        </a>
+        </div>
         <ul class="submenu collapse">
           <!-- Vật tư -->
           <li>
@@ -212,7 +202,7 @@ export default {
       checkAuthentication();
     };
 
-    function setRouteNameActive(to) {
+    function setRouteNameActive(to, from) {
       let pageGroup = to.split("-"); // ['common', 'department', ...]
       let toGroup = pageGroup[0]; // to show submenu
       routeNameActive.value = toGroup;
@@ -237,6 +227,15 @@ export default {
         document
           .getElementById(toGroup)
           .nextElementSibling.classList.add("show");
+        if (from) {
+          let fromPageGroup = from.split("-");
+          if (fromPageGroup.length > 1) {
+            let fromGroup = fromPageGroup[0];
+            if (toGroup != fromGroup)
+              document.getElementById(fromGroup)
+                .nextElementSibling.classList.remove("show");
+          }
+        }
       }
     }
 
@@ -315,7 +314,7 @@ export default {
       deep: true,
       handler(to, from) {
         this.resetRouteNameState();
-        this.setRouteNameActive(to.name);
+        this.setRouteNameActive(to.name, from.name);
         this.checkAuthentication(to);
         this.toggleSidebar();
       },
